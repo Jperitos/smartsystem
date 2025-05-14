@@ -179,7 +179,6 @@
               </div>
             </div>
         </div>
-
       </div>
 
       <!-- Activity Logs -->
@@ -268,179 +267,149 @@
           </div>
       </div>
 
+<!-- history logs -->
       <div id="activity" class="content-panel">
-        <h3>History Log</h3>
-
-        <div class="search-container">
-          <div class="filter">
-            <input type="date" id="dateFilter" class="date-filter" />
-            <button id="sortBtn" class="filter-btn">
-              <img src="../image/filter-alt-regular-24 (1).png" alt="filter" />
-            </button>
+        <div class="head-staff">
+            <h3>Staff Information</h3>
+            <div class="right-head">
+              <div class="search-bin-staff">
+                <input type="text" id="binSearch3" placeholder="Search" class="search-bar3" />
+              </div>
+              <div class="filter">
+                <p id="sortBtn">Sort By</p>
+                <i class="bx bx-sort-a-z"></i>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div>
-          <table class="staff-table">
-            <thead>
+          <div>
+            <table class="table2">
               <tr>
-                <th>Username</th>
-                <th>Role</th>
-                <th>Time In</th>
-                <th>Time Out</th>
-                <th>Date</th>
+                <th>Staff ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Address</th>
+                <th>Contact No.</th>
+                <th>Assigned Floor</th>
+                <th>Action</th>
               </tr>
-            </thead>
-            <tbody id="tableBody">
               <tr>
-                <td>JohnDoe</td>
-                <td>Admin</td>
-                <td>08:00 AM</td>
-                <td>04:00 PM</td>
-                <td>2025-04-28</td>
+                <td>1001</td>
+                <td>Angel Anuba</td>
+                <td>35</td>
+                <td>Tungkil Minglanilla</td>
+                <td>09950913018</td>
+                <td>Floor 2</td>
+
+                <td>
+                  <button class="edit-btn" data-id="1001"><i class="bx bxs-edit"></i></button>
+                  <button class="delete-btn"><i class="bx bx-trash"></i></button>
+                </td>
+              </tr>
+              <tr>
+                <td>1002</td>
+                <td>Jamaica Anuba</td>
+                <td>35</td>
+                <td>Tungkil Minglanilla</td>
+                <td>09950913018</td>
+                <td>Floor 2</td>
+                <td>
+                  <button class="edit-btn" data-id="1001"><i class="bx bxs-edit"></i></button>
+                  <button class="delete-btn"><i class="bx bx-trash"></i></button>
+                </td>
+              </tr>
+              <tr>
+                <td>1003</td>
+                <td>Jera Anuba</td>
+                <td>35</td>
+                <td>Tungkil Minglanilla</td>
+                <td>09950913018</td>
+                <td>Floor 2</td>
+
+                <td>
+                  <button class="edit-btn" data-id="1001"><i class="bx bxs-edit"></i></button>
+                  <button class="delete-btn"><i class="bx bx-trash"></i></button>
+                </td>
+              </tr>
+              <tr>
+                <td>1004</td>
+                <td>James Anuba</td>
+                <td>35</td>
+                <td>Tungkil Minglanilla</td>
+                <td>09950913018</td>
+                <td>Floor 2</td>
+                <td>
+                  <button class="edit-btn" data-id="1001"><i class="bx bxs-edit"></i></button>
+                  <button class="delete-btn"><i class="bx bx-trash"></i></button>
+                </td>
               </tr>
             </table>
-      </div>
-      </div>
-      <!-- Staffs -->
+          </div>
+        </div>
+
+        <!-- Staffs -->
       <div id="staffs" class="content-panel">
-        <h3>Staff Information</h3>
-
-        <div class="right-head">
-          <div class="search  -bin-staff">
-            <input type="text" id="binSearch" placeholder="Search" class="search-bar2" />
-          </div>
-        </div>
-
-        <div class="request">
-          <h4 id="openStaffRequest">View Request Staff</h4>
-        </div>
-
-        <div>
-          <table class="table2">
-            <tr>
-              <th>Staff ID</th>
-              <th>Name</th>
-              <th>Age</th>
-              <th>Address</th>
-              <th>Contact No.</th>
-              <th>Assigned Floor</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-            <tr>
-              <td>1001</td>
-              <td>Jamaica Anuba</td>
-              <td>35</td>
-              <td>Tungkil Minglanilla</td>
-              <td>09950913018</td>
-              <td>Floor 2</td>
-              <td>Active</td>
-              <td class="viewing">View</td>
-            </tr>
-            <tr>
-              <td>1001</td>
-              <td>Jamaica Anuba</td>
-              <td>35</td>
-              <td>Tungkil Minglanilla</td>
-              <td>09950913018</td>
-              <td>Floor 2</td>
-              <td>Active</td>
-              <td class="viewing">View</td>
-            </tr>
-            <tr>
-              <td>1001</td>
-              <td>Jamaica Anuba</td>
-              <td>35</td>
-              <td>Tungkil Minglanilla</td>
-              <td>09950913018</td>
-              <td>Floor 2</td>
-              <td>Active</td>
-              <td class="viewing">View</td>
-            </tr>
-            <tr>
-              <td>1001</td>
-              <td>Jamaica Anuba</td>
-              <td>35</td>
-              <td>Tungkil Minglanilla</td>
-              <td>09950913018</td>
-              <td>Floor 2</td>
-              <td>Active</td>
-              <td class="viewing">View</td>
-            </tr>
-            <tr>
-              <td>1001</td>
-              <td>Jamaica Anuba</td>
-              <td>35</td>
-              <td>Tungkil Minglanilla</td>
-              <td>09950913018</td>
-              <td>Floor 2</td>
-              <td>Active</td>
-              <td class="viewing">View</td>
-            </tr>
-          </table>
-        </div>
-
-        <!-- Viewing staff request -->
-        <div id="staffRequestModal" class="staff-modal">
-          <div class="staff-modal-content">
-            <span class="close-staff-modal">&times;</span>
-            <div class="staff-header">
-              <h3>Staff Information</h3>
-            </div>
-            <div>
-              <table class="staff-table">
-                <tr>
-                  <th>Staff ID</th>
-                  <th>Name</th>
-                  <th>Age</th>
-                  <th>Address</th>
-                  <th>Contact No.</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-                <tr>
-                  <td>1001</td>
-                  <td>Angel Anuba</td>
-                  <td>35</td>
-                  <td>Tungkil Minglanilla</td>
-                  <td>09950913018</td>
-                  <td class="staff-status-pending">Pending</td>
-                  <td><button class="staff-request-btn">Accept</button> <button class="staff-decline-btn">Decline</button></td>
-                  
-                </tr>
-                <tr>
-                  <td>1001</td>
-                  <td>Angel Anuba</td>
-                  <td>35</td>
-                  <td>Tungkil Minglanilla</td>
-                  <td>09950913018</td>
-                  <td class="staff-status-pending">Pending</td>
-                  <td><button class="staff-request-btn">Accept</button> <button class="staff-decline-btn">Decline</button></td>
-                </tr>
-                <tr>
-                  <td>1001</td>
-                  <td>Angel Anuba</td>
-                  <td>35</td>
-                  <td>Tungkil Minglanilla</td>
-                  <td>09950913018</td>
-                  <td class="staff-status-pending">Pending</td>
-                  <td><button class="staff-request-btn">Accept</button> <button class="staff-decline-btn">Decline</button></td>
-                </tr>
-                <tr>
-                  <td>1001</td>
-                  <td>Angel Anuba</td>
-                  <td>35</td>
-                  <td>Tungkil Minglanilla</td>
-                  <td>09950913018</td>
-                  <td class="staff-status-pending">Pending</td>
-                  <td><button class="staff-request-btn">Accept</button> <button class="staff-decline-btn">Decline</button></td>
-                </tr>
-              </table>
+        <div class="head-staff">
+            <h3>Staff Information</h3>
+            <div class="right-head">
+              <div class="search-bin-staff">
+                <input type="text" id="binSearch" placeholder="Search" class="search-bar2"/>
+              </div>
+              <div class="filter">
+                <p id="sortBtn">Sort By</p>
+                <i class="bx bx-sort-a-z"></i>
+              </div>
             </div>
           </div>
+          <div>
+            <table class="table2">
+              <tr>
+                <th>Staff ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Address</th>
+                <th>Contact No.</th>
+                <th>Status</th>
+              </tr>
+              <tr>
+                <td>1001</td>
+                <td>Angel Anuba</td>
+                <td>35</td>
+                <td>Tungkil Minglanilla</td>
+                <td>09950913018</td>
+                <td class="status-pending">Pending</td>
+            
+              </tr>
+              <tr>
+                <td>1002</td>
+                <td>Jamaica Anuba</td>
+                <td>35</td>
+                <td>Tungkil Minglanilla</td>
+                <td>09950913018</td>
+                <td class="status-pending">Pending</td>
+                
+              </tr>
+              <tr>
+                <td>1003</td>
+                <td>Jera Anuba</td>
+                <td>35</td>
+                <td>Tungkil Minglanilla</td>
+                <td>09950913018</td>
+                <td class="status-pending">Pending</td>
+               
+              </tr>
+              <tr>
+                <td>1004</td>
+                <td>James Anuba</td>
+                <td>35</td>
+                <td>Tungkil Minglanilla</td>
+                <td>09950913018</td>
+                <td class="status-pending">Pending</td>
+                
+              </tr>
+            </table>
+          </div>
         </div>
-      </div>
 
       <!-- Settings -->
       <div id="settings" class="content-panel">
