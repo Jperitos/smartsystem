@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>📡 Bin Status Live Monitor</title>
+  <script src="/socket.io/socket.io.js"></script> <!-- Socket.IO client -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+    .bin {
+      background: white;
+      margin: 10px 0;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #333;
+    }
+    em {
+      font-size: 0.9em;
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+  <h1>📡 Real-Time Bin Monitoring</h1>
+  <div id="live-data">Waiting for bin updates...</div>
+
+  <script>
+    const socket = io();
+
+    socket.on("connect", () => {
+      console.log("✅ Connected to Socket.IO server");
+    });
+
+    socket.on("newData", data => {
+      console.log("📡 Received live data:", data);
+
+      const display = document.getElementById("live-data");
+      display.innerHTML = `
+        <div class="bin">
+          <h3>Bin 1</h3>
+          <p>Weight: ${data.bin1.weight} kg</p>
+          <p>Height: ${data.bin1.height}%</p>
+          <p>Average: ${data.bin1.avg.toFixed(1)}%</p>
+        </div>
+        <div class="bin">
+          <h3>Bin 2</h3>
+          <p>Weight: ${data.bin2.weight} kg</p>
+          <p>Height: ${data.bin2.height}%</p>
+          <p>Average: ${data.bin2.avg.toFixed(1)}%</p>
+        </div>
+        <div class="bin">
+          <h3>Bin 3</h3>
+          <p>Weight: ${data.bin3.weight} kg</p>
+          <p>Height: ${data.bin3.height}%</p>
+          <p>Average: ${data.bin3.avg.toFixed(1)}%</p>
+        </div>
+        <p><em>Updated: ${new Date().toLocaleTimeString()}</em></p>
+      `;
+    });
+  </script>
+</body>
+</html>

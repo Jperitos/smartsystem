@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/profile.css" />
+    <title>Profile</title>
+  </head>
+  <body>
+    <div class="profile-container">
+      <div class="sidebar">
+        <button class="sidebar-btn active" data-tab="account">Account Settings</button>
+        <button class="sidebar-btn" data-tab="notification">Notification</button>
+        <button class="sidebar-btn" data-tab="change-password">Change Password</button>
+      </div>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="account">
+          <div class="profile-header">
+            <img src="/image/profile4.jpg" alt="Profile Picture" />
+            <div class="profile-header-info">
+              <strong>Upload Profile Picture</strong>
+              <p>Profile-pic.jpg</p>
+              <a href="#" class="remove-btn">Remove</a>
+            </div>
+            <button class="update-btn">Update Profile</button>
+          </div>
+
+          <form>
+            <div>
+              <label>Name</label>
+              <input type="text" value="John Dave Laparan" />
+            </div>
+            <div>
+              <label>Gender</label>
+              <div class="gender-group">
+                <label><input type="radio" name="gender" checked /> Male</label>
+                <label><input type="radio" name="gender" /> Female</label>
+              </div>
+            </div>
+            <div>
+              <label>Age</label>
+              <input type="text" value="35" />
+            </div>
+            <div>
+              <label>Contact Number</label>
+              <input type="text" value="0991767271" />
+            </div>
+            <div>
+              <label>Address</label>
+              <input type="text" value="Sikta Bracy Tulay Carcar City" />
+            </div>
+            <div>
+              <label>Email Address</label>
+              <input type="email" value="johndavelaparan@gmail.com" />
+            </div>
+          </form>
+
+          <button type="submit" class="update-info-btn">Update Information</button>
+        </div>
+
+        <!-- Notification Tab -->
+        <div class="tab-pane" id="notification">
+          <h2>Your Notifications</h2>
+          <div class="header">
+            <button class="mark-read"><img src="/image/icons8-read-30.png" alt="" />Mark all as read</button>
+            <div class="tabs">
+              <button class="tab active">View All</button>
+              <button class="tab">Mentions</button>
+              <button class="tab">Request</button>
+            </div>
+          </div>
+          <div class="notifications">
+            <div class="notification unread">
+              <img src="/image/profile.jpg" alt="Avatar" />
+              <div class="message">
+                <strong>@angelcanete</strong> floor 1 bin012 is collected!
+                <div class="time">Friday 11:23am</div>
+              </div>
+              <div class="meta">
+                <p>1 hour ago</p>
+                <span class="dot"></span>
+              </div>
+            </div>
+            <div class="notification unread">
+              <img src="/image/profile3.jpg" alt="Avatar" />
+              <div class="message">
+                <strong>@anubajai</strong> floor 1 bin013 is collected!
+                <div class="time">Friday 08:23am</div>
+              </div>
+              <div class="meta">
+                <p>4 hours ago</p>
+                <span class="dot"></span>
+              </div>
+            </div>
+            <div class="notification">
+              <img src="/image/profile2.jpg" alt="Avatar" />
+              <div class="message">
+                <strong>@jeralynperitos</strong> request for new janitors approval
+                <div class="ti me">Tuesday 11:00am</div>
+              </div>
+              <div class="meta">4 days ago</div>
+            </div>
+            <div class="notification">
+              <img src="/image/profile.jpg" alt="Avatar" />
+              <div class="message">
+                <strong>@angelcanete</strong> floor 1 bin011 is collected!
+                <div class="time">Tuesday 03:00pm</div>
+              </div>
+              <div class="meta">4 days ago</div>
+            </div>
+            <div class="notification">
+              <img src="/image/profile2.jpg" alt="Avatar" />
+              <div class="message">
+                <strong>@jeralynperitos</strong> floor 4 bin041 is collected!
+                <div class="time">Tuesday 11:00am</div>
+              </div>
+              <div class="meta">4 days ago</div>
+            </div>
+            <div class="notification">
+              <img src="/image/profile2.jpg" alt="Avatar" />
+              <div class="message">
+                <strong>@jeralynperitos</strong> floor 4 bin041 is collected!
+                <div class="time">Tuesday 11:00am</div>
+              </div>
+              <div class="meta">4 days ago</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Security Tab -->
+        <div id="change-password" class="form-section1 tab-pane">
+          <h2>Change Password</h2>
+          <form>
+            <div class="form-group1 password-group">
+              <label>Current Password</label>
+              <div class="password-wrapper">
+                <input type="password" id="current-password" />
+                <span class="toggle-password" onclick="togglePassword('current-password', this)">
+                  <img src="/image/icons8-eye-24.png" alt="Toggle" />
+                </span>
+              </div>
+            </div>
+          
+            <div class="form-group1 password-group">
+              <label>New Password</label>
+              <div class="password-wrapper">
+                <input type="password" id="new-password" />
+                <span class="toggle-password" onclick="togglePassword('new-password', this)">
+                  <img src="/image/icons8-eye-24.png" alt="Toggle" />
+                </span>
+              </div>
+            </div>
+          
+            <div class="form-group1 password-group">
+              <label>Confirm New Password</label>
+              <div class="password-wrapper">
+                <input type="password" id="confirm-password" />
+                <span class="toggle-password" onclick="togglePassword('confirm-password', this)">
+                  <img src="/image/icons8-eye-24.png" alt="Toggle" />
+                </span>
+              </div>
+            </div>
+          
+            <button class="update-btn1">Save Changes</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+    <script src="/js/profile.js"></script>
+  </body>
+</html>

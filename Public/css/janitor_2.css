@@ -1,0 +1,1444 @@
+/* Janitors-Dashboard */
+
+position: relative;
+width: 1440px;
+height: 894px;
+
+background: #FBFBFB;
+
+
+/* Group 58 */
+
+position: absolute;
+width: 82.56px;
+height: 38px;
+left: 50px;
+top: 23px;
+
+
+
+/* Group 62 */
+
+position: absolute;
+width: 82.56px;
+height: 38px;
+left: 50px;
+top: 23px;
+
+
+
+/* BIN */
+
+position: absolute;
+width: 27px;
+height: 14px;
+left: 87px;
+top: 44px;
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 700;
+font-size: 15px;
+line-height: 18px;
+letter-spacing: 0.04em;
+
+color: #3A7D44;
+
+
+
+/* EC */
+
+position: absolute;
+width: 82.56px;
+height: 33.51px;
+left: 50px;
+top: 23px;
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 800;
+font-size: 15px;
+line-height: 18px;
+letter-spacing: 0.04em;
+
+color: #3A7D44;
+
+
+
+/* ecobin-design 1 */
+
+position: absolute;
+width: 19px;
+height: 17px;
+left: 70px;
+top: 44px;
+
+background: url(ecobin-design);
+
+
+/* Done */
+
+position: absolute;
+width: 123px;
+height: 24px;
+left: 800px;
+top: 806px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #FFFFFF;
+
+
+
+/* Notify */
+
+position: absolute;
+width: 146px;
+height: 21px;
+left: 1150px;
+top: 817px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 700;
+font-size: 13px;
+line-height: 20px;
+text-align: center;
+
+color: #FFFFFF;
+
+
+
+/* Group 114 */
+
+position: absolute;
+width: 74px;
+height: 25px;
+left: 1253px;
+top: 44px;
+
+
+
+/* Rectangle 54 */
+
+position: absolute;
+width: 26px;
+height: 25px;
+left: 1301px;
+top: 44px;
+
+background: url(user-regular-24.png);
+
+
+/* Group 76 */
+
+position: absolute;
+width: 26px;
+height: 25px;
+left: 1253px;
+top: 44px;
+
+
+
+/* Rectangle 55 */
+
+position: absolute;
+width: 26px;
+height: 25px;
+left: 1253px;
+top: 44px;
+
+background: url(bell-regular-24.png);
+
+
+/* Ellipse 4 */
+
+position: absolute;
+width: 8px;
+height: 7px;
+left: 1267px;
+top: 47px;
+
+background: #D9BA3D;
+
+
+/* Group 105 */
+
+position: absolute;
+width: 631px;
+height: 726px;
+left: 50px;
+top: 104px;
+
+
+
+/* Rectangle 63 */
+
+position: absolute;
+width: 599.86px;
+height: 45.79px;
+left: 55px;
+top: 783px;
+
+background: #F7F7F7;
+border-radius: 10px;
+
+
+/* Rectangle 66 */
+
+position: absolute;
+width: 151.42px;
+height: 36.86px;
+left: 83.04px;
+top: 529.55px;
+
+background: #FFFFFF;
+border-radius: 10px;
+
+
+/* Group 86 */
+
+position: absolute;
+width: 551.81px;
+height: 366.35px;
+left: 79.12px;
+top: 104px;
+
+
+
+/* Rectangle 47 */
+
+position: absolute;
+width: 551.81px;
+height: 366.35px;
+left: 79.12px;
+top: 104px;
+
+background: url(656091174c1bc8ba9a39ca7e_vicinity-2.jpg);
+border-radius: 20px;
+
+
+/* Floor 5 */
+
+position: absolute;
+width: 84.45px;
+height: 27.92px;
+left: 117.16px;
+top: 535.13px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 15px;
+line-height: 22px;
+
+color: #000000;
+
+
+
+/* Status */
+
+position: absolute;
+width: 155.57px;
+height: 27.92px;
+left: 525.43px;
+top: 539.6px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 15px;
+line-height: 22px;
+
+color: #000000;
+
+
+
+/* Group 65 */
+
+position: absolute;
+width: 254.85px;
+height: 34.62px;
+left: 123.76px;
+top: 795.38px;
+
+
+
+/* Bins 053 */
+
+position: absolute;
+width: 254.85px;
+height: 34.62px;
+left: 123.76px;
+top: 795.38px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 13px;
+line-height: 20px;
+
+color: #000000;
+
+
+
+/* Group 68 */
+
+position: absolute;
+width: 18.93px;
+height: 13.16px;
+left: 74.26px;
+top: 799.84px;
+
+
+
+/* Ellipse 2 */
+
+position: absolute;
+width: 18.93px;
+height: 13.16px;
+left: 74.26px;
+top: 799.84px;
+
+background: #B10707;
+
+
+/* Ellipse 3 */
+
+position: absolute;
+width: 7.28px;
+height: 5.98px;
+left: 80.08px;
+top: 803.43px;
+
+background: #FFFFFF;
+
+
+/* Rectangle 59 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 187.82px;
+height: 12.29px;
+left: 448.67px;
+top: 799.84px;
+
+background: #FFFFFF;
+border: 1px solid rgba(0, 0, 0, 0.53);
+border-radius: 50px;
+
+
+/* Rectangle 62 */
+
+position: absolute;
+width: 187.82px;
+height: 12.29px;
+left: 448.44px;
+top: 800.96px;
+
+background: #B10707;
+border-radius: 50px;
+
+
+/* Group 146 */
+
+position: absolute;
+width: 599.86px;
+height: 45.79px;
+left: 50px;
+top: 617.78px;
+
+
+
+/* Rectangle 65 */
+
+position: absolute;
+width: 599.86px;
+height: 45.79px;
+left: 50px;
+top: 617.78px;
+
+background: #F7F7F7;
+border-radius: 10px;
+
+
+/* Bins 051 */
+
+position: absolute;
+width: 254.85px;
+height: 34.62px;
+left: 116.97px;
+top: 628.95px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 13px;
+line-height: 20px;
+
+color: #000000;
+
+
+
+/* Group 66 */
+
+position: absolute;
+width: 18.7px;
+height: 14.46px;
+left: 73px;
+top: 632px;
+
+
+
+/* Ellipse 2 */
+
+position: absolute;
+width: 18.7px;
+height: 14.46px;
+left: 73px;
+top: 632px;
+
+background: #E5C33B;
+
+
+/* Ellipse 3 */
+
+position: absolute;
+width: 7.19px;
+height: 6.57px;
+left: 78.76px;
+top: 635.94px;
+
+background: #FFFFFF;
+
+
+/* Rectangle 57 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 187.82px;
+height: 12.29px;
+left: 444.57px;
+top: 634.54px;
+
+background: #FBFBFB;
+border: 1px solid rgba(0, 0, 0, 0.53);
+border-radius: 50px;
+
+
+/* Rectangle 61 */
+
+position: absolute;
+width: 131.04px;
+height: 12.29px;
+left: 444.57px;
+top: 634.54px;
+
+background: #E6C33B;
+border-radius: 50px;
+
+
+/* 78% */
+
+position: absolute;
+width: 52.41px;
+height: 21.22px;
+left: 392.15px;
+top: 632.3px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 18px;
+
+color: #000000;
+
+
+
+/* Group 147 */
+
+position: absolute;
+width: 599.86px;
+height: 45.79px;
+left: 50px;
+top: 703.79px;
+
+
+
+/* Rectangle 64 */
+
+position: absolute;
+width: 599.86px;
+height: 45.79px;
+left: 50px;
+top: 703.79px;
+
+background: #F7F7F7;
+border-radius: 10px;
+
+
+/* Group 64 */
+
+position: absolute;
+width: 254.85px;
+height: 34.62px;
+left: 121.34px;
+top: 714.96px;
+
+
+
+/* Bins 052 */
+
+position: absolute;
+width: 254.85px;
+height: 34.62px;
+left: 121.34px;
+top: 714.96px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 13px;
+line-height: 20px;
+
+color: #000000;
+
+
+
+/* Group 67 */
+
+position: absolute;
+width: 18.7px;
+height: 14.46px;
+left: 73px;
+top: 718px;
+
+
+
+/* Ellipse 2 */
+
+position: absolute;
+width: 18.7px;
+height: 14.46px;
+left: 73px;
+top: 718px;
+
+background: #3A7D44;
+
+
+/* Ellipse 3 */
+
+position: absolute;
+width: 7.19px;
+height: 6.57px;
+left: 78.76px;
+top: 721.94px;
+
+background: #FFFFFF;
+
+
+/* Rectangle 58 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 192.19px;
+height: 12.29px;
+left: 443.11px;
+top: 720.54px;
+
+background: #FFFFFF;
+border: 1px solid rgba(0, 0, 0, 0.53);
+border-radius: 50px;
+
+
+/* Rectangle 60 */
+
+position: absolute;
+width: 62.61px;
+height: 12.29px;
+left: 443.11px;
+top: 720.54px;
+
+background: linear-gradient(90.03deg, #3A7D44 0.03%, #3A7D44 35.52%, #3A7D44 48.01%);
+border-radius: 50px;
+
+
+/* 32% */
+
+position: absolute;
+width: 52.41px;
+height: 21.22px;
+left: 390.7px;
+top: 716.07px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 18px;
+
+color: #000000;
+
+
+
+/* 100% */
+
+position: absolute;
+width: 52.41px;
+height: 21.22px;
+left: 396.03px;
+top: 798.73px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 18px;
+
+color: #000000;
+
+
+
+/* Arrow 1 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 1.12px;
+height: 0px;
+left: 215.23px;
+top: 553px;
+
+border: 1px solid #000000;
+transform: matrix(0, 1, -1, 0, 0, 0);
+
+
+/* Group 145 */
+
+position: absolute;
+width: 750.84px;
+height: 383.59px;
+left: 650px;
+top: 117.41px;
+
+
+
+/* 11:30 am */
+
+position: absolute;
+width: 102.84px;
+height: 25.86px;
+left: 1195.99px;
+top: 474.06px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #000000;
+
+
+
+/* 19 June 2025 */
+
+position: absolute;
+width: 102.84px;
+height: 25.86px;
+left: 1079.77px;
+top: 474.06px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #000000;
+
+
+
+/* Jade Arpilang */
+
+position: absolute;
+width: 102.84px;
+height: 25.86px;
+left: 934.28px;
+top: 474.06px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #000000;
+
+
+
+/* Floor 1 */
+
+position: absolute;
+width: 61.04px;
+height: 25.86px;
+left: 820.57px;
+top: 475.14px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #000000;
+
+
+
+/* Group 125 */
+
+position: absolute;
+width: 750.84px;
+height: 383.59px;
+left: 650px;
+top: 117.41px;
+
+
+
+/* Activity */
+
+position: absolute;
+width: 157.19px;
+height: 37.71px;
+left: 650px;
+top: 117.41px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 700;
+font-size: 16px;
+line-height: 24px;
+text-align: center;
+
+color: #696666;
+
+
+
+/* Rectangle 41 */
+
+position: absolute;
+width: 93px;
+height: 22px;
+left: 1271px;
+top: 121px;
+
+background: #FFFFFF;
+border-radius: 10px;
+
+
+/* Rectangle 42 */
+
+position: absolute;
+width: 11px;
+height: 8.06px;
+left: 1282px;
+top: 125.9px;
+
+background: url(calendar-solid-24.png);
+
+
+/* 00/00/0000 */
+
+position: absolute;
+width: 78.6px;
+height: 11.85px;
+left: 1288px;
+top: 124.44px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 15px;
+text-align: center;
+
+color: rgba(0, 0, 0, 0.3);
+
+
+
+/* Jade Arpilang */
+
+position: absolute;
+width: 102.84px;
+height: 25.86px;
+left: 934.28px;
+top: 237.01px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #000000;
+
+
+
+/* 03 May 2025 */
+
+position: absolute;
+width: 102.84px;
+height: 25.86px;
+left: 1079.77px;
+top: 238.09px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #000000;
+
+
+
+/* Done */
+
+position: absolute;
+width: 102.84px;
+height: 25.86px;
+left: 1297.16px;
+top: 238.09px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #3A7D44;
+
+
+
+/* Group 81 */
+
+position: absolute;
+width: 61.04px;
+height: 25.86px;
+left: 955.18px;
+top: 175.6px;
+
+
+
+/* Staff */
+
+position: absolute;
+width: 61.04px;
+height: 25.86px;
+left: 955.18px;
+top: 175.6px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #000000;
+
+
+
+/* Group 82 */
+
+position: absolute;
+width: 61.04px;
+height: 25.86px;
+left: 1089.8px;
+top: 175.6px;
+
+
+
+/* Date */
+
+position: absolute;
+width: 61.04px;
+height: 25.86px;
+left: 1089.8px;
+top: 175.6px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #000000;
+
+
+
+/* Group 91 */
+
+position: absolute;
+width: 61.04px;
+height: 25.86px;
+left: 1210.2px;
+top: 175.6px;
+
+
+
+/* Time */
+
+position: absolute;
+width: 61.04px;
+height: 25.86px;
+left: 1210.2px;
+top: 175.6px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #000000;
+
+
+
+/* Group 83 */
+
+position: absolute;
+width: 61.04px;
+height: 25.86px;
+left: 1318.06px;
+top: 175.6px;
+
+
+
+/* Status */
+
+position: absolute;
+width: 61.04px;
+height: 25.86px;
+left: 1318.06px;
+top: 175.6px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #000000;
+
+
+
+/* Done */
+
+position: absolute;
+width: 102.84px;
+height: 25.86px;
+left: 1297.16px;
+top: 312.44px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #3A7D44;
+
+
+
+/* 8:30 am */
+
+position: absolute;
+width: 102.84px;
+height: 25.86px;
+left: 1195.99px;
+top: 238.09px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #000000;
+
+
+
+/* 5:30 pm */
+
+position: absolute;
+width: 102.84px;
+height: 25.86px;
+left: 1195.99px;
+top: 312.44px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #000000;
+
+
+
+/* 3:00 pm */
+
+position: absolute;
+width: 102.84px;
+height: 25.86px;
+left: 1194.31px;
+top: 398.64px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #000000;
+
+
+
+/* 27 June 2025 */
+
+position: absolute;
+width: 102.84px;
+height: 25.86px;
+left: 1079.77px;
+top: 312.44px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #000000;
+
+
+
+/* Jade Arpilang */
+
+position: absolute;
+width: 102.84px;
+height: 25.86px;
+left: 934.28px;
+top: 311.36px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #000000;
+
+
+
+/* Done */
+
+position: absolute;
+width: 102.84px;
+height: 25.86px;
+left: 1297.16px;
+top: 397.56px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #3A7D44;
+
+
+
+/* Done */
+
+position: absolute;
+width: 102.84px;
+height: 25.86px;
+left: 1298px;
+top: 474px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #528D5B;
+
+
+
+/* 24 July 2025 */
+
+position: absolute;
+width: 102.84px;
+height: 25.86px;
+left: 1079.77px;
+top: 399.72px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #000000;
+
+
+
+/* Jade Arpilang */
+
+position: absolute;
+width: 102.84px;
+height: 25.86px;
+left: 934.28px;
+top: 398.64px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #000000;
+
+
+
+/* Floor 1 */
+
+position: absolute;
+width: 61.04px;
+height: 25.86px;
+left: 820.57px;
+top: 238.09px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #000000;
+
+
+
+/* Group 80 */
+
+position: absolute;
+width: 61.04px;
+height: 25.86px;
+left: 820.57px;
+top: 175.6px;
+
+
+
+/* Floor */
+
+position: absolute;
+width: 61.04px;
+height: 25.86px;
+left: 820.57px;
+top: 175.6px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #000000;
+
+
+
+/* Floor 1 */
+
+position: absolute;
+width: 61.04px;
+height: 25.86px;
+left: 820.57px;
+top: 312.44px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #000000;
+
+
+
+/* Floor 1 */
+
+position: absolute;
+width: 61.04px;
+height: 25.86px;
+left: 820.57px;
+top: 399.72px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #000000;
+
+
+
+/* Group 92 */
+
+position: absolute;
+width: 71.07px;
+height: 325.4px;
+left: 700.17px;
+top: 175.6px;
+
+
+
+/* Group 77 */
+
+position: absolute;
+width: 61.04px;
+height: 25.86px;
+left: 710.2px;
+top: 238.09px;
+
+
+
+/* Bin 011 */
+
+position: absolute;
+width: 61.04px;
+height: 25.86px;
+left: 710.2px;
+top: 238.09px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #000000;
+
+
+
+/* Group 79 */
+
+position: absolute;
+width: 61.04px;
+height: 25.86px;
+left: 700.17px;
+top: 175.6px;
+
+
+
+/* Bins */
+
+position: absolute;
+width: 61.04px;
+height: 25.86px;
+left: 700.17px;
+top: 175.6px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #000000;
+
+
+
+/* Group 78 */
+
+position: absolute;
+width: 61.04px;
+height: 25.86px;
+left: 710.2px;
+top: 312.44px;
+
+
+
+/* Group 70 */
+
+position: absolute;
+width: 61.04px;
+height: 25.86px;
+left: 710.2px;
+top: 312.44px;
+
+
+
+/* Group 80 */
+
+position: absolute;
+width: 61.04px;
+height: 25.86px;
+left: 710.2px;
+top: 312.44px;
+
+
+
+/* Bin 011 */
+
+position: absolute;
+width: 61.04px;
+height: 25.86px;
+left: 710.2px;
+top: 312.44px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #000000;
+
+
+
+/* Group 72 */
+
+position: absolute;
+width: 61.04px;
+height: 25.86px;
+left: 710.2px;
+top: 399.72px;
+
+
+
+/* Group 79 */
+
+position: absolute;
+width: 61.04px;
+height: 25.86px;
+left: 710.2px;
+top: 399.72px;
+
+
+
+/* Bin 012 */
+
+position: absolute;
+width: 61.04px;
+height: 25.86px;
+left: 710.2px;
+top: 399.72px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #000000;
+
+
+
+/* Group 73 */
+
+position: absolute;
+width: 62.71px;
+height: 25.86px;
+left: 708.53px;
+top: 475.14px;
+
+
+
+/* Group 81 */
+
+position: absolute;
+width: 62.71px;
+height: 25.86px;
+left: 708.53px;
+top: 475.14px;
+
+
+
+/* Bin 013 */
+
+position: absolute;
+width: 61.04px;
+height: 25.86px;
+left: 710.2px;
+top: 475.14px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+text-align: center;
+
+color: #000000;
+
+
+
+/* Rectangle 52 */
+
+position: absolute;
+width: 13.38px;
+height: 18.32px;
+left: 708.53px;
+top: 476.22px;
+
+
+
+/* Rectangle 40 */
+
+position: absolute;
+width: 11px;
+height: 9.52px;
+left: 1375px;
+top: 126.63px;
+
+background: url(filter-alt-regular-24.png);

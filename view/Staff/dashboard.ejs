@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Staff Dashboard</title>
+    <link rel="stylesheet" href="../css/staff.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"/>
+  </head>
+  <body>
+    <header>
+      <div class="logo2">
+       <h3>ECOBIN</h3>
+      </div>
+
+      <div class="icons-head">
+        <a href="#" id="bellIcon">
+          <img src="../image/bell-regular-24.png" alt="bell"/>
+        </a>
+        <div class="notification-dropdown" id="notificationDropdown">
+          <div class="notification-header">Notifications</div>
+          <ul class="notification-list">
+            <li class="notification-item">New message from Admin</li>
+            <li class="notification-item">Sample Ra ni</li>
+            <li class="notification-item">Mr. Bin</li>
+            <li class="notification-item">System update available</li>
+          </ul>
+          <div class="notification-footer">
+            <a href="#">View all notifications</a>
+          </div>
+        </div>
+        
+        
+
+        <div class="profile-container">
+          <a href="#" id="profileIcon">
+            <img src="../image/user-regular-24.png" alt="profile" />
+          </a>
+
+          <div id="profileDropdown" class="dropdown-menu">
+            <a href="/staff/profile-staff">Settings</a>
+            <a id="logoutBtn" href="/login">Logout</a>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="container">
+      <div class="dashboard-left">
+        <div class="tabs">
+          <div class="tab active" id="tabOverview">Overview</div>
+          <div class="tab" id="tabBin">Bins</div>
+          <div class="tab" id="tabStaff">Staff</div>
+          <div class="tab" id="tabRequest">Pending</div>
+        </div>
+        
+        
+        <div class="tab-content active" id="overview">
+          <div class="left-tab">
+            <div class="group">
+              <div class="banner">
+                <div class="top-banner">
+                  <h2>Efficient Solutions for a</h2>
+                  <h1>Greener Future</h1>
+                </div>
+
+                <div class="below-banner">
+                  <p>Keeping Our School Clean, One Bin at a Time!</p>
+                </div>
+              </div>
+
+              <div class="his-head">
+                <div class="header-title">
+                  <h4>Activity Logs</h4>
+                </div>
+
+                <div class="filter">
+                  <input type="date" id="dateFilter" />
+                  <img src="../image/filter-alt-regular-24 (1).png" alt="filter" id="sortBtn" />
+                </div>
+              </div>
+
+              <div class="table-container">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Bins</th>
+                      <th>Floor</th>
+                      <th>Staff</th>
+                      <th>Date</th>
+                      <th>Time</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tableBody">
+                    <tr>
+                      <td>Bin 011</td>
+                      <td>Floor 1</td>
+                      <td>Jade Arpiliag</td>
+                      <td>2025-07-03</td>
+                      <td>8:30 AM</td>
+                      <td><button class="status done">Done</button></td>
+                    </tr>
+                    <tr>
+                      <td>Bin 021</td>
+                      <td>Floor 2</td>
+                      <td>Angal Iballtorasca</td>
+                      <td>2025-06-27</td>
+                      <td>5:30 PM</td>
+                      <td><button class="status done">Done</button></td>
+                    </tr>
+                    <tr>
+                      <td>Bin 032</td>
+                      <td>Floor 3</td>
+                      <td>Jamaica Anobahh</td>
+                      <td>2025-03-12</td>
+                      <td>11:30 PM</td>
+                      <td><button class="status done">Done</button></td>
+                    </tr>
+                    <tr>
+                      <td>Bin 032</td>
+                      <td>Floor 6</td>
+                      <td>John Daveh Larapan</td>
+                      <td>2025-03-12</td>
+                      <td>12:30 AM</td>
+                      <td><button class="status done">Done</button></td>
+                    </tr>
+                    <tr>
+                      <td>Bin 032</td>
+                      <td>Floor 6</td>
+                      <td>John Daveh Larapan</td>
+                      <td>2025-03-12</td>
+                      <td>12:30 AM</td>
+                      <td><button class="status done">Done</button></td>
+                    </tr>
+                    <tr>
+                      <td>Bin 032</td>
+                      <td>Floor 6</td>
+                      <td>John Daveh Larapan</td>
+                      <td>2025-03-12</td>
+                      <td>12:30 AM</td>
+                      <td><button class="status done">Done</button></td>
+                    </tr>
+                    <tr>
+                      <td>Bin 032</td>
+                      <td>Floor 6</td>
+                      <td>John Daveh Larapan</td>
+                      <td>2025-03-12</td>
+                      <td>12:30 AM</td>
+                      <td><button class="status done">Done</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="container-map">
+              <div class="floor-no">
+                <h3>Floor 5</h3>
+                <div class="map-container">
+                  <div class="box"><img src="../image/Floor Plan.png" alt="" class="img-map" /></div>
+                </div>
+                <div class="floorstat">
+                  <select class="floor-dropdown">
+                    <option value="1">Floor 1</option>
+                    <option value="2">Floor 2</option>
+                    <option value="3">Floor 3</option>
+                    <option value="4">Floor 4</option>
+                    <option value="4">Floor 5</option>
+                    <option value="4">Floor 6</option>
+                    <option value="4">Indigo</option>
+                  </select>
+                  <div class="stat">Status</div>
+                </div>
+
+                <div class="bin-status">
+                  <p>Bin 001 <span class="progress-text yellow" data-progress="001"></span></p>
+                  <div class="progress-bar-container">
+                    <div class="progress-bar yellow" data-progress="001"></div>
+                  </div>
+                
+                  <p>Bin 002 <span class="progress-text green" data-progress="002"></span></p>
+                  <div class="progress-bar-container">
+                    <div class="progress-bar green" data-progress="002"></div>
+                  </div>
+                
+                  <p>Bin 003 <span class="progress-text red" data-progress="003"></span></p>
+                  <div class="progress-bar-container">
+                    <div class="progress-bar red" data-progress="003"></div>
+                  </div>
+                </div>
+                
+
+                <div class="button-notif">
+                  <button class="notify">Notify</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-content" id="Bin">
+          <div class="bin-layout">
+            <!-- Left: Floor Plan -->
+            <div class="content-left">
+              <div class="header">
+                <p class="bin-info">Bin Information</p>
+                <div class="floorstat1">
+                  <select class="floor-dropdown">
+                    <option value="1">Floor 1</option>
+                    <option value="2">Floor 2</option>
+                    <option value="3">Floor 3</option>
+                    <option value="4">Floor 4</option>
+                    <option value="5">Floor 5</option>
+                    <option value="6">Floor 6</option>
+                  </select>
+                </div>
+              </div>
+              <img src="/image/Floor Plan.png" alt="Floor Plan">
+            </div>
+      
+            <div class="content-right">
+              <h3>Floor 1</h3>
+              <div class="bin-info-card">
+                <i class="bx bx-trash"></i>
+                <div class="bin-details">
+                  <strong>S1Bin1</strong>
+                  <div class="bin-row">
+                    <span>Bin Type: Biodegradable</span>
+                    <span>Bin Average: 100%</span>
+                  </div>
+                  <div class="bin-row">
+                    <span>Bin Height: 24%</span>
+                    <span>Bin Weight: 100%</span>
+                  </div>
+                  <div class="bin-row">
+                    <span>Starting Time: 8:00 AM</span>
+                    <span>End Time: 5:00 PM</span>
+                  </div>
+                </div>
+              </div>              
+        
+              <div class="bin-info-card">
+                <i class="bx bx-trash"></i>
+                <div class="bin-details">
+                  <strong>S1Bin2</strong>
+                  <div class="bin-row">
+                    <span>Bin Type: Non-Biodegradable</span>
+                    <span>Bin Average: 100%</span>
+                  </div>
+                  <div class="bin-row">
+                    <span>Bin Height: 24%</span>
+                    <span>Bin Weight: 100%</span>
+                  </div>
+                  <div class="bin-row">
+                    <span>Starting Time: 8:00 AM</span>
+                    <span>End Time: 5:00 PM</span>
+                  </div>
+                </div>
+              </div>     
+        
+              <div class="bin-info-card">
+                <i class="bx bx-trash"></i>
+                <div class="bin-details">
+                  <strong>S1Bin3</strong>
+                  <div class="bin-row">
+                    <span>Bin Type: Recyclable</span>
+                    <span>Bin Average: 100%</span>
+                  </div>
+                  <div class="bin-row">
+                    <span>Bin Height: 24%</span>
+                    <span>Bin Weight: 100%</span>
+                  </div>
+                  <div class="bin-row">
+                    <span>Starting Time: 8:00 AM</span>
+                    <span>End Time: 5:00 PM</span>
+                  </div>
+                </div>
+              </div>     
+
+            </div>
+          </div>
+        </div>
+        
+        
+        
+        <div class="tab-content" id="request">
+          <div class="head-staff">
+            <h3>Staff Information</h3>
+            <div class="right-head">
+              <div class="search-bin-staff">
+                <input type="text" id="binSearch" placeholder="Search" class="search-bar2"/>
+              </div>
+              <div class="filter">
+                <p id="sortBtn">Sort By</p>
+                <i class="bx bx-sort-a-z"></i>
+              </div>
+            </div>
+          </div>
+          <div>
+            <table class="table2">
+              <tr>
+                <th>Staff ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Address</th>
+                <th>Contact No.</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+              <tr>
+                <td>1001</td>
+                <td>Angel Anuba</td>
+                <td>35</td>
+                <td>Tungkil Minglanilla</td>
+                <td>09950913018</td>
+                <td class="status-pending">Pending</td>
+                <td><button class="btn-send">Send Request</button></td>
+
+              </tr>
+              <tr>
+                <td>1002</td>
+                <td>Jamaica Anuba</td>
+                <td>35</td>
+                <td>Tungkil Minglanilla</td>
+                <td>09950913018</td>
+                <td class="status-pending">Pending</td>
+                <td><button class="btn-send">Send Request</button></td>
+              </tr>
+              <tr>
+                <td>1003</td>
+                <td>Jera Anuba</td>
+                <td>35</td>
+                <td>Tungkil Minglanilla</td>
+                <td>09950913018</td>
+                <td class="status-pending">Pending</td>
+                <td><button class="btn-send">Send Request</button></td>
+              </tr>
+              <tr>
+                <td>1004</td>
+                <td>James Anuba</td>
+                <td>35</td>
+                <td>Tungkil Minglanilla</td>
+                <td>09950913018</td>
+                <td class="status-pending">Pending</td>
+                <td><button class="btn-send">Send Request</button></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+          <!-- Update Staff Modal -->
+          <div id="updateStaffModal" class="modal">
+            <div class="modal-content">
+              <h2>Update Staff Information</h2>
+              <form id="updateStaffForm">
+                <div class="row">
+                  <div class="input">
+                    <label>Name</label><br />
+                    <input type="text" id="updateName" required placeholder="Name" />
+                  </div>
+
+                  <div class="input">
+                    <label>Gender</label><br />
+                    <input type="radio" name="updateGender" value="Male" /> Male
+                    <input type="radio" name="updateGender" value="Female" /> Female
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="input">
+                    <label>Age</label><br />
+                    <input type="text" id="updateAge" required placeholder="Enter age" />
+                  </div>
+                  <div class="input">
+                    <label>Contact Number</label><br />
+                    <input type="text" id="updateContact" required placeholder="Add contact number" />
+                  </div>
+                </div>
+
+                <div class="input">
+                  <label>Address</label><br />
+                  <input type="text" id="updateAddress" required class="address" placeholder="Enter Address" /><br />
+                </div>
+
+                <div class="input">
+                  <label>Email Address</label><br />
+                  <input type="email" id="updateEmail" required class="email" placeholder="Enter Email Address" />
+                </div>
+
+                <div class="row">
+                  <div class="input">
+                    <label>Assign Floor</label><br />
+                    <input type="number" id="updateFloor" required placeholder="Floor" />
+                  </div>
+
+                  <div class="input">
+                    <label>Marital Status</label><br />
+                    <select id="updateMaritalStatus">
+                      <option>Single</option>
+                      <option>Married</option>
+                      <option>Separated</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="modal-buttons">
+                  <button type="submit" class="save-btn">Update</button>
+                  <button type="button" id="closeUpdateModalBtn" class="cancel-btn">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div id="deleteConfirmModal" class="modal-delete">
+            <div class="modal-content-delete">
+              <h3>Confirm Deletion</h3>
+              <p>Are you sure you want to delete this staff record?</p>
+              <div class="modal-buttons-delete">
+                <button id="confirmDeleteBtn" class="delete-confirm-btn">Delete</button>
+                <button id="cancelDeleteBtn" class="cancel-btn-delete">Cancel</button>
+              </div>
+            </div>
+          </div>
+   
+        <!-- end sa pending -->
+
+        <div class="tab-content" id="staff">
+          <div class="head-staff">
+            <h3>Staff Information</h3>
+            <div class="right-head">
+              <div class="search-bin-staff">
+                <input type="text" id="binSearch3" placeholder="Search" class="search-bar3" />
+              </div>
+              <div class="filter">
+                <p id="sortBtn">Sort By</p>
+                <i class="bx bx-sort-a-z"></i>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <table class="table2">
+              <tr>
+                <th>Staff ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Address</th>
+                <th>Contact No.</th>
+                <th>Assigned Floor</th>
+                <th>Action</th>
+              </tr>
+              <tr>
+                <td>1001</td>
+                <td>Angel Anuba</td>
+                <td>35</td>
+                <td>Tungkil Minglanilla</td>
+                <td>09950913018</td>
+                <td>Floor 2</td>
+
+                <td>
+                  <button class="edit-btn" data-id="1001"><i class="bx bxs-edit"></i></button>
+                  <button class="delete-btn"><i class="bx bx-trash"></i></button>
+                </td>
+              </tr>
+              <tr>
+                <td>1002</td>
+                <td>Jamaica Anuba</td>
+                <td>35</td>
+                <td>Tungkil Minglanilla</td>
+                <td>09950913018</td>
+                <td>Floor 2</td>
+                <td>
+                  <button class="edit-btn" data-id="1001"><i class="bx bxs-edit"></i></button>
+                  <button class="delete-btn"><i class="bx bx-trash"></i></button>
+                </td>
+              </tr>
+              <tr>
+                <td>1003</td>
+                <td>Jera Anuba</td>
+                <td>35</td>
+                <td>Tungkil Minglanilla</td>
+                <td>09950913018</td>
+                <td>Floor 2</td>
+
+                <td>
+                  <button class="edit-btn" data-id="1001"><i class="bx bxs-edit"></i></button>
+                  <button class="delete-btn"><i class="bx bx-trash"></i></button>
+                </td>
+              </tr>
+              <tr>
+                <td>1004</td>
+                <td>James Anuba</td>
+                <td>35</td>
+                <td>Tungkil Minglanilla</td>
+                <td>09950913018</td>
+                <td>Floor 2</td>
+                <td>
+                  <button class="edit-btn" data-id="1001"><i class="bx bxs-edit"></i></button>
+                  <button class="delete-btn"><i class="bx bx-trash"></i></button>
+                </td>
+              </tr>
+            </table>
+          </div>
+          </div>
+          <!-- Update Staff Modal -->
+          <div id="updateStaffModal" class="modal">
+            <div class="modal-content">
+              <h2>Update Staff Information</h2>
+              <form id="updateStaffForm">
+                <div class="row">
+                  <div class="input">
+                    <label>Name</label><br />
+                    <input type="text" id="updateName" required placeholder="Name" />
+                  </div>
+
+                  <div class="input">
+                    <label>Gender</label><br />
+                    <input type="radio" name="updateGender" value="Male" /> Male
+                    <input type="radio" name="updateGender" value="Female" /> Female
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="input">
+                    <label>Age</label><br />
+                    <input type="text" id="updateAge" required placeholder="Enter age" />
+                  </div>
+                  <div class="input">
+                    <label>Contact Number</label><br />
+                    <input type="text" id="updateContact" required placeholder="Add contact number" />
+                  </div>
+                </div>
+
+                <div class="input">
+                  <label>Address</label><br />
+                  <input type="text" id="updateAddress" required class="address" placeholder="Enter Address" /><br />
+                </div>
+
+                <div class="input">
+                  <label>Email Address</label><br />
+                  <input type="email" id="updateEmail" required class="email" placeholder="Enter Email Address" />
+                </div>
+
+                <div class="row">
+                  <div class="input">
+                    <label>Assign Floor</label><br />
+                    <input type="number" id="updateFloor" required placeholder="Floor" />
+                  </div>
+
+                  <div class="input">
+                    <label>Marital Status</label><br />
+                    <select id="updateMaritalStatus">
+                      <option>Single</option>
+                      <option>Married</option>
+                      <option>Separated</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="modal-buttons">
+                  <button type="submit" class="save-btn">Update</button>
+                  <button type="button" id="closeUpdateModalBtn" class="cancel-btn">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- Delete Confirmation Modal -->
+          <div id="deleteConfirmModal" class="modal-delete">
+            <div class="modal-content-delete">
+              <h3>Confirm Deletion</h3>
+              <p>Are you sure you want to delete this staff record?</p>
+              <div class="modal-buttons-delete">
+                <button id="confirmDeleteBtn" class="delete-confirm-btn">Delete</button>
+                <button id="cancelDeleteBtn" class="cancel-btn-delete">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/js/staff.js"></script>
+    <script src = "/js/logout.js"></script>
+    <Script src="/js/sensordata.js"></Script>
+    
+
+  </body>
+</html>
