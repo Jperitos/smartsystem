@@ -90,6 +90,16 @@ body {
         cursor: pointer;
     
     }
+    .options ul a img {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+        filter: brightness(0) invert(1);
+    }
+    .options ul a:hover img,
+    .options ul a.active img {
+    filter: brightness(0) invert(0); /* makes the icon black */
+}
     
     .options ul a:hover,
     .options ul a.active {
@@ -678,6 +688,7 @@ body {
         margin-top: 20px;
         color: #fff;
       }
+    
       .unread .dot {
         width: 8px;
         height: 8px;
