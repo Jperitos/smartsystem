@@ -94,7 +94,9 @@ app.get("/display", (req, res) => {
 app.get("/staff/dashboard", identifier, (req, res) => {
   res.render("staff/dashboard");
 });
-
+app.get("/staff/dashboardd", identifier, (req, res) => {
+  res.render("staff/dashboardd");
+});
 app.get("/staff/profile-staff", (req, res) => {
   res.render("staff/profile-staff");
 });

@@ -130,10 +130,25 @@ main {
     width: 100%; 
 }
 
+.banner{
+    width: 57%;
+    background-color: #15421C;
+    padding: 2rem;
+    border-radius: 10px;
+}
+.banner h2,p{
+    color: white;
+    font-weight: 500;
+}
+
+.banner h1{
+    color: #14A72A;
+}
+
 .filter {
     display: flex;
     align-items: center;
-    margin-right: 190px;
+    margin-right: 160px;
     gap: 10px;
 }
 
@@ -262,10 +277,111 @@ padding: 10px 20px;
     cursor: pointer;
 }
 
-.status.done {
-    background-color: #3A7D44;
+.status-done {
+    color: #3A7D44;
+    border-radius: 30px;
+    background-color: #f1f1f1;
 }
 
+/* bins */
+.bin-layout {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 20px;
+  }
+  
+  .content-left {
+    flex: 1;
+    min-width: 400px;
+    margin-top: -20px;
+  }
+  
+  .content-right {
+    flex: 1;
+    min-width:150px;
+    margin-top: 28px;
+  }
+  .content-right h3{
+    margin-top: -25px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  /* .floorstat1{
+    margin-right: -15px;
+  } */
+  
+ .bin-info {
+    font-weight: bold;
+    font-size: 20px;
+    color: #000000;
+    text-decoration: none;
+  }
+  
+  .floor-dropdown {
+    padding: 10px;
+    width: 100%;
+    border-radius: 7px;
+  }
+  
+  .content-left img {
+    width: 100%;
+    max-width: 650px;
+    height: auto;
+    border-radius: 8px;
+    margin-top: -25px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .bin-info-card {
+    display: flex;
+    align-items: flex-start;
+    background-color: #f9f9f9;
+    margin-top: 22px;
+    margin-left: 20px;
+    padding: 10px;
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    gap: 15px;
+  }
+  
+  .bin-info-card i {
+    font-size: 50px;
+    color: #333;
+    margin-top: 25px;
+    margin-left: 20px;
+  }
+  
+  .bin-details {
+    display: flex;
+    flex-direction: column;
+    margin-left: 30px;
+    gap: 20px;
+    margin-bottom: 10px;
+  }
+
+  .bin-details strong {
+    font-size: 16px;
+    color: #333;
+    margin-top: 10px;
+  }
+  
+  .bin-row {
+    display: flex;
+    justify-content: space-between;
+    width: 350px;
+    margin-top: -10px;
+    font-size: 14px;    
+    color: #333;
+  }  
+
+
+  
 .modal-container {
     display: none;
     position: fixed;
@@ -759,10 +875,9 @@ input, select {
   }
   
 
-
 .container-map{
     position: absolute;
-    top: 45px;
+    top: 60px;
     right: -50px;
 }
 

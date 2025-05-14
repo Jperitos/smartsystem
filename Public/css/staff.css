@@ -113,10 +113,8 @@ header {
     color: #f1f1f1;
 }
 .tab-content {
- 
     display: none;
     margin-top: 1rem;
- 
 }
 .tab-content.active {
     display: block;
@@ -802,9 +800,9 @@ label{
 .btn-send:hover {
     background-color: #318b3f;
 }
-  .edit-btn, .delete-btn{
+.edit-btn, .delete-btn{
     background-color: #f4f4f4;
-  }
+}
   .selected-row {
     background-color: #f4f4f4; 
 }
