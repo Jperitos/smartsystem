@@ -48,79 +48,83 @@ function timedConfirm(message, duration) {
     modal.style.alignItems = 'center';
     modal.style.justifyContent = 'center';
     modal.style.zIndex = '9999';
-    modal.style.color = 'black';
 
     // Create the confirmation box
     const box = document.createElement('div');
-    box.style.backgroundColor = 'white';
-    box.style.padding = '20px';
-    box.style.borderRadius = '5px';
+    box.style.backgroundColor = '#f7f7f7';
+    box.style.padding = '30px 40px';
+    box.style.borderRadius = '10px';
     box.style.textAlign = 'center';
+    box.style.fontFamily = 'Arial, sans-serif';
+    box.style.boxShadow = '0 0 10px rgba(0,0,0,0.2)';
+    box.style.width = 'fit-content';
+    box.style.minWidth = '320px';
 
+    // Title
+    const title = document.createElement('h2');
+    title.innerText = 'Confirm Logout';
+    title.style.margin = '0';
+    title.style.fontSize = '20px';
+    title.style.fontWeight = 'bold';
+    title.style.color = '#333';
+    box.appendChild(title);
+
+    // Message
     const text = document.createElement('p');
     text.innerText = message;
-    text.style.color = 'black'; // Set text color to black
+    text.style.color = '#333';
+    text.style.marginTop = '10px';
+    text.style.marginBottom = '20px';
+    text.style.fontSize = '14px';
     box.appendChild(text);
 
-    // Create the buttons
+    // Buttons
     const buttonContainer = document.createElement('div');
-    const yesButton = document.createElement('button');
-    yesButton.innerText = 'Yes';
-    const noButton = document.createElement('button');
-    noButton.innerText = 'Cancel';
-
-    // Add gap and style to the buttons
-    buttonContainer.style.marginTop = '20px'; // Add some space for the buttons
     buttonContainer.style.display = 'flex';
-    buttonContainer.style.justifyContent = 'space-between';
-    buttonContainer.style.gap = '50px'; // Set gap between buttons
+    buttonContainer.style.justifyContent = 'center';
+    buttonContainer.style.gap = '10px';
 
-    // Style the buttons
+    const yesButton = document.createElement('button');
+    yesButton.innerText = 'Logout';
     yesButton.style.padding = '10px 20px';
-    yesButton.style.backgroundColor = '#4CAF50'; // Green color
-    yesButton.style.color = 'white';
+    yesButton.style.backgroundColor = '#f00';
+    yesButton.style.color = '#fff';
     yesButton.style.border = 'none';
     yesButton.style.borderRadius = '5px';
     yesButton.style.cursor = 'pointer';
 
+    const noButton = document.createElement('button');
+    noButton.innerText = 'Cancel';
     noButton.style.padding = '10px 20px';
-    noButton.style.backgroundColor = '#f44336'; // Red color
-    noButton.style.color = 'white';
+    noButton.style.backgroundColor = '#888';
+    noButton.style.color = '#fff';
     noButton.style.border = 'none';
     noButton.style.borderRadius = '5px';
     noButton.style.cursor = 'pointer';
 
     buttonContainer.appendChild(yesButton);
     buttonContainer.appendChild(noButton);
-
     box.appendChild(buttonContainer);
     modal.appendChild(box);
     document.body.appendChild(modal);
 
-    // Set up button event listeners
+    // Event listeners
     yesButton.addEventListener('click', () => {
-      document.body.removeChild(modal); // Remove modal
+      clearTimeout(timeout);
+      document.body.removeChild(modal);
       resolve(true);
     });
 
     noButton.addEventListener('click', () => {
-      document.body.removeChild(modal); // Remove modal
+      clearTimeout(timeout);
+      document.body.removeChild(modal);
       resolve(false);
     });
 
-    // Auto resolve after timeout
     const timeout = setTimeout(() => {
-      document.body.removeChild(modal); // Remove modal
-      resolve(false); // Auto cancel after duration
+      document.body.removeChild(modal);
+      resolve(false);
     }, duration);
-
-    // If the user confirms before timeout, clear the timeout
-    yesButton.addEventListener('click', () => {
-      clearTimeout(timeout);
-    });
-
-    noButton.addEventListener('click', () => {
-      clearTimeout(timeout);
-    });
   });
 }
+
