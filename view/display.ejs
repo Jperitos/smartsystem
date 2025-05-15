@@ -1,68 +1,147 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>📡 Bin Status Live Monitor</title>
-  <script src="/socket.io/socket.io.js"></script> <!-- Socket.IO client -->
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      padding: 20px;
-    }
-    .bin {
-      background: white;
-      margin: 10px 0;
-      padding: 15px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    }
-    h1 {
-      color: #333;
-    }
-    em {
-      font-size: 0.9em;
-      color: gray;
-    }
-  </style>
-</head>
-<body>
-  <h1>📡 Real-Time Bin Monitoring</h1>
-  <div id="live-data">Waiting for bin updates...</div>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Staff Dashboard</title>
+    <link rel="stylesheet" href="/css/adminn.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="/js/profileupdet.js"></script>
+  </head>
+  <body>
+    <!-- Your aside and main HTML content as you wrote it -->
 
-  <script>
-    const socket = io();
-
-    socket.on("connect", () => {
-      console.log("✅ Connected to Socket.IO server");
-    });
-
-    socket.on("newData", data => {
-      console.log("📡 Received live data:", data);
-
-      const display = document.getElementById("live-data");
-      display.innerHTML = `
-        <div class="bin">
-          <h3>Bin 1</h3>
-          <p>Weight: ${data.bin1.weight} kg</p>
-          <p>Height: ${data.bin1.height}%</p>
-          <p>Average: ${data.bin1.avg.toFixed(1)}%</p>
+    <!-- Bin Info cards for Floor 1 -->
+    <div class="bin-info-card">
+      <i class="bx bx-trash"></i>
+      <div class="bin-details">
+        <strong>S1Bin1</strong>
+        <div class="bin-row">
+          <span>Bin Type: Biodegradable</span>
+          <span>Bin Average: <span id="s1bin1-avg">-</span>%</span>
         </div>
-        <div class="bin">
-          <h3>Bin 2</h3>
-          <p>Weight: ${data.bin2.weight} kg</p>
-          <p>Height: ${data.bin2.height}%</p>
-          <p>Average: ${data.bin2.avg.toFixed(1)}%</p>
+        <div class="bin-row">
+          <span>Bin Height: <span id="s1bin1-height">-</span>%</span>
+          <span>Bin Weight: <span id="s1bin1-weight">-</span> kg</span>
         </div>
-        <div class="bin">
-          <h3>Bin 3</h3>
-          <p>Weight: ${data.bin3.weight} kg</p>
-          <p>Height: ${data.bin3.height}%</p>
-          <p>Average: ${data.bin3.avg.toFixed(1)}%</p>
+        <div class="bin-row">
+          <span>Starting Time: 8:00 AM</span>
+          <span>End Time: 5:00 PM</span>
         </div>
-        <p><em>Updated: ${new Date().toLocaleTimeString()}</em></p>
-      `;
-    });
-  </script>
-</body>
+      </div>
+    </div>
+
+    <div class="bin-info-card">
+      <i class="bx bx-trash"></i>
+      <div class="bin-details">
+        <strong>S1Bin2</strong>
+        <div class="bin-row">
+          <span>Bin Type: Non-Biodegradable</span>
+          <span>Bin Average: <span id="s1bin2-avg">-</span>%</span>
+        </div>
+        <div class="bin-row">
+          <span>Bin Height: <span id="s1bin2-height">-</span>%</span>
+          <span>Bin Weight: <span id="s1bin2-weight">-</span> kg</span>
+        </div>
+        <div class="bin-row">
+          <span>Starting Time: 8:00 AM</span>
+          <span>End Time: 5:00 PM</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="bin-info-card">
+      <i class="bx bx-trash"></i>
+      <div class="bin-details">
+        <strong>S1Bin3</strong>
+        <div class="bin-row">
+          <span>Bin Type: Recyclable</span>
+          <span>Bin Average: <span id="s1bin3-avg">-</span>%</span>
+        </div>
+        <div class="bin-row">
+          <span>Bin Height: <span id="s1bin3-height">-</span>%</span>
+          <span>Bin Weight: <span id="s1bin3-weight">-</span> kg</span>
+        </div>
+        <div class="bin-row">
+          <span>Starting Time: 8:00 AM</span>
+          <span>End Time: 5:00 PM</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Your other HTML content -->
+
+    <!-- Scripts at the bottom for better loading -->
+
+    <!-- Chart.js CDN - make sure CSP allows this or self host -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Your JS files -->
+    <script src="/js/admin.js"></script>
+    <script src="/js/tabstaff.js"></script>
+    <script src="/js/chart.js"></script>
+    <script src="/js/logout.js"></script>
+    <script src="/js/history.js"></script>
+    <script src="/js/sensordata.js"></script>
+    <script src="/js/staffmodal.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Converts height in cm to fill percentage using your min/max distances
+        function getHeightPercentage(distance) {
+          const minDistance = 11;
+          const maxDistance = 35;
+          if (distance === null || distance === undefined) return 0;
+          if (distance <= minDistance) return 100;
+          if (distance >= maxDistance) return 0;
+          return Math.round(((maxDistance - distance) / (maxDistance - minDistance)) * 100);
+        }
+
+        async function updateBinData() {
+          try {
+            const res = await fetch('http://localhost:9000/api/latest-data');
+            if (!res.ok) throw new Error('Network response was not ok');
+
+            const data = await res.json();
+            if (data.message) {
+              console.log('No bin data yet:', data.message);
+              return;
+            }
+
+            // Defensive DOM updates
+            const setBinData = (binId, binData) => {
+              const weightElem = document.getElementById(`${binId}-weight`);
+              const heightElem = document.getElementById(`${binId}-height`);
+              const avgElem = document.getElementById(`${binId}-avg`);
+
+              if (weightElem && heightElem && avgElem) {
+                weightElem.textContent = binData.weight.toFixed(2);
+                heightElem.textContent = getHeightPercentage(binData.height);
+                avgElem.textContent = binData.avg.toFixed(2);
+              }
+            };
+
+            setBinData('s1bin1', data.bin1);
+            setBinData('s1bin2', data.bin2);
+            setBinData('s1bin3', data.bin3);
+
+          } catch (error) {
+            console.error('Failed to update bin data:', error);
+          }
+        }
+
+        // Initial fetch
+        updateBinData();
+
+        // Poll every 3 seconds
+        setInterval(updateBinData, 3000);
+      });
+    </script>
+  </body>
 </html>

@@ -27,8 +27,9 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'"],
-      connectSrc: ["'self'", "http://localhost:8000", "ws://localhost:8000"]
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net"],
+      connectSrc: ["'self'", "http://localhost:8000", "ws://localhost:8000", "http://localhost:9000", "ws://localhost:9001"]
+      
     }
   }
 }));

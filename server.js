@@ -1,70 +1,130 @@
-require("dotenv").config();
+// server.js
 
-
-const express = require("express");
-const http = require("http");
-const mongoose = require("mongoose");
-const socketIo = require("socket.io");
-const cors = require("cors");
-const bodyParser = require("body-parser");
+const express = require('express');
+const http = require('http');
+const WebSocket = require('ws');
+const cors = require('cors');
 
 const app = express();
-const server = http.createServer(app);
-const io = socketIo(server);
+const PORT_HTTP = 9000;
+const PORT_WS = 9001;
 
-// ✅ MongoDB Connection
-mongoose.connect(process.env.MONGO_URI || "MONGO_URI = mongodb+srv://jamesarpilang04:KnCcxkCLH8KVIBy4@cluster0.yammk.mongodb.net/authExample?retryWrites=true&w=majority&appName=Cluster0", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-mongoose.connection.once("open", () => {
-  console.log("Connected to MongoDB");
-});
-
-// ✅ MongoDB Schema
-const binSchema = new mongoose.Schema({
-  timestamp: { type: Date, default: Date.now },
-  bin1: { weight: Number, height: Number, avg: Number },
-  bin2: { weight: Number, height: Number, avg: Number },
-  bin3: { weight: Number, height: Number, avg: Number },
-});
-const BinLive = mongoose.model("BinLive", binSchema);
-
-// ✅ Middleware
+// Enable CORS and JSON parsing for HTTP server
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
 
-// ✅ WebSocket Client Connection
-io.on("connection", (socket) => {
-  console.log("📡 Dashboard client connected");
+// In-memory store for latest processed bin data
+let latestBinData = null;
+
+// Map raw distance (cm) to height % (0% empty at maxDistance, 100% full at minDistance)
+function getHeightPercentage(distance) {
+  const minDistance = 11;
+  const maxDistance = 35;
+
+  if (distance === null || distance === undefined) return 0;
+  if (distance <= minDistance) return 100;
+  if (distance >= maxDistance) return 0;
+
+  return Math.round(((maxDistance - distance) / (maxDistance - minDistance)) * 100);
+}
+
+// Calculate weight % capped at 100%
+function getWeightPercentage(weight) {
+  const maxWeight = 150; // kg
+  if (typeof weight !== 'number' || weight <= 0) return 0;
+  return Math.min((weight / maxWeight) * 100, 100);
+}
+
+// HTTP test route
+app.get('/', (req, res) => {
+  res.send('🟢 Bin Monitoring Backend is running.');
 });
 
-// ✅ Health Check Route
-app.get("/api/ping", (req, res) => {
-  
-  res.send("pong 🏓");
-  res.json({ message: "ESP32 data server running 🏓" });
-});
-
-// ✅ POST from ESP32
-app.post("/api/upload-sensor-data", async (req, res) => {
-  try {
-    console.log("Incoming ESP32 Data:", req.body);
-
-    const newEntry = new BinLive(req.body);
-    await newEntry.save();
-
-    io.emit("newData", req.body); // Broadcast to live dashboards
-
-    res.status(200).json({ message: "Data stored in MongoDB" });
-  } catch (err) {
-    console.error("Failed to store data:", err);
-    res.status(500).json({ error: "Failed to save data" });
+// HTTP API route to get latest processed bin data
+app.get('/api/latest-data', (req, res) => {
+  if (latestBinData) {
+    res.json(latestBinData);
+  } else {
+    res.json({ message: "No data received yet" });
   }
 });
 
-// ✅ Start Server
-const PORT = 9000;
-server.listen(PORT, () => {
-  console.log(`ESP Data Server listening at http://localhost:${PORT}`);
+// Start HTTP server
+app.listen(PORT_HTTP, () => {
+  console.log(`🚀 HTTP API running at http://localhost:${PORT_HTTP}`);
+});
+
+// Start WebSocket server for ESP32
+const wss = new WebSocket.Server({ port: PORT_WS }, () => {
+  console.log(`🔌 WebSocket server running on ws://localhost:${PORT_WS}`);
+});
+
+wss.on('connection', (ws) => {
+  console.log('✅ ESP32 connected via WebSocket');
+
+  ws.on('message', (message) => {
+    const msgStr = message.toString();
+    console.log('📥 Raw data received from ESP32:\n', msgStr);
+
+    try {
+      const data = JSON.parse(msgStr);
+
+      // Basic validation of expected structure
+      const isValidPayload =
+        data?.bin1 && data?.bin2 && data?.bin3 &&
+        typeof data.bin1.weight === 'number' &&
+        typeof data.bin1.height === 'number' &&
+        typeof data.bin2.weight === 'number' &&
+        typeof data.bin2.height === 'number' &&
+        typeof data.bin3.weight === 'number' &&
+        typeof data.bin3.height === 'number';
+
+      if (!isValidPayload) {
+        console.warn("⚠️ Invalid payload structure or missing fields");
+        return;
+      }
+
+      // Process each bin: convert raw height (distance) to height %, calculate weight %, and avg %
+      function processBin(bin) {
+        const weightPct = getWeightPercentage(bin.weight);
+        const heightPct = getHeightPercentage(bin.height);
+        const avg = (weightPct + heightPct) / 2;
+        return {
+          weight: bin.weight,
+          weightPct,
+          height: bin.height,
+          heightPct,
+          avg,
+        };
+      }
+
+      const processedBin1 = processBin(data.bin1);
+      const processedBin2 = processBin(data.bin2);
+      const processedBin3 = processBin(data.bin3);
+
+      latestBinData = {
+        bin1: processedBin1,
+        bin2: processedBin2,
+        bin3: processedBin3,
+        timestamp: new Date().toISOString(),
+      };
+
+      // Log processed bin data
+      console.log("\n===== BIN STATUS RECEIVED =====");
+      ['bin1', 'bin2', 'bin3'].forEach((binKey) => {
+        const b = latestBinData[binKey];
+        console.log(
+          `${binKey.toUpperCase()} -> Weight: ${b.weight.toFixed(2)} kg (${b.weightPct.toFixed(1)}%) | Height: ${b.height} cm (${b.heightPct}%) | Avg: ${b.avg.toFixed(1)}%`
+        );
+      });
+      console.log("================================\n");
+
+    } catch (err) {
+      console.error('❌ Failed to parse incoming JSON:', err.message);
+    }
+  });
+
+  ws.on('close', () => {
+    console.log('❌ ESP32 disconnected from WebSocket');
+  });
 });
