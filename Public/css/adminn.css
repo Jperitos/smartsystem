@@ -187,7 +187,7 @@ body {
         overflow: hidden; 
     }
     
-    
+
     .content-panel.active {
         display: block;
     }
@@ -505,6 +505,7 @@ body {
     .profile-section p{
         font-size: 12px;
         margin-top: -5px;
+        color:#444;
     }
     
     .profile-section img {
@@ -686,7 +687,7 @@ body {
       .meta p{
         font-size: 10px;
         margin-top: 20px;
-        color: #fff;
+        color:#444;
       }
     
       .unread .dot {
@@ -1237,3 +1238,132 @@ body {
         color: #333;
         background-color: #f0f0f0;
     }
+
+    /* table */
+    .head-staff{
+        display: flex;
+        align-items: center;
+       justify-content: space-between;
+    }
+    .search-bar2 {
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%23666" d="M10 2a8 8 0 1 1-5.293 14.293l-4.366 4.367a1 1 0 0 1-1.414-1.414l4.367-4.366A8 8 0 0 1 10 2zm0 2a6 6 0 1 0 0 12 6 6 0 0 0 0-12z"/></svg>') no-repeat left 10px center;
+      background-size: 16px 16px; 
+      width: 130px;
+      padding-block: 0.8rem;
+      padding-inline: 2rem;
+      border-radius: 15px;
+      border: 2px solid transparent; 
+      font-size: 10px;
+      color: #333;
+      background-color: #f0f0f0;
+      transition: border 0.3s ease;
+  }
+  
+  .search-bar2:hover {
+      background-color: #ececec;
+  }
+  
+
+  .search-bar2:focus {
+      border: 2px solid #3A7D44; 
+      outline: none; 
+  }
+    .right-head{
+        margin-right: 38px;
+        display: flex;
+        gap: 2rem;
+    }
+
+    .filter{
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        margin-right: 50px;
+        margin-top: 5px;
+    }
+    .filter:hover{
+      color: #3A7D44;
+    }
+    .filter p,
+    .filter i {
+        color: black; /* Initial color */
+        font-size: 10px;
+        transition: color 0.3s ease; /* Smooth transition */
+    }
+    
+    .filter:hover p,
+    .filter:hover i {
+        color: #3A7D44; /* Green on hover */
+    }
+    td.stat {
+        color: #ff6200;
+    }
+    
+    
+    .bx-sort-a-z {
+        font-size: 12px;
+        cursor: pointer;
+        color: rgb(148, 148, 148);
+    }
+
+    .add-staff-btn button{
+        border-radius: 20px;
+        border: none;
+        padding:10px ;
+        width: 100px;
+        background-color: #3A7D44;
+        color: white;
+        cursor: pointer;
+    }
+    .table2 button{
+        border: none;
+        cursor: pointer;
+    }
+
+    .table2 {
+      width: 97%;
+      border-collapse: collapse; 
+      border: none; 
+      margin-top: 35px;
+      font-size: 12px;
+      position: relative;
+      z-index: 0;
+  
+  }   
+  
+  .table2 th, .table2 td {
+      border: none; 
+      padding: 15px;
+      text-align: center;
+  }
+  
+  .table2 th {
+      background: transparent;
+      font-weight: 600; 
+  }
+
+  .table2 tr {
+      transition: background-color 0.3s ease-in-out;
+      cursor: pointer;
+  }
+  
+  .table2 tr.selected {
+      background-color: #aeb3af4b !important;
+      color: black !important;
+      font-weight: 500;
+  }
+  
+  .table2 td{
+      padding: 2rem;
+  }
+  .status {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 25px;
+      color: white;
+      cursor: pointer;
+  }
+  
+  .status.done {
+      color: #3A7D44;
+  }
