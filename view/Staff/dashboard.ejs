@@ -2,17 +2,21 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Staff Dashboard</title>
-    <link rel="stylesheet" href="/css/adminn.css"/>
+    <link rel="stylesheet" href="/css/adminn.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <script src="/js/profileupdet.js"></script>
+    <!-- defer so it runs after DOM is parsed -->
+    <script src="/js/profileupdet.js" defer></script>
   </head>
   <body>
     <aside>
@@ -22,24 +26,38 @@
 
       <div class="options">
         <ul>
-            <li><a href="#" class="menu-item active" data-target="dashboard">
-              <img src="/image/dashboard.png" alt="Home Icon" width="20" height="20"> <span>Overview</span>
-            </a></li>
-          
-            <li><a href="#" class="menu-item" data-target="history">
-              <img src="/image/trash-alt.png" alt="History Icon" width="20" height="20"> <span>Bins</span>
-            </a></li>
-          
-            <li><a href="#" class="menu-item" data-target="activity">
-              <img src="/image/community.png" alt="Staff Icon" width="20" height="20"> <span>Staff</span>
-            </a></li>
-          
-            <li><a href="#" class="menu-item" data-target="staffs">
-              <img src="/image/repeat-alt.png" alt="Pending Icon" width="20" height="20"> <span>Collection</span>
-            </a></li>
-          
-            <a href="#" class="menu-item" data-target="settings"> <i class="bx bx-cog"></i> <span>Settings</span> </a>
-          </ul>          
+          <li>
+            <a href="#" class="menu-item active" data-target="dashboard">
+              <img src="/image/dashboard.png" alt="Home Icon" width="20" height="20" />
+              <span>Overview</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="#" class="menu-item" data-target="history">
+              <img src="/image/trash-alt.png" alt="History Icon" width="20" height="20" />
+              <span>Bins</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="#" class="menu-item" data-target="activity">
+              <img src="/image/community.png" alt="Staff Icon" width="20" height="20" />
+              <span>Staff</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="#" class="menu-item" data-target="staffs">
+              <img src="/image/repeat-alt.png" alt="Pending Icon" width="20" height="20" />
+              <span>Collection</span>
+            </a>
+          </li>
+
+          <a href="#" class="menu-item" data-target="settings">
+            <i class="bx bx-cog"></i> <span>Settings</span>
+          </a>
+        </ul>
       </div>
 
       <div class="sign-out">
@@ -52,15 +70,15 @@
       <div id="dashboard" class="content-panel active">
         <h1>Overview</h1>
         <div class="banner">
-            <div class="top-banner">
-              <h2>Efficient Solutions for a</h2>
-              <h1>Greener Future</h1>
-            </div>
-
-            <div class="below-banner">
-              <p>Keeping Our School Clean, One Bin at a Time!</p>
-            </div>
+          <div class="top-banner">
+            <h2>Efficient Solutions for a</h2>
+            <h1>Greener Future</h1>
           </div>
+
+          <div class="below-banner">
+            <p>Keeping Our School Clean, One Bin at a Time!</p>
+          </div>
+        </div>
 
         <div class="his-head">
           <div class="header-title">
@@ -147,316 +165,315 @@
         </div>
 
         <div class="container-map">
-            <div class="map-container">
-              <div class="box"><img src="../image/Floor Plan.png" alt="" class="img-map" /></div>
+          <div class="map-container">
+            <div class="box">
+              <img src="../image/Floor Plan.png" alt="" class="img-map" />
             </div>
-            <div class="floorstat">
-              <select class="floor-dropdown">
-                <option value="1">Floor 1</option>
-                <option value="2">Floor 2</option>
-                <option value="3">Floor 3</option>
-                <option value="4">Floor 4</option>
-                <option value="4">Floor 5</option>
-                <option value="4">Floor 6</option>
-              </select>
-              <div class="stat">Status</div>
+          </div>
+          <div class="floorstat">
+            <select class="floor-dropdown">
+              <option value="1">Floor 1</option>
+              <option value="2">Floor 2</option>
+              <option value="3">Floor 3</option>
+              <option value="4">Floor 4</option>
+              <option value="5">Floor 5</option>
+              <option value="6">Floor 6</option>
+            </select>
+            <div class="stat">Status</div>
+          </div>
+
+          <div class="bin-status">
+            <p>Bin 051 <span class="progress yellow" data-progress="78">78%</span></p>
+            <div class="progress-bar-container">
+              <div class="progress-bar progress-yellow"></div>
             </div>
 
-            <div class="bin-status">
-              <p>Bin 051 <span class="progress yellow" data-progress="78">78%</span></p>
-              <div class="progress-bar-container">
-                <div class="progress-bar progress-yellow"></div>
-              </div>
-
-              <p>Bin 052 <span class="progress green" data-progress="32">32%</span></p>
-              <div class="progress-bar-container">
-                <div class="progress-bar progress-green"></div>
-              </div>
-
-              <p>Bin 053 <span class="progress red" data-progress="100">100%</span></p>
-              <div class="progress-bar-container">
-                <div class="progress-bar progress-red"></div>
-              </div>
+            <p>Bin 052 <span class="progress green" data-progress="32">32%</span></p>
+            <div class="progress-bar-container">
+              <div class="progress-bar progress-green"></div>
             </div>
+
+            <p>Bin 053 <span class="progress red" data-progress="100">100%</span></p>
+            <div class="progress-bar-container">
+              <div class="progress-bar progress-red"></div>
+            </div>
+          </div>
         </div>
       </div>
 
       <div id="history" class="content-panel">
         <div class="tab-content" id="Bin">
-            <div class="bin-layout">
-              <!-- Left: Floor Plan -->
-              <div class="content-left">
-                <div class="header">
-                  <p class="bin-info">Bin Information</p>
-                  <div class="floorstat1">
-                    <select class="floor-dropdown">
-                      <option value="1">Floor 1</option>
-                      <option value="2">Floor 2</option>
-                      <option value="3">Floor 3</option>
-                      <option value="4">Floor 4</option>
-                      <option value="5">Floor 5</option>
-                      <option value="6">Floor 6</option>
-                    </select>
+          <div class="bin-layout">
+            <!-- Left: Floor Plan -->
+            <div class="content-left">
+              <div class="header">
+                <p class="bin-info">Bin Information</p>
+                <div class="floorstat1">
+                  <select class="floor-dropdown">
+                    <option value="1">Floor 1</option>
+                    <option value="2">Floor 2</option>
+                    <option value="3">Floor 3</option>
+                    <option value="4">Floor 4</option>
+                    <option value="5">Floor 5</option>
+                    <option value="6">Floor 6</option>
+                  </select>
+                </div>
+              </div>
+              <img src="/image/Floor Plan.png" alt="Floor Plan" />
+            </div>
+
+            <div class="content-right">
+              <h3>Floor 1</h3>
+              <div class="bin-info-card">
+                <i class="bx bx-trash"></i>
+                <div class="bin-details">
+                  <strong>S1Bin1</strong>
+                  <div class="bin-row">
+                    <span>Bin Type: Biodegradable</span>
+                    <span>Bin Average: <span id="s1bin1-avg">-</span>%</span>
+                  </div>
+                  <div class="bin-row">
+                    <span>Bin Height: <span id="s1bin1-height">-</span>%</span>
+                    <span>Bin Weight: <span id="s1bin1-weight">-</span>%</span>
+                  </div>
+                  <div class="bin-row">
+                    <span>Starting Time: 8:00 AM</span>
+                    <span>End Time: 5:00 PM</span>
                   </div>
                 </div>
-                <img src="/image/Floor Plan.png" alt="Floor Plan">
               </div>
-        
-              <div class="content-right">
-                <h3>Floor 1</h3>
-                <div class="bin-info-card">
-                  <i class="bx bx-trash"></i>
-                  <div class="bin-details">
-                    <strong>S1Bin1</strong>
-                    <div class="bin-row">
-                      <span>Bin Type: Biodegradable</span>
-                      <span>Bin Average: 100%</span>
-                    </div>
-                    <div class="bin-row">
-                      <span>Bin Height: 24%</span>
-                      <span>Bin Weight: 100%</span>
-                    </div>
-                    <div class="bin-row">
-                      <span>Starting Time: 8:00 AM</span>
-                      <span>End Time: 5:00 PM</span>
-                    </div>
+
+              <div class="bin-info-card">
+                <i class="bx bx-trash"></i>
+                <div class="bin-details">
+                  <strong>S1Bin2</strong>
+                  <div class="bin-row">
+                    <span>Bin Type: Non-Biodegradable</span>
+                    <span>Bin Average: <span id="s1bin2-avg">-</span>%</span>
                   </div>
-                </div>              
-          
-                <div class="bin-info-card">
-                  <i class="bx bx-trash"></i>
-                  <div class="bin-details">
-                    <strong>S1Bin2</strong>
-                    <div class="bin-row">
-                      <span>Bin Type: Non-Biodegradable</span>
-                      <span>Bin Average: 100%</span>
-                    </div>
-                    <div class="bin-row">
-                      <span>Bin Height: 24%</span>
-                      <span>Bin Weight: 100%</span>
-                    </div>
-                    <div class="bin-row">
-                      <span>Starting Time: 8:00 AM</span>
-                      <span>End Time: 5:00 PM</span>
-                    </div>
+                  <div class="bin-row">
+                    <span>Bin Height: <span id="s1bin2-height">-</span>%</span>
+                    <span>Bin Weight: <span id="s1bin2-weight">-</span>%</span>
                   </div>
-                </div>     
-          
-                <div class="bin-info-card">
-                  <i class="bx bx-trash"></i>
-                  <div class="bin-details">
-                    <strong>S1Bin3</strong>
-                    <div class="bin-row">
-                      <span>Bin Type: Recyclable</span>
-                      <span>Bin Average: 100%</span>
-                    </div>
-                    <div class="bin-row">
-                      <span>Bin Height: 24%</span>
-                      <span>Bin Weight: 100%</span>
-                    </div>
-                    <div class="bin-row">
-                      <span>Starting Time: 8:00 AM</span>
-                      <span>End Time: 5:00 PM</span>
-                    </div>
+                  <div class="bin-row">
+                    <span>Starting Time: 8:00 AM</span>
+                    <span>End Time: 5:00 PM</span>
                   </div>
-                </div>     
-  
+                </div>
+              </div>
+
+              <div class="bin-info-card">
+                <i class="bx bx-trash"></i>
+                <div class="bin-details">
+                  <strong>S1Bin3</strong>
+                  <div class="bin-row">
+                    <span>Bin Type: Recyclable</span>
+                    <span>Bin Average: <span id="s1bin3-avg">-</span>%</span>
+                  </div>
+                  <div class="bin-row">
+                    <span>Bin Height: <span id="s1bin3-height">-</span>%</span>
+                    <span>Bin Weight: <span id="s1bin3-weight">-</span>%</span>
+                  </div>
+                  <div class="bin-row">
+                    <span>Starting Time: 8:00 AM</span>
+                    <span>End Time: 5:00 PM</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+        </div>
       </div>
 
       <div id="activity" class="content-panel">
         <div class="head-staff">
-            <h3>Staff Information</h3>
-            <div class="right-head">
-              <div class="search-bin-staff">
-                <input type="text" id="binSearch3" placeholder="Search" class="search-bar2" />
-              </div>
-              <div class="filter">
-                <p id="sortBtn">Sort By</p>
-                <i class="bx bx-sort-a-z"></i>
-              </div>
+          <h3>Staff Information</h3>
+          <div class="right-head">
+            <div class="search-bin-staff">
+              <input type="text" id="binSearch3" placeholder="Search" class="search-bar2" />
+            </div>
+            <div class="filter">
+              <p id="sortBtn">Sort By</p>
+              <i class="bx bx-sort-a-z"></i>
             </div>
           </div>
+        </div>
 
-          <div>
-            <table class="table2">
-              <tr>
-                <th>Staff ID</th>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Address</th>
-                <th>Contact No.</th>
-                <th>Assigned Floor</th>
-                <th>Action</th>
-              </tr>
-              <tr>
-                <td>1001</td>
-                <td>Angel Anuba</td>
-                <td>35</td>
-                <td>Tungkil Minglanilla</td>
-                <td>09950913018</td>
-                <td>Floor 2</td>
+        <div>
+          <table class="table2">
+            <tr>
+              <th>Staff ID</th>
+              <th>Name</th>
+              <th>Age</th>
+              <th>Address</th>
+              <th>Contact No.</th>
+              <th>Assigned Floor</th>
+              <th>Action</th>
+            </tr>
+            <tr>
+              <td>1001</td>
+              <td>Angel Anuba</td>
+              <td>35</td>
+              <td>Tungkil Minglanilla</td>
+              <td>09950913018</td>
+              <td>Floor 2</td>
 
-                <td>
-                  <button class="edit-btn" data-id="1001"><i class="bx bxs-edit"></i></button>
-                  <button class="delete-btn"><i class="bx bx-trash"></i></button>
-                </td>
-              </tr>
-              <tr>
-                <td>1002</td>
-                <td>Jamaica Anuba</td>
-                <td>35</td>
-                <td>Tungkil Minglanilla</td>
-                <td>09950913018</td>
-                <td>Floor 2</td>
-                <td>
-                  <button class="edit-btn" data-id="1001"><i class="bx bxs-edit"></i></button>
-                  <button class="delete-btn"><i class="bx bx-trash"></i></button>
-                </td>
-              </tr>
-              <tr>
-                <td>1003</td>
-                <td>Jera Anuba</td>
-                <td>35</td>
-                <td>Tungkil Minglanilla</td>
-                <td>09950913018</td>
-                <td>Floor 2</td>
+              <td>
+                <button class="edit-btn" data-id="1001"><i class="bx bxs-edit"></i></button>
+                <button class="delete-btn"><i class="bx bx-trash"></i></button>
+              </td>
+            </tr>
+            <tr>
+              <td>1002</td>
+              <td>Jamaica Anuba</td>
+              <td>35</td>
+              <td>Tungkil Minglanilla</td>
+              <td>09950913018</td>
+              <td>Floor 2</td>
+              <td>
+                <button class="edit-btn" data-id="1001"><i class="bx bxs-edit"></i></button>
+                <button class="delete-btn"><i class="bx bx-trash"></i></button>
+              </td>
+            </tr>
+            <tr>
+              <td>1003</td>
+              <td>Jera Anuba</td>
+              <td>35</td>
+              <td>Tungkil Minglanilla</td>
+              <td>09950913018</td>
+              <td>Floor 2</td>
 
-                <td>
-                  <button class="edit-btn" data-id="1001"><i class="bx bxs-edit"></i></button>
-                  <button class="delete-btn"><i class="bx bx-trash"></i></button>
-                </td>
-              </tr>
-              <tr>
-                <td>1004</td>
-                <td>James Anuba</td>
-                <td>35</td>
-                <td>Tungkil Minglanilla</td>
-                <td>09950913018</td>
-                <td>Floor 2</td>
-                <td>
-                  <button class="edit-btn" data-id="1001"><i class="bx bxs-edit"></i></button>
-                  <button class="delete-btn"><i class="bx bx-trash"></i></button>
-                </td>
-              </tr>
-            </table>
+              <td>
+                <button class="edit-btn" data-id="1001"><i class="bx bxs-edit"></i></button>
+                <button class="delete-btn"><i class="bx bx-trash"></i></button>
+              </td>
+            </tr>
+            <tr>
+              <td>1004</td>
+              <td>James Anuba</td>
+              <td>35</td>
+              <td>Tungkil Minglanilla</td>
+              <td>09950913018</td>
+              <td>Floor 2</td>
+              <td>
+                <button class="edit-btn" data-id="1001"><i class="bx bxs-edit"></i></button>
+                <button class="delete-btn"><i class="bx bx-trash"></i></button>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- Update Staff Modal -->
+        <div id="updateStaffModal" class="modal">
+          <div class="modal-content">
+            <h2>Update Staff Information</h2>
+            <form id="updateStaffForm">
+              <div class="row">
+                <div class="input">
+                  <label>Name</label><br />
+                  <input type="text" id="updateName" required placeholder="Name" />
+                </div>
+
+                <div class="input">
+                  <label>Gender</label><br />
+                  <input type="radio" name="updateGender" value="Male" /> Male
+                  <input type="radio" name="updateGender" value="Female" /> Female
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="input">
+                  <label>Age</label><br />
+                  <input type="text" id="updateAge" required placeholder="Enter age" />
+                </div>
+                <div class="input">
+                  <label>Contact Number</label><br />
+                  <input type="text" id="updateContact" required placeholder="Add contact number" />
+                </div>
+              </div>
+
+              <div class="input">
+                <label>Address</label><br />
+                <input type="text" id="updateAddress" required class="address" placeholder="Enter Address" /><br />
+              </div>
+
+              <div class="input">
+                <label>Email Address</label><br />
+                <input type="email" id="updateEmail" required class="email" placeholder="Enter Email Address" />
+              </div>
+
+              <div class="row">
+                <div class="input">
+                  <label>Assign Floor</label><br />
+                  <input type="number" id="updateFloor" required placeholder="Floor" />
+                </div>
+
+                <div class="input">
+                  <label>Marital Status</label><br />
+                  <select id="updateMaritalStatus">
+                    <option>Single</option>
+                    <option>Married</option>
+                    <option>Separated</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="modal-buttons">
+                <button type="submit" class="save-btn">Update</button>
+                <button type="button" id="closeUpdateModalBtn" class="cancel-btn">Cancel</button>
+              </div>
+            </form>
           </div>
-            <!-- Update Staff Modal -->
-       <div id="updateStaffModal" class="modal">
-        <div class="modal-content">
-          <h2>Update Staff Information</h2>
-          <form id="updateStaffForm">
-            <div class="row">
-              <div class="input">
-                <label>Name</label><br />
-                <input type="text" id="updateName" required placeholder="Name" />
-              </div>
+        </div>
 
-              <div class="input">
-                <label>Gender</label><br />
-                <input type="radio" name="updateGender" value="Male" /> Male
-                <input type="radio" name="updateGender" value="Female" /> Female
-              </div>
+        <!-- delete staff -->
+        <div id="deleteConfirmModal" class="modal-delete">
+          <div class="modal-content-delete">
+            <h3>Confirm Deletion</h3>
+            <p>Are you sure you want to delete this staff record?</p>
+            <div class="modal-buttons-delete">
+              <button id="confirmDeleteBtn" class="delete-confirm-btn">Delete</button>
+              <button id="cancelDeleteBtn" class="cancel-btn-delete">Cancel</button>
             </div>
-
-            <div class="row">
-              <div class="input">
-                <label>Age</label><br />
-                <input type="text" id="updateAge" required placeholder="Enter age" />
-              </div>
-              <div class="input">
-                <label>Contact Number</label><br />
-                <input type="text" id="updateContact" required placeholder="Add contact number" />
-              </div>
-            </div>
-
-            <div class="input">
-              <label>Address</label><br />
-              <input type="text" id="updateAddress" required class="address" placeholder="Enter Address" /><br />
-            </div>
-
-            <div class="input">
-              <label>Email Address</label><br />
-              <input type="email" id="updateEmail" required class="email" placeholder="Enter Email Address" />
-            </div>
-
-            <div class="row">
-              <div class="input">
-                <label>Assign Floor</label><br />
-                <input type="number" id="updateFloor" required placeholder="Floor" />
-              </div>
-
-              <div class="input">
-                <label>Marital Status</label><br />
-                <select id="updateMaritalStatus">
-                  <option>Single</option>
-                  <option>Married</option>
-                  <option>Separated</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="modal-buttons">
-              <button type="submit" class="save-btn">Update</button>
-              <button type="button" id="closeUpdateModalBtn" class="cancel-btn">Cancel</button>
-            </div>
-          </form>
+          </div>
         </div>
       </div>
 
-      <!-- delete staff -->
-      <div id="deleteConfirmModal" class="modal-delete">
-        <div class="modal-content-delete">
-          <h3>Confirm Deletion</h3>
-          <p>Are you sure you want to delete this staff record?</p>
-          <div class="modal-buttons-delete">
-            <button id="confirmDeleteBtn" class="delete-confirm-btn">Delete</button>
-            <button id="cancelDeleteBtn" class="cancel-btn-delete">Cancel</button>
-          </div>
-        </div>
-      </div>
-      
-        </div>
-
-        <!-- Staffs -->
+      <!-- Staffs -->
       <div id="staffs" class="content-panel">
         <div class="head-staff">
-            <h3>Staff Information</h3>
-            <div class="right-head">
-              <div class="search-bin-staff">
-                <input type="text" id="binSearch" placeholder="Search" class="search-bar2"/>
-              </div>
-              <div class="filter">
-                <p id="sortBtn">Sort By</p>
-                <i class="bx bx-sort-a-z"></i>
-              </div>
+          <h3>Staff Information</h3>
+          <div class="right-head">
+            <div class="search-bin-staff">
+              <input type="text" id="binSearch" placeholder="Search" class="search-bar2" />
+            </div>
+            <div class="filter">
+              <p id="sortBtn">Sort By</p>
+              <i class="bx bx-sort-a-z"></i>
             </div>
           </div>
-          <div>
-            <table class="table2">
-              <tr>
-                <th>Staff ID</th>
-                <th>Assign Floor</th>
-                <th>Name</th>
-                <th>Start</th>
-                <th>End</th>
-                <th>Status</th>
-              </tr>
-              <tr>
-                <td>1001</td>
-                <td>Floor 4 </td>
-                <td>Angel Anuba</td>
-                <td>2025-07-03 08:00 AM</td>
-                <td>2025-07-03 10:00 AM</td>
-                <td class="status-pending">Pending</td>
-            
-              </tr>
-          
-            </table>
-          </div>
         </div>
+        <div>
+          <table class="table2">
+            <tr>
+              <th>Staff ID</th>
+              <th>Assign Floor</th>
+              <th>Name</th>
+              <th>Start</th>
+              <th>End</th>
+              <th>Status</th>
+            </tr>
+            <tr>
+              <td>1001</td>
+              <td>Floor 4</td>
+              <td>Angel Anuba</td>
+              <td>2025-07-03 08:00 AM</td>
+              <td>2025-07-03 10:00 AM</td>
+              <td class="status-pending">Pending</td>
+            </tr>
+          </table>
+        </div>
+      </div>
 
       <!-- Settings -->
       <div id="settings" class="content-panel">
@@ -465,7 +482,7 @@
             <img src="../image/profile2.jpg" alt="Profile Image" class="profile-img" />
             <h3>Jerald Aliviano</h3>
             <p>Admin</p>
-            
+
             <ul class="settings-menu">
               <li class="tab-link active" data-tab="personal-info">Personal Information</li>
               <li class="tab-link" data-tab="notifications">Notifications</li>
@@ -477,9 +494,8 @@
             <div id="personal-info" class="form-section tab-pane active">
               <h2>Personal Information</h2>
               <form id="profile-form">
-
                 <input type="hidden" name="user_id" id="user-id" />
-                
+
                 <div class="form-row">
                   <div class="form-group half-width">
                     <label>Name</label>
@@ -493,7 +509,7 @@
                     </div>
                   </div>
                 </div>
-              
+
                 <div class="form-row">
                   <div class="form-group half-width">
                     <label>Birthdate</label>
@@ -504,22 +520,22 @@
                     <input type="text" name="contact" />
                   </div>
                 </div>
-              
+
                 <div class="form-group">
                   <label>Address</label>
                   <input type="text" name="address" />
                 </div>
-              
+
                 <div class="form-group">
                   <label>Email Address</label>
                   <input type="email" name="email" />
                 </div>
-              
+
                 <div class="form-group">
                   <label>Profile Image</label>
                   <input type="file" id="profile-image-input" />
                 </div>
-              
+
                 <button type="submit" class="update-btn">Update</button>
               </form>
             </div>
@@ -527,7 +543,7 @@
             <div id="notifications" class="form-section tab-pane">
               <h2>Notifications</h2>
               <div class="header">
-                <button class="mark-read"><img src="/image/icons8-read-30.png" alt="">Mark all as read</button>
+                <button class="mark-read"><img src="/image/icons8-read-30.png" alt="" />Mark all as read</button>
                 <div class="tabs">
                   <button class="tab active">View All</button>
                   <button class="tab">Mentions</button>
@@ -536,31 +552,35 @@
               </div>
               <div class="notifications">
                 <div class="notification unread">
-                  <img src="/image/profile.jpg" alt="Avatar">
+                  <img src="/image/profile.jpg" alt="Avatar" />
                   <div class="message">
                     <strong>@angelcanete</strong> floor 1 bin012 is collected!
                     <div class="time">Friday 11:23am</div>
                   </div>
-                  <div class="meta"><p>1 hour ago </p> <span class="dot"></span></div>
+                  <div class="meta">
+                    <p>1 hour ago </p> <span class="dot"></span>
+                  </div>
                 </div>
                 <div class="notification unread">
-                  <img src="/image/profile3.jpg" alt="Avatar">
+                  <img src="/image/profile3.jpg" alt="Avatar" />
                   <div class="message">
                     <strong>@anubajai</strong> floor 1 bin013 is collected!
                     <div class="time">Friday 08:23am</div>
                   </div>
-                  <div class="meta"><p>4 hours ago </p><span class="dot"></span></div>
+                  <div class="meta">
+                    <p>4 hours ago </p><span class="dot"></span>
+                  </div>
                 </div>
                 <div class="notification">
-                  <img src="/image/profile2.jpg" alt="Avatar">
+                  <img src="/image/profile2.jpg" alt="Avatar" />
                   <div class="message">
                     <strong>@jeralynperitos</strong> request for new janitors approval
-                    <div class="ti  me">Tuesday 11:00am</div>
+                    <div class="time">Tuesday 11:00am</div>
                   </div>
                   <div class="meta">4 days ago</div>
                 </div>
                 <div class="notification">
-                  <img src="/image/profile.jpg" alt="Avatar">
+                  <img src="/image/profile.jpg" alt="Avatar" />
                   <div class="message">
                     <strong>@angelcanete</strong> floor 1 bin011 is collected!
                     <div class="time">Tuesday 03:00pm</div>
@@ -568,7 +588,7 @@
                   <div class="meta">4 days ago</div>
                 </div>
                 <div class="notification">
-                  <img src="/image/profile2.jpg" alt="Avatar">
+                  <img src="/image/profile2.jpg" alt="Avatar" />
                   <div class="message">
                     <strong>@jeralynperitos</strong> floor 4 bin041 is collected!
                     <div class="time">Tuesday 11:00am</div>
@@ -576,7 +596,7 @@
                   <div class="meta">4 days ago</div>
                 </div>
                 <div class="notification">
-                  <img src="/image/profile2.jpg" alt="Avatar">
+                  <img src="/image/profile2.jpg" alt="Avatar" />
                   <div class="message">
                     <strong>@jeralynperitos</strong> floor 4 bin041 is collected!
                     <div class="time">Tuesday 11:00am</div>
@@ -593,12 +613,15 @@
                   <label>Current Password</label>
                   <div class="password-wrapper">
                     <input type="password" id="current-password" />
-                    <span class="toggle-password" onclick="togglePassword('current-password', this)">
+                    <span
+                      class="toggle-password"
+                      onclick="togglePassword('current-password', this)"
+                    >
                       <img src="/image/icons8-eye-24.png" alt="Toggle" />
                     </span>
                   </div>
                 </div>
-              
+
                 <div class="form-group password-group">
                   <label>New Password</label>
                   <div class="password-wrapper">
@@ -608,35 +631,113 @@
                     </span>
                   </div>
                 </div>
-              
+
                 <div class="form-group password-group">
                   <label>Confirm New Password</label>
                   <div class="password-wrapper">
                     <input type="password" id="confirm-password" />
-                    <span class="toggle-password" onclick="togglePassword('confirm-password', this)">
+                    <span
+                      class="toggle-password"
+                      onclick="togglePassword('confirm-password', this)"
+                    >
                       <img src="/image/icons8-eye-24.png" alt="Toggle" />
                     </span>
                   </div>
                 </div>
-              
+
                 <button class="update-btn1">Save Changes</button>
               </form>
-              
-              
             </div>
           </div>
         </div>
       </div>
-
     </main>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="/js/admin.js"></script>
-<script src="/js/tabstaff.js"></script>
-<script src="/js/chart.js"></script>
-<script src="/js/logout.js"></script>
-<script src="/js/history.js"></script>
-<Script src="/js/sensordata.js"></Script>
-<Script src="/js/staffmodal.js"></Script>
-</body>
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/js/admin.js"></script>
+    <script src="/js/tabstaff.js"></script>
+    <script src="/js/chart.js"></script>
+    <script src="/js/logout.js"></script>
+    <script src="/js/history.js"></script>
+    <script src="/js/sensordata.js"></script>
+    <script src="/js/staffmodal.js"></script>
+    <script>
+// Utility function to safely get element by ID
+function safeGetElement(id) {
+  const el = document.getElementById(id);
+  if (!el) {
+    console.warn(`Element with id "${id}" not found.`);
+  }
+  return el;
+}
+
+// Utility function to safely add event listener if element exists
+function safeAddEventListener(id, event, handler) {
+  const el = safeGetElement(id);
+  if (el) {
+    el.addEventListener(event, handler);
+  }
+}
+
+// Example defensive DOM update function for bins
+function updateBinDataRobust(data) {
+  if (!data) {
+    console.warn("No bin data available to update.");
+    return;
+  }
+  const bins = ['bin1', 'bin2', 'bin3'];
+  bins.forEach((bin, index) => {
+    const weightEl = safeGetElement(`s1${bin}-weight`) || safeGetElement(`${bin}-weight`);
+    const heightEl = safeGetElement(`s1${bin}-height`) || safeGetElement(`${bin}-height`);
+    const avgEl = safeGetElement(`s1${bin}-avg`) || safeGetElement(`${bin}-avg`);
+
+    if (weightEl && typeof data[bin]?.weight === 'number') {
+      weightEl.textContent = data[bin].weight.toFixed(2);
+    }
+    if (heightEl && typeof data[bin]?.height === 'number') {
+      heightEl.textContent = data[bin].height;
+    }
+    if (avgEl && typeof data[bin]?.avg === 'number') {
+      avgEl.textContent = data[bin].avg.toFixed(2);
+    }
+  });
+}
+
+// Wait until DOM is fully loaded before running scripts that query DOM
+document.addEventListener('DOMContentLoaded', () => {
+  // Example usage: periodically fetch data and update safely
+  async function fetchAndUpdate() {
+    try {
+      const response = await fetch('http://localhost:9000/api/latest-data');
+      if (!response.ok) throw new Error('Network response not OK');
+      const data = await response.json();
+
+      if (data.message) {
+        console.log("No bin data yet:", data.message);
+        return;
+      }
+
+      updateBinDataRobust(data);
+    } catch (error) {
+      console.error("Error fetching or updating bin data:", error);
+    }
+  }
+
+  // Run immediately and then every 3 seconds
+  fetchAndUpdate();
+  setInterval(fetchAndUpdate, 3000);
+
+  // Example of safe event listener add for logout button
+  safeAddEventListener('logoutBtn', 'click', (e) => {
+    e.preventDefault();
+    console.log("Logout button clicked. Implement logout logic here.");
+    // Add actual logout logic or redirect here
+  });
+
+  // You can add more safeAddEventListener calls here for other buttons or interactive elements.
+});
+</script>
+
+  </body>
 </html>
