@@ -18,7 +18,7 @@ mongoose.connect(process.env.MONGO_URI || "MONGO_URI = mongodb+srv://jamesarpila
   useUnifiedTopology: true,
 });
 mongoose.connection.once("open", () => {
-  console.log("✅ Connected to MongoDB");
+  console.log("Connected to MongoDB");
 });
 
 // ✅ MongoDB Schema
@@ -49,7 +49,7 @@ app.get("/api/ping", (req, res) => {
 // ✅ POST from ESP32
 app.post("/api/upload-sensor-data", async (req, res) => {
   try {
-    console.log("📥 Incoming ESP32 Data:", req.body);
+    console.log("Incoming ESP32 Data:", req.body);
 
     const newEntry = new BinLive(req.body);
     await newEntry.save();
@@ -58,7 +58,7 @@ app.post("/api/upload-sensor-data", async (req, res) => {
 
     res.status(200).json({ message: "Data stored in MongoDB" });
   } catch (err) {
-    console.error("❌ Failed to store data:", err);
+    console.error("Failed to store data:", err);
     res.status(500).json({ error: "Failed to save data" });
   }
 });
@@ -66,5 +66,5 @@ app.post("/api/upload-sensor-data", async (req, res) => {
 // ✅ Start Server
 const PORT = 9000;
 server.listen(PORT, () => {
-  console.log(`🚀 ESP Data Server listening at http://localhost:${PORT}`);
+  console.log(`ESP Data Server listening at http://localhost:${PORT}`);
 });

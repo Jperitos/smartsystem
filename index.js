@@ -81,8 +81,6 @@ app.get("/forgot_password", (req, res) => {
 });
 
 
-
-
 app.get("/reset_password", (req, res) => {
   res.render("reset_password"); 
 });
@@ -93,12 +91,6 @@ app.get("/display", (req, res) => {
 
 app.get("/staff/dashboard", identifier, (req, res) => {
   res.render("staff/dashboard");
-});
-app.get("/staff/dashboardd", identifier, (req, res) => {
-  res.render("staff/dashboardd");
-});
-app.get("/staff/profile-staff", (req, res) => {
-  res.render("staff/profile-staff");
 });
 
 
@@ -121,7 +113,7 @@ app.use('/api/posts', postsRouter);
 app.use('/api/users', userRouters);
 app.use("/auth", authRouter);
 server.listen(process.env.PORT || 8000, () => {
-  console.log("✅ Server running at http://localhost:8000");
+  console.log("Server running at http://localhost:8000");
 });
 
 
