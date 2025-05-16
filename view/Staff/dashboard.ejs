@@ -15,7 +15,7 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <!-- defer so it runs after DOM is parsed -->
+  
     <script src="/js/profileupdet.js" defer></script>
   </head>
   <body>
@@ -68,7 +68,7 @@
     <main>
       <!-- Dashboard -->
       <div id="dashboard" class="content-panel active">
-        <h1>Overview</h1>
+        <h2>Overview</h2>
         <div class="banner">
           <div class="top-banner">
             <h2>Efficient Solutions for a</h2>
@@ -85,7 +85,7 @@
             <h4>Activity Logs</h4>
           </div>
 
-          <div class="filter">
+          <div class="filter1">
             <input type="date" id="dateFilter" />
             <img src="../image/filter-alt-regular-24 (1).png" alt="filter" id="sortBtn" />
           </div>
@@ -98,8 +98,8 @@
                 <th>Bins</th>
                 <th>Floor</th>
                 <th>Staff</th>
-                <th>Date</th>
-                <th>Time</th>
+                <th>Start</th>
+                <th>End</th>
                 <th>Status</th>
               </tr>
             </thead>
@@ -108,56 +108,56 @@
                 <td>Bin 011</td>
                 <td>Floor 1</td>
                 <td>Jade Arpiliag</td>
-                <td>2025-07-03</td>
-                <td>8:30 AM</td>
+                <td>2025-07-03 8:30 AM</td>
+                <td>2025-07-03 10:30 AM</td>
                 <td><button class="status-done">Done</button></td>
               </tr>
               <tr>
                 <td>Bin 021</td>
                 <td>Floor 2</td>
                 <td>Angal Iballtorasca</td>
-                <td>2025-06-27</td>
-                <td>5:30 PM</td>
+                <td>2025-07-03 8:30 AM</td>
+                <td>2025-07-03 10:30 AM</td>
                 <td><button class="status-done">Done</button></td>
               </tr>
               <tr>
                 <td>Bin 032</td>
                 <td>Floor 3</td>
                 <td>Jamaica Anobahh</td>
-                <td>2025-03-12</td>
-                <td>11:30 PM</td>
+                <td>2025-07-03 8:30 AM</td>
+                <td>2025-07-03 10:30 AM</td>
                 <td><button class="status-done">Done</button></td>
               </tr>
               <tr>
                 <td>Bin 032</td>
                 <td>Floor 6</td>
                 <td>John Daveh Larapan</td>
-                <td>2025-03-12</td>
-                <td>12:30 AM</td>
+                <td>2025-07-03 8:30 AM</td>
+                <td>2025-07-03 10:30 AM</td>
                 <td><button class="status-done">Done</button></td>
               </tr>
               <tr>
                 <td>Bin 032</td>
                 <td>Floor 6</td>
                 <td>John Daveh Larapan</td>
-                <td>2025-03-12</td>
-                <td>12:30 AM</td>
+                <td>2025-07-03 8:30 AM</td>
+                <td>2025-07-03 10:30 AM</td>
                 <td><button class="status-done">Done</button></td>
               </tr>
               <tr>
                 <td>Bin 032</td>
                 <td>Floor 6</td>
                 <td>John Daveh Larapan</td>
-                <td>2025-03-12</td>
-                <td>12:30 AM</td>
+                <td>2025-07-03 8:30 AM</td>
+                <td>2025-07-03 10:30 AM</td>
                 <td><button class="status-done">Done</button></td>
               </tr>
               <tr>
                 <td>Bin 032</td>
                 <td>Floor 6</td>
                 <td>John Daveh Larapan</td>
-                <td>2025-03-12</td>
-                <td>12:30 AM</td>
+                <td>2025-07-03 8:30 AM</td>
+                <td>2025-07-03 10:30 AM</td>
                 <td><button class="status-done">Done</button></td>
               </tr>
             </tbody>
@@ -397,7 +397,7 @@
       <!-- Staffs -->
       <div id="staffs" class="content-panel">
         <div class="head-staff">
-          <h3>Staff Information</h3>
+          <h3>Collect Information</h3>
           <div class="right-head">
             <div class="search-bin-staff">
               <input type="text" id="binSearch" placeholder="Search" class="search-bar2" />

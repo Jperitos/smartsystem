@@ -209,9 +209,10 @@ padding: 10px 20px;
 }
 
 .table2 {
-    width: 95%;
+    width: 98%;
     border-collapse: collapse; 
     border: none; 
+    margin-top: 35px;
     font-size: 12px;
     position: relative;
 
@@ -249,9 +250,8 @@ padding: 10px 20px;
 .right-head {
     display: flex;
     justify-content: flex-end; 
-    margin-right: 19%;
-    margin-top: 5px;
-    margin-bottom: -27px;
+    margin-right: 5%;
+    margin-bottom: -20px;
     gap: 2rem;
 
 }
@@ -260,6 +260,7 @@ padding: 10px 20px;
     display: flex;
     align-items: center;
 }
+
 
 .search-bar2 {
     padding: 8px 15px;
@@ -288,7 +289,6 @@ padding: 10px 20px;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    padding: 20px;
   }
   
   .content-left {
