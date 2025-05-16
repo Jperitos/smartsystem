@@ -22,6 +22,10 @@ const { ActivityLog, HistoryLog, User, Bin, BinLive } = require('./models/userMo
 const userRouters = require('./routers/userRouters');
 const authenticated = require("./middlewares/Authenticated");
 require('./middlewares/passport-setup');
+const userdisplay = require("./routers/userRouts");
+
+
+
 app.use(cors());
 app.use(helmet({
   contentSecurityPolicy: {
@@ -89,17 +93,19 @@ app.get("/reset_password", (req, res) => {
 app.get("/display", (req, res) => {
     res.render("display");
 });
-
+app.get("/news", (req, res) => {
+    res.render("news");
+});
 app.get("/staff/dashboard", identifier, (req, res) => {
   res.render("staff/dashboard");
 });
 
 
-app.get("/janitors/janitordash", (req, res) => {
+app.get("/janitors/janitordash", identifier, (req, res) => {
   res.render("janitors/janitordash"); 
 });
 
-app.get("/admin/admin", (req, res) => {
+app.get("/admin/admin", identifier, (req, res) => {
   res.render("admin/admin");
 });
 
@@ -111,8 +117,11 @@ mongoose.connect(process.env.MONGO_URI).then(() => {
 
 app.use('/api/auth', authRouter);
 app.use('/api/posts', postsRouter);
-app.use('/api/users', userRouters);
+app.use('/users', userRouters);
 app.use("/auth", authRouter);
+app.use('/api', userdisplay);
+
+
 server.listen(process.env.PORT || 8000, () => {
   console.log("Server running at http://localhost:8000");
 });

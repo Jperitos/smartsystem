@@ -86,30 +86,5 @@ router.patch('/verify-forgot-password-code', authController.verifyForgotPassword
 
 
 
-router.get("/settings/info", auth, async (req, res) => {
-  try {
-    const userId = req.user._id;
-
-    const user = await User.findById(userId).lean(); 
-    const userInfo = await UserInfo.findOne({ userId }).lean();
-
-    if (!user) return res.status(404).json({ message: "User not found" });
-    console.log("User Email:", user.email); 
-    res.json({
-      name: user.name,
-      email: user.email,
-      role: user.u_role,
-      avatar: user.avatar,
-      gender: userInfo?.gender,
-      birthdate: userInfo?.birthdate,
-      contact: userInfo?.contact,
-      address: userInfo?.address
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
-  }
-});
-
 
 module.exports = router;

@@ -322,67 +322,22 @@
 
         <div>
           <table class="table2">
-            <tr>
-              <th>Staff ID</th>
-              <th>Name</th>
-              <th>Age</th>
-              <th>Address</th>
-              <th>Contact No.</th>
-              <th>Assigned Floor</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-            <tr>
-              <td>1001</td>
-              <td>Jamaica Anuba</td>
-              <td>35</td>
-              <td>Tungkil Minglanilla</td>
-              <td>09950913018</td>
-              <td>Floor 2</td>
-              <td>Active</td>
-              <td class="viewing">View</td>
-            </tr>
-            <tr>
-              <td>1001</td>
-              <td>Jamaica Anuba</td>
-              <td>35</td>
-              <td>Tungkil Minglanilla</td>
-              <td>09950913018</td>
-              <td>Floor 2</td>
-              <td>Active</td>
-              <td class="viewing">View</td>
-            </tr>
-            <tr>
-              <td>1001</td>
-              <td>Jamaica Anuba</td>
-              <td>35</td>
-              <td>Tungkil Minglanilla</td>
-              <td>09950913018</td>
-              <td>Floor 2</td>
-              <td>Active</td>
-              <td class="viewing">View</td>
-            </tr>
-            <tr>
-              <td>1001</td>
-              <td>Jamaica Anuba</td>
-              <td>35</td>
-              <td>Tungkil Minglanilla</td>
-              <td>09950913018</td>
-              <td>Floor 2</td>
-              <td>Active</td>
-              <td class="viewing">View</td>
-            </tr>
-            <tr>
-              <td>1001</td>
-              <td>Jamaica Anuba</td>
-              <td>35</td>
-              <td>Tungkil Minglanilla</td>
-              <td>09950913018</td>
-              <td>Floor 2</td>
-              <td>Active</td>
-              <td class="viewing">View</td>
-            </tr>
-          </table>
+  <thead>
+    <tr>
+      <th>Staff ID</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Address</th>
+      <th>Contact No.</th>
+      <th>Assigned Floor</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody id="staffTableBody">
+   
+  </tbody>
+</table>
         </div>
 
         <!-- Viewing staff request -->
@@ -576,7 +531,7 @@
 
             <div id="change-password" class="form-section tab-pane">
               <h2>Change Password</h2>
-              <form>
+              <form id="change-password-form">
                 <div class="form-group password-group">
                   <label>Current Password</label>
                   <div class="password-wrapper">
@@ -607,7 +562,7 @@
                   </div>
                 </div>
               
-                <button class="update-btn1">Save Changes</button>
+                <button class="update-btn1" type="submit" >Save Changes</button>
               </form>
               
               
@@ -623,6 +578,9 @@
 <script src="/js/chart.js"></script>
 <script src="/js/logout.js"></script>
 <script src="/js/history.js"></script>
+<script src="/js/allStaff.js"></script>
+<script src="/js/setting.js"></script>
+<script src="/js/changepass.js"></script>
 
   </body>
 </html>
