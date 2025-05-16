@@ -183,20 +183,27 @@
           </div>
 
           <div class="bin-status">
-            <p>Bin 051 <span class="progress yellow" data-progress="78">78%</span></p>
-            <div class="progress-bar-container">
-              <div class="progress-bar progress-yellow"></div>
-            </div>
+            <a href="#history" class="bin-button" style="text-decoration: none;" data-bin="S1Bin1">
+              <p>Bin 051 <span class="progress yellow" data-bin="S1Bin1">78%</span></p>
+              <div class="progress-bar-container">
+                <div class="progress-bar progress-yellow"></div>
+              </div>
+            </a>
 
-            <p>Bin 052 <span class="progress green" data-progress="32">32%</span></p>
-            <div class="progress-bar-container">
-              <div class="progress-bar progress-green"></div>
-            </div>
+           <a href="#history" class="bin-button" style="text-decoration: none;" data-bin="S1Bin2">
+              <p>Bin 052 <span class="progress green" data-bin="S1Bin2">32%</span></p>
+              <div class="progress-bar-container">
+                <div class="progress-bar progress-green"></div>
+              </div>
+            </a>
 
-            <p>Bin 053 <span class="progress red" data-progress="100">100%</span></p>
-            <div class="progress-bar-container">
-              <div class="progress-bar progress-red"></div>
-            </div>
+            <a href="#history" class="bin-button" style="text-decoration: none;" data-bin="S1Bin3">
+              <p>Bin 053 <span class="progress red" data-bin="S1Bin3">100%</span></p>
+              <div class="progress-bar-container">
+                <div class="progress-bar progress-red"></div>
+              </div>
+            </a>
+
           </div>
         </div>
       </div>
@@ -224,7 +231,7 @@
 
             <div class="content-right">
               <h3>Floor 1</h3>
-              <div class="bin-info-card">
+              <div class="bin-info-card" id="S1Bin1">
                 <i class="bx bx-trash"></i>
                 <div class="bin-details">
                   <strong>S1Bin1</strong>
@@ -243,7 +250,7 @@
                 </div>
               </div>
 
-              <div class="bin-info-card">
+              <div class="bin-info-card" id="S1Bin2">
                 <i class="bx bx-trash"></i>
                 <div class="bin-details">
                   <strong>S1Bin2</strong>
@@ -262,7 +269,7 @@
                 </div>
               </div>
 
-              <div class="bin-info-card">
+              <div class="bin-info-card" id="S1Bin3">
                 <i class="bx bx-trash"></i>
                 <div class="bin-details">
                   <strong>S1Bin3</strong>
@@ -620,7 +627,6 @@
     <script src="/js/binupdate.js"></script>
     <script src="/js/setting.js"></script>
     <script src="/js/changepass.js"></script>
-    <script src="/js/allstaff.js"></script>
 
   </body>
 </html>
