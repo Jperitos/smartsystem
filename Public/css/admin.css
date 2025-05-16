@@ -137,8 +137,9 @@ main {
     border-radius: 10px;
 }
 .banner h2,p{
-    color: white;
-    font-weight: 500;
+    color: rgb(0, 0, 0);
+    font-weight: 300;
+    font-size: 11px;
 }
 
 .banner h1{

@@ -186,11 +186,10 @@ body {
         animation: fadeIn 0.3s ease-in-out;
         overflow: hidden; 
     }
-    
-
     .content-panel.active {
-        display: block;
+      display: block;
     }
+    
     .content-panel h3 {
         font-size: 20px;
         margin-bottom: -10px;
@@ -202,7 +201,33 @@ body {
         margin-right: 90px;
         margin-bottom: 20px;
     }
-    
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 500px;
+  position: relative;
+}
+.close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
     .status-done{
     border: none;
     background-color: #f4f4f4;

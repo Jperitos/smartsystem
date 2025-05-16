@@ -288,6 +288,37 @@
                 </div>
               </div>
             </div>
+
+            <div id="binModal" class="modal" style="display:none;">
+              <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2 id="modal-title">Bin Details</h2>
+                <div id="modal-body">
+                 <div class="bins">
+                  <div>Bin Level: </div>
+                  <div>Floor: </div>
+                 </div>
+                 <div class="assign">
+                  <label for="Staff">Assign Staff</label>
+                  <select id="floor" name="floor">
+                  <option value="1">Jai Anoba</option>
+                  <option value="2">Angel Canete</option>
+                  <option value="3">John Dave Laparan</option>
+                  </select>
+                 </div>
+                 <div class="time">
+                  <div><h3>Start Time: 9:00 AM 06-27-2023</h3></div>
+                  <div><h3>End Time: 10:00 AM 06-27-2023</h3></div>
+                 </div>
+
+                 <div class="task"> 
+                  <label for="task">Add Task:</label>
+                  <textarea id="message" name="message" rows="4" cols="50" placeholder="Add task..."></textarea>
+                 </div>
+                </div>
+              </div>
+            </div>
+            
           </div>
         </div>
       </div>
@@ -627,6 +658,6 @@
     <script src="/js/binupdate.js"></script>
     <script src="/js/setting.js"></script>
     <script src="/js/changepass.js"></script>
-
+    <script src="/js/bins.js"></script>
   </body>
 </html>
