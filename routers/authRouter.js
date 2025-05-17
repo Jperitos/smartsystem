@@ -58,7 +58,7 @@ router.get("/google/callback", passport.authenticate("google", { failureRedirect
         redirectUrl = "/staff/dashboardd";
         break;
       case "janitor":
-        redirectUrl = "/janitors/janitordash";
+        redirectUrl = "/janitors/janitor";
         break;
       default:
         redirectUrl = "/landing";

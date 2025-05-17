@@ -101,8 +101,8 @@ app.get("/staff/dashboard", identifier, (req, res) => {
 });
 
 
-app.get("/janitors/janitordash", identifier, (req, res) => {
-  res.render("janitors/janitordash"); 
+app.get("/janitors/janitor", identifier, (req, res) => {
+  res.render("janitors/janitor"); 
 });
 
 app.get("/admin/admin", identifier, (req, res) => {
