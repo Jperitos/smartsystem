@@ -4,18 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Janitorial Dashboard</title>
-    <link rel="stylesheet" href="/css/adminn.css" />
+    <link rel="stylesheet" href="/css/janitor.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-      rel="stylesheet"
-    />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-  
+
     <script src="/js/profileupdet.js" defer></script>
   </head>
   <body>
@@ -34,15 +31,13 @@
           </li>
 
           <li>
-            <a href="#" class="menu-item" data-target="history">
-              <img src="/image/trash-alt.png" alt="History Icon" width="20" height="20" />
-              <span>Bins</span>
+            <a href="#" class="menu-item" data-target="staffs">
+              <img src="/image/repeat-alt.png" alt="Pending Icon" width="20" height="20" />
+              <span>Collection</span>
             </a>
           </li>
 
-          <a href="#" class="menu-item" data-target="settings">
-            <i class="bx bx-cog"></i> <span>Settings</span>
-          </a>
+          <a href="#" class="menu-item" data-target="settings"> <i class="bx bx-cog"></i> <span>Settings</span> </a>
         </ul>
       </div>
 
@@ -169,178 +164,29 @@
           </div>
 
           <div class="bin-status">
-            <a href="#history" class="bin-button" style="text-decoration: none;" data-bin="S1Bin1">
+            <a href="#history" class="bin-button" style="text-decoration: none" data-bin="S1Bin1">
               <p>Bin 051 <span class="progress yellow" data-bin="S1Bin1">78%</span></p>
               <div class="progress-bar-container">
                 <div class="progress-bar progress-yellow"></div>
               </div>
             </a>
 
-           <a href="#history" class="bin-button" style="text-decoration: none;" data-bin="S1Bin2">
+            <a href="#history" class="bin-button" style="text-decoration: none" data-bin="S1Bin2">
               <p>Bin 052 <span class="progress green" data-bin="S1Bin2">32%</span></p>
               <div class="progress-bar-container">
                 <div class="progress-bar progress-green"></div>
               </div>
             </a>
 
-            <a href="#history" class="bin-button" style="text-decoration: none;" data-bin="S1Bin3">
+            <a href="#history" class="bin-button" style="text-decoration: none" data-bin="S1Bin3">
               <p>Bin 053 <span class="progress red" data-bin="S1Bin3">100%</span></p>
               <div class="progress-bar-container">
                 <div class="progress-bar progress-red"></div>
               </div>
             </a>
-
           </div>
         </div>
       </div>
-
-      <div id="history" class="content-panel">
-        <div class="tab-content" id="Bin">
-          <div class="bin-layout">
-            <!-- Left: Floor Plan -->
-            <div class="content-left">
-              <div class="header">
-                <p class="bin-info">Bin Information</p>
-                <div class="floorstat1">
-                  <select class="floor-dropdown">
-                    <option value="1">Floor 1</option>
-                    <option value="2">Floor 2</option>
-                    <option value="3">Floor 3</option>
-                    <option value="4">Floor 4</option>
-                    <option value="5">Floor 5</option>
-                    <option value="6">Floor 6</option>
-                  </select>
-                </div>
-              </div>
-              <img src="/image/Floor Plan.png" alt="Floor Plan" />
-            </div>
-
-            <div class="content-right">
-              <h3>Floor 1</h3>
-              <div class="bin-info-card" id="S1Bin1">
-                <i class="bx bx-trash"></i>
-                <div class="bin-details">
-                  <strong>S1Bin1</strong>
-                  <div class="bin-row">
-                    <span>Bin Type: Biodegradable</span>
-                    <span>Bin Average: <span id="s1bin1-avg">-</span>%</span>
-                  </div>
-                  <div class="bin-row">
-                    <span>Bin Height: <span id="s1bin1-height">-</span>%</span>
-                    <span>Bin Weight: <span id="s1bin1-weight">-</span>%</span>
-                  </div>
-                  <div class="bin-row">
-                    <span>Starting Time: 8:00 AM</span>
-                    <span>End Time: 5:00 PM</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="bin-info-card" id="S1Bin2">
-                <i class="bx bx-trash"></i>
-                <div class="bin-details">
-                  <strong>S1Bin2</strong>
-                  <div class="bin-row">
-                    <span>Bin Type: Non-Biodegradable</span>
-                    <span>Bin Average: <span id="s1bin2-avg">-</span>%</span>
-                  </div>
-                  <div class="bin-row">
-                    <span>Bin Height: <span id="s1bin2-height">-</span>%</span>
-                    <span>Bin Weight: <span id="s1bin2-weight">-</span>%</span>
-                  </div>
-                  <div class="bin-row">
-                    <span>Starting Time: 8:00 AM</span>
-                    <span>End Time: 5:00 PM</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="bin-info-card" id="S1Bin3">
-                <i class="bx bx-trash"></i>
-                <div class="bin-details">
-                  <strong>S1Bin3</strong>
-                  <div class="bin-row">
-                    <span>Bin Type: Recyclable</span>
-                    <span>Bin Average: <span id="s1bin3-avg">-</span>%</span>
-                  </div>
-                  <div class="bin-row">
-                    <span>Bin Height: <span id="s1bin3-height">-</span>%</span>
-                    <span>Bin Weight: <span id="s1bin3-weight">-</span>%</span>
-                  </div>
-                  <div class="bin-row">
-                    <span>Starting Time: 8:00 AM</span>
-                    <span>End Time: 5:00 PM</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div id="binModal" class="modal" style="display:none;">
-              <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2 id="modal-title">Bin Details</h2>
-                <div id="modal-body">
-                 <div class="bins">
-                  <div>Bin Level: </div>
-                  <div>Floor: </div>
-                 </div>
-                 <div class="assign">
-                  <label for="Staff">Assign Staff</label>
-                  <select id="floor" name="floor">
-                  <option value="1">Jai Anoba</option>
-                  <option value="2">Angel Canete</option>
-                  <option value="3">John Dave Laparan</option>
-                  </select>
-                 </div>
-                 <div class="time">
-                  <div><h3>Start Time: 9:00 AM 06-27-2023</h3></div>
-                  <div><h3>End Time: 10:00 AM 06-27-2023</h3></div>
-                 </div>
-
-                 <div class="task"> 
-                  <label for="task">Add Task:</label>
-                  <textarea id="message" name="message" rows="4" cols="50" placeholder="Add task..."></textarea>
-                 </div>
-                </div>
-              </div>
-            </div>
-            
-          </div>
-        </div>
-      </div>
-
-      <div id="activity" class="content-panel">
-        <div class="head-staff">
-          <h3>Staff Information</h3>
-          <div class="right-head">
-            <div class="search-bin-staff">
-              <input type="text" id="binSearch3" placeholder="Search" class="search-bar2" />
-            </div>
-            <div class="filter">
-              <p id="sortBtn">Sort By</p>
-              <i class="bx bx-sort-a-z"></i>
-            </div>
-          </div>
-        </div>
-
-        <div>
-           <table class="table2">
-  <thead>
-    <tr>
-      <th>Staff ID</th>
-      <th>Name</th>
-      <th>Age</th>
-      <th>Address</th>
-      <th>Contact No.</th>
-      <th>Assigned Floor</th>
-      <th>Status</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody id="staffTableBody">
-   
-</table>
-        </div>
 
       <!-- Staffs -->
       <div id="staffs" class="content-panel">
@@ -359,19 +205,19 @@
         <div>
           <table class="table2">
             <tr>
-              <th>Staff ID</th>
+              <th>Collection ID</th>
               <th>Assign Floor</th>
-              <th>Name</th>
               <th>Start</th>
               <th>End</th>
+              <th>Task</th>
               <th>Status</th>
             </tr>
             <tr>
               <td>1001</td>
               <td>Floor 4</td>
-              <td>Angel Anuba</td>
               <td>2025-07-03 08:00 AM</td>
               <td>2025-07-03 10:00 AM</td>
+              <td class="task-text">Get the trash bag in the office</td>
               <td class="status-pending">Pending</td>
             </tr>
           </table>
@@ -461,7 +307,8 @@
                     <div class="time">Friday 11:23am</div>
                   </div>
                   <div class="meta">
-                    <p>1 hour ago </p> <span class="dot"></span>
+                    <p>1 hour ago</p>
+                    <span class="dot"></span>
                   </div>
                 </div>
                 <div class="notification unread">
@@ -471,7 +318,8 @@
                     <div class="time">Friday 08:23am</div>
                   </div>
                   <div class="meta">
-                    <p>4 hours ago </p><span class="dot"></span>
+                    <p>4 hours ago</p>
+                    <span class="dot"></span>
                   </div>
                 </div>
                 <div class="notification">
@@ -516,10 +364,7 @@
                   <label>Current Password</label>
                   <div class="password-wrapper">
                     <input type="password" id="current-password" />
-                    <span
-                      class="toggle-password"
-                      onclick="togglePassword('current-password', this)"
-                    >
+                    <span class="toggle-password" onclick="togglePassword('current-password', this)">
                       <img src="/image/icons8-eye-24.png" alt="Toggle" />
                     </span>
                   </div>
@@ -539,10 +384,7 @@
                   <label>Confirm New Password</label>
                   <div class="password-wrapper">
                     <input type="password" id="confirm-password" />
-                    <span
-                      class="toggle-password"
-                      onclick="togglePassword('confirm-password', this)"
-                    >
+                    <span class="toggle-password" onclick="togglePassword('confirm-password', this)">
                       <img src="/image/icons8-eye-24.png" alt="Toggle" />
                     </span>
                   </div>
@@ -569,5 +411,6 @@
     <script src="/js/setting.js"></script>
     <script src="/js/changepass.js"></script>
     <script src="/js/bins.js"></script>
+    <script src="/js/allStaff.js"></script>
   </body>
 </html>
