@@ -7,15 +7,12 @@
     <link rel="stylesheet" href="/css/adminn.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-      rel="stylesheet"
-    />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-  
+
     <script src="/js/profileupdet.js" defer></script>
   </head>
   <body>
@@ -54,9 +51,7 @@
             </a>
           </li>
 
-          <a href="#" class="menu-item" data-target="settings">
-            <i class="bx bx-cog"></i> <span>Settings</span>
-          </a>
+          <a href="#" class="menu-item" data-target="settings"> <i class="bx bx-cog"></i> <span>Settings</span> </a>
         </ul>
       </div>
 
@@ -183,27 +178,26 @@
           </div>
 
           <div class="bin-status">
-            <a href="#history" class="bin-button" style="text-decoration: none;" data-bin="S1Bin1">
+            <a href="#history" class="bin-button" style="text-decoration: none" data-bin="S1Bin1">
               <p>Bin 051 <span class="progress yellow" data-bin="S1Bin1">78%</span></p>
               <div class="progress-bar-container">
                 <div class="progress-bar progress-yellow"></div>
               </div>
             </a>
 
-           <a href="#history" class="bin-button" style="text-decoration: none;" data-bin="S1Bin2">
+            <a href="#history" class="bin-button" style="text-decoration: none" data-bin="S1Bin2">
               <p>Bin 052 <span class="progress green" data-bin="S1Bin2">32%</span></p>
               <div class="progress-bar-container">
                 <div class="progress-bar progress-green"></div>
               </div>
             </a>
 
-            <a href="#history" class="bin-button" style="text-decoration: none;" data-bin="S1Bin3">
+            <a href="#history" class="bin-button" style="text-decoration: none" data-bin="S1Bin3">
               <p>Bin 053 <span class="progress red" data-bin="S1Bin3">100%</span></p>
               <div class="progress-bar-container">
                 <div class="progress-bar progress-red"></div>
               </div>
             </a>
-
           </div>
         </div>
       </div>
@@ -289,36 +283,35 @@
               </div>
             </div>
 
-            <div id="binModal" class="modal" style="display:none;">
+            <div id="binModal" class="modal" style="display: none">
               <div class="modal-content">
                 <span class="close">&times;</span>
                 <h2 id="modal-title">Bin Details</h2>
                 <div id="modal-body">
-                 <div class="bins">
-                  <div>Bin Level: </div>
-                  <div>Floor: </div>
-                 </div>
-                 <div class="assign">
-                  <label for="Staff">Assign Staff</label>
-                  <select id="floor" name="floor">
-                  <option value="1">Jai Anoba</option>
-                  <option value="2">Angel Canete</option>
-                  <option value="3">John Dave Laparan</option>
-                  </select>
-                 </div>
-                 <div class="time">
-                  <div><h3>Start Time: 9:00 AM 06-27-2023</h3></div>
-                  <div><h3>End Time: 10:00 AM 06-27-2023</h3></div>
-                 </div>
+                  <div class="bins">
+                    <div>Bin Level:</div>
+                    <div>Floor:</div>
+                  </div>
+                  <div class="assign">
+                    <label for="Staff">Assign Staff</label>
+                    <select id="floor" name="floor">
+                      <option value="1">Jai Anoba</option>
+                      <option value="2">Angel Canete</option>
+                      <option value="3">John Dave Laparan</option>
+                    </select>
+                  </div>
+                  <div class="time">
+                    <div><h3>Start Time: 9:00 AM 06-27-2023</h3></div>
+                    <div><h3>End Time: 10:00 AM 06-27-2023</h3></div>
+                  </div>
 
-                 <div class="task"> 
-                  <label for="task">Add Task:</label>
-                  <textarea id="message" name="message" rows="4" cols="50" placeholder="Add task..."></textarea>
-                 </div>
+                  <div class="task">
+                    <label for="task">Add Task:</label>
+                    <textarea id="message" name="message" rows="4" cols="50" placeholder="Add task..."></textarea>
+                  </div>
                 </div>
               </div>
             </div>
-            
           </div>
         </div>
       </div>
@@ -338,22 +331,21 @@
         </div>
 
         <div>
-           <table class="table2">
-  <thead>
-    <tr>
-      <th>Staff ID</th>
-      <th>Name</th>
-      <th>Age</th>
-      <th>Address</th>
-      <th>Contact No.</th>
-      <th>Assigned Floor</th>
-      <th>Status</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody id="staffTableBody">
-   
-</table>
+          <table class="table2">
+            <thead>
+              <tr>
+                <th>Staff ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Address</th>
+                <th>Contact No.</th>
+                <th>Assigned Floor</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="staffTableBody"></tbody>
+          </table>
         </div>
 
         <!-- Update Staff Modal -->
@@ -551,7 +543,8 @@
                     <div class="time">Friday 11:23am</div>
                   </div>
                   <div class="meta">
-                    <p>1 hour ago </p> <span class="dot"></span>
+                    <p>1 hour ago</p>
+                    <span class="dot"></span>
                   </div>
                 </div>
                 <div class="notification unread">
@@ -561,7 +554,8 @@
                     <div class="time">Friday 08:23am</div>
                   </div>
                   <div class="meta">
-                    <p>4 hours ago </p><span class="dot"></span>
+                    <p>4 hours ago</p>
+                    <span class="dot"></span>
                   </div>
                 </div>
                 <div class="notification">
@@ -606,10 +600,7 @@
                   <label>Current Password</label>
                   <div class="password-wrapper">
                     <input type="password" id="current-password" />
-                    <span
-                      class="toggle-password"
-                      onclick="togglePassword('current-password', this)"
-                    >
+                    <span class="toggle-password" onclick="togglePassword('current-password', this)">
                       <img src="/image/icons8-eye-24.png" alt="Toggle" />
                     </span>
                   </div>
@@ -629,10 +620,7 @@
                   <label>Confirm New Password</label>
                   <div class="password-wrapper">
                     <input type="password" id="confirm-password" />
-                    <span
-                      class="toggle-password"
-                      onclick="togglePassword('confirm-password', this)"
-                    >
+                    <span class="toggle-password" onclick="togglePassword('confirm-password', this)">
                       <img src="/image/icons8-eye-24.png" alt="Toggle" />
                     </span>
                   </div>
@@ -659,5 +647,6 @@
     <script src="/js/setting.js"></script>
     <script src="/js/changepass.js"></script>
     <script src="/js/bins.js"></script>
+    <script src="/js/allStaff.js"></script>
   </body>
 </html>
