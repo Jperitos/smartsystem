@@ -852,17 +852,18 @@ input, select {
     font-size: 0.8rem;
   }
   
-  .status {
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.875rem;
+.status {
+    padding: 10px 20px;
     border: none;
-  }
-  
-  .status.done {
-    background-color: #28a745;
-    color: #fff;
-  }
+    border-radius: 25px;
+    color: white;
+    cursor: pointer;
+}
+
+.status.done {
+    color: #3A7D44;
+}
+
 
   .toggle.active {
     background: #14532d;
