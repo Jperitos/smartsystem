@@ -440,7 +440,9 @@ padding: 10px 20px;
     margin-top: 20px;
     border-collapse: collapse;
 }
-
+.historytab{
+    margin-left: -30px;
+}
 .staff-table th, 
 .staff-table td {
     padding: 10px;
