@@ -162,11 +162,11 @@
         <div class="container-map">
           <div class="map-container">
             <div class="box">
-              <img src="../image/Floor Plan.png" alt="" class="img-map" />
+              <img src="../image/Floor Plan 1.png" alt="" class="img-map" id="floorImage"/>
             </div>
           </div>
           <div class="floorstat">
-            <select class="floor-dropdown">
+            <select class="floor-dropdown" id="floorSelect">
               <option value="1">Floor 1</option>
               <option value="2">Floor 2</option>
               <option value="3">Floor 3</option>
@@ -220,7 +220,7 @@
                   </select>
                 </div>
               </div>
-              <img src="/image/Floor Plan.png" alt="Floor Plan" />
+              <img src="/image/Floor Plan 1.png" alt="Floor Plan" />
             </div>
 
             <div class="content-right">
@@ -394,15 +394,6 @@
                   <label>Assign Floor</label><br />
                   <input type="number" id="updateFloor" required placeholder="Floor" />
                 </div>
-
-                <div class="input">
-                  <label>Marital Status</label><br />
-                  <select id="updateMaritalStatus">
-                    <option>Single</option>
-                    <option>Married</option>
-                    <option>Separated</option>
-                  </select>
-                </div>
               </div>
 
               <div class="modal-buttons">
@@ -411,8 +402,7 @@
               </div>
             </form>
           </div>
-        </div>
-
+</div>
         <!-- delete staff -->
         <div id="deleteConfirmModal" class="modal-delete">
           <div class="modal-content-delete">
