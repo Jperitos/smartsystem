@@ -284,34 +284,33 @@
             </div>
 
             <div id="binModal" class="modal" style="display: none">
-              <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2 id="modal-title">Bin Details</h2>
-                <div id="modal-body">
-                  <div class="bins">
-                    <div>Bin Level:</div>
-                    <div>Floor:</div>
-                  </div>
-                  <div class="assign">
-                    <label for="Staff">Assign Staff</label>
-                    <select id="floor" name="floor">
-                      <option value="1">Jai Anoba</option>
-                      <option value="2">Angel Canete</option>
-                      <option value="3">John Dave Laparan</option>
-                    </select>
-                  </div>
-                  <div class="time">
-                    <div><h3>Start Time: 9:00 AM 06-27-2023</h3></div>
-                    <div><h3>End Time: 10:00 AM 06-27-2023</h3></div>
-                  </div>
-
-                  <div class="task">
-                    <label for="task">Add Task:</label>
-                    <textarea id="message" name="message" rows="4" cols="50" placeholder="Add task..."></textarea>
+                <div class="modal-content">
+                  <span class="close">&times;</span>
+                  <h2 id="modal-title">Bin Details</h2>
+                  <div id="modal-body">
+                    <div class="bins">
+                      <div>Bin Level: <span id="binLevelSpan">-</span></div>
+                      <div>Floor: <span id="floorSpan">-</span></div>
+                    </div>
+                    <div class="assign">
+                      <label for="staffSelect">Assign Staff</label>
+                      <select id="staffSelect" name="staffSelect">
+                        <!-- Options will be populated dynamically -->
+                      </select>
+                    </div>
+                    <div class="time">
+                        <div>Start Time: <span id="startTimeDisplay">-</span></div>
+                        <div>End Time: <span id="endTimeDisplay">-</span></div>
+                      </div>
+                    <div class="task">
+                      <label for="message">Add Task:</label>
+                      <textarea id="message" name="message" rows="4" cols="50" placeholder="Add task..."></textarea>
+                    </div>
+                    <button id="saveAssignmentBtn">Save Assignment</button>
                   </div>
                 </div>
               </div>
-            </div>
+
           </div>
         </div>
       </div>
@@ -641,5 +640,6 @@
     <script src="/js/bins.js"></script>
     <script src="/js/allStaff.js"></script>
     <script src="/js/floor.js"></script>
+    <script src="/js/addtask.js"></script>
   </body>
 </html>

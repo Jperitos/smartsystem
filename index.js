@@ -157,6 +157,55 @@ app.get('/api/history', async (req, res) => {
   res.json(history);
 });
 
+app.get('/api/bin-data', async (req, res) => {
+  try {
+    const data = await SensoredData.find({ fillLevel: { $gte: 85 } }).sort({ timestamp: -1 }).lean();
+    res.json(data);
+  } catch (err) {
+    console.error('Error fetching bin data:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.get('/api/staff', async (req, res) => {
+  try {
+    const staffUsers = await User.find({ u_role: { $in: ['staff', 'janitor'] } }).select('_id name');
+    res.json(staffUsers);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch staff' });
+  }
+});
+
+app.get('/api/bin/:binId', async (req, res) => {
+  try {
+    const bin = await Bin.findById(req.params.binId);
+    if (!bin) return res.status(404).json({ error: 'Bin not found' });
+    res.json(bin);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch bin info' });
+  }
+});
+
+app.get('/api/activity-log/latest', async (req, res) => {
+  const { bin_id } = req.query;
+  if (!bin_id) return res.status(400).json({ error: 'bin_id required' });
+
+  try {
+    const latestLog = await ActivityLog.findOne({ bin_id })
+      .sort({ date: -1, time: -1 }) // latest
+      .lean();
+
+    if (!latestLog) return res.status(404).json({ error: 'No activity log found' });
+
+    res.json({
+      date: latestLog.date.toISOString().slice(0, 10),
+      time: latestLog.time
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 
 // Socket.IO connection handler

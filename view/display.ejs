@@ -1,147 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Staff Dashboard</title>
-    <link rel="stylesheet" href="/css/adminn.css"/>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <script src="/js/profileupdet.js"></script>
-  </head>
-  <body>
-    <!-- Your aside and main HTML content as you wrote it -->
+<head>
+  <meta charset="UTF-8" />
+  <title>Bin Data Dashboard</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #aaa;
+      padding: 8px 12px;
+      text-align: center;
+    }
+    th {
+      background-color: #eee;
+    }
+  </style>
+</head>
+<body>
+  <h1>Bin Data (Fill Level ≥ 85%)</h1>
+  <table id="binTable">
+    <thead>
+      <tr>
+        <th>Data ID</th>
+        <th>Timestamp</th>
+        <th>Height (cm)</th>
+        <th>Weight (kg)</th>
+        <th>Type</th>
+        <th>Fill Level (%)</th>
+        <th>Full Bin Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Data rows go here -->
+    </tbody>
+  </table>
 
-    <!-- Bin Info cards for Floor 1 -->
-    <div class="bin-info-card">
-      <i class="bx bx-trash"></i>
-      <div class="bin-details">
-        <strong>S1Bin1</strong>
-        <div class="bin-row">
-          <span>Bin Type: Biodegradable</span>
-          <span>Bin Average: <span id="s1bin1-avg">-</span>%</span>
-        </div>
-        <div class="bin-row">
-          <span>Bin Height: <span id="s1bin1-height">-</span>%</span>
-          <span>Bin Weight: <span id="s1bin1-weight">-</span> kg</span>
-        </div>
-        <div class="bin-row">
-          <span>Starting Time: 8:00 AM</span>
-          <span>End Time: 5:00 PM</span>
-        </div>
-      </div>
-    </div>
+  <script>
+    async function fetchBinData() {
+      try {
+        const response = await fetch('/api/bin-data');
+        const data = await response.json();
 
-    <div class="bin-info-card">
-      <i class="bx bx-trash"></i>
-      <div class="bin-details">
-        <strong>S1Bin2</strong>
-        <div class="bin-row">
-          <span>Bin Type: Non-Biodegradable</span>
-          <span>Bin Average: <span id="s1bin2-avg">-</span>%</span>
-        </div>
-        <div class="bin-row">
-          <span>Bin Height: <span id="s1bin2-height">-</span>%</span>
-          <span>Bin Weight: <span id="s1bin2-weight">-</span> kg</span>
-        </div>
-        <div class="bin-row">
-          <span>Starting Time: 8:00 AM</span>
-          <span>End Time: 5:00 PM</span>
-        </div>
-      </div>
-    </div>
+        const tbody = document.querySelector('#binTable tbody');
+        tbody.innerHTML = ''; // Clear existing rows
 
-    <div class="bin-info-card">
-      <i class="bx bx-trash"></i>
-      <div class="bin-details">
-        <strong>S1Bin3</strong>
-        <div class="bin-row">
-          <span>Bin Type: Recyclable</span>
-          <span>Bin Average: <span id="s1bin3-avg">-</span>%</span>
-        </div>
-        <div class="bin-row">
-          <span>Bin Height: <span id="s1bin3-height">-</span>%</span>
-          <span>Bin Weight: <span id="s1bin3-weight">-</span> kg</span>
-        </div>
-        <div class="bin-row">
-          <span>Starting Time: 8:00 AM</span>
-          <span>End Time: 5:00 PM</span>
-        </div>
-      </div>
-    </div>
+        data.forEach(item => {
+          const row = document.createElement('tr');
 
-    <!-- Your other HTML content -->
+          row.innerHTML = `
+            <td>${item.data_id}</td>
+            <td>${new Date(item.timestamp).toLocaleString()}</td>
+            <td>${item.height ?? ''}</td>
+            <td>${item.weight ?? ''}</td>
+            <td>${item.type}</td>
+            <td>${item.fillLevel.toFixed(1)}</td>
+            <td>${item.fullbin_time ? new Date(item.fullbin_time).toLocaleString() : ''}</td>
+          `;
 
-    <!-- Scripts at the bottom for better loading -->
+          tbody.appendChild(row);
+        });
 
-    <!-- Chart.js CDN - make sure CSP allows this or self host -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      } catch (err) {
+        console.error('Error fetching bin data:', err);
+      }
+    }
 
-    <!-- Your JS files -->
-    <script src="/js/admin.js"></script>
-    <script src="/js/tabstaff.js"></script>
-    <script src="/js/chart.js"></script>
-    <script src="/js/logout.js"></script>
-    <script src="/js/history.js"></script>
-    <script src="/js/sensordata.js"></script>
-    <script src="/js/staffmodal.js"></script>
+    // Fetch data on page load
+    fetchBinData();
 
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        // Converts height in cm to fill percentage using your min/max distances
-        function getHeightPercentage(distance) {
-          const minDistance = 11;
-          const maxDistance = 35;
-          if (distance === null || distance === undefined) return 0;
-          if (distance <= minDistance) return 100;
-          if (distance >= maxDistance) return 0;
-          return Math.round(((maxDistance - distance) / (maxDistance - minDistance)) * 100);
-        }
-
-        async function updateBinData() {
-          try {
-            const res = await fetch('http://localhost:9000/api/latest-data');
-            if (!res.ok) throw new Error('Network response was not ok');
-
-            const data = await res.json();
-            if (data.message) {
-              console.log('No bin data yet:', data.message);
-              return;
-            }
-
-            // Defensive DOM updates
-            const setBinData = (binId, binData) => {
-              const weightElem = document.getElementById(`${binId}-weight`);
-              const heightElem = document.getElementById(`${binId}-height`);
-              const avgElem = document.getElementById(`${binId}-avg`);
-
-              if (weightElem && heightElem && avgElem) {
-                weightElem.textContent = binData.weight.toFixed(2);
-                heightElem.textContent = getHeightPercentage(binData.height);
-                avgElem.textContent = binData.avg.toFixed(2);
-              }
-            };
-
-            setBinData('s1bin1', data.bin1);
-            setBinData('s1bin2', data.bin2);
-            setBinData('s1bin3', data.bin3);
-
-          } catch (error) {
-            console.error('Failed to update bin data:', error);
-          }
-        }
-
-        // Initial fetch
-        updateBinData();
-
-        // Poll every 3 seconds
-        setInterval(updateBinData, 3000);
-      });
-    </script>
-  </body>
+    // Optional: auto-refresh every 30 seconds
+    setInterval(fetchBinData, 30000);
+  </script>
+</body>
 </html>

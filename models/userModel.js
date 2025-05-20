@@ -112,16 +112,14 @@ const sensoredDataSchema = new mongoose.Schema({
   
 
 const activityLogSchema = new mongoose.Schema({
-    u_id: { type: mongoose.Schema.Types.ObjectId, 
-        ref: 'User', 
-        required: true },
-    bin_id: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Bin',
-        required: true },
-        date: Date,
-        time: String,
-        status: String
+  u_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  bin_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Bin', required: true },
+  bin_level: Number,        
+  floor: Number,             
+  assigned_task: String, 
+  date: Date,
+  time: String,
+  status: String
 });
 
 const alertSchema = new mongoose.Schema({
