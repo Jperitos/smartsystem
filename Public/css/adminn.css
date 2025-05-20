@@ -929,33 +929,41 @@ body {
     .container-map{
         position: absolute;
         top: 60px;
-        right: -50px;
+        right: -15px;
     }
     
     .map-container {
-        width: 60%;
+        max-width: 100%;
         height: 250px;
         display: flex;
         padding: 0;
         justify-content: center;
         align-items: center;
-        margin-left: 100px;
-        margin-top: 50px;
+        margin-right: 50px;
+        margin-top: 30px;
         background: #f4f4f4; 
     }
+
+    .map-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    display: block;
+}
+
     .floor-no {
         margin-top: 20px;
         margin-left: -30px;
       }
+
     .box {
         height: 100%;
-        width: 100%; 
+        max-width: 100%; 
         color: #000;
         display: flex;
         justify-content: center;
         align-items: center;
         overflow: hidden;
-        border: solid;
     
     }
     
@@ -964,7 +972,6 @@ body {
         height: 150%; 
         object-fit: contain; 
         border-radius: 2rem;
-    
     }
     .floorstat {
         display: flex;
@@ -978,7 +985,7 @@ body {
     .floor-dropdown {
         width: 20%;
         padding: 7px;
-        margin-left: 50px;
+        margin-left: -30px;
         padding-right: 15px;
         font-size: 12px;
         border: none;
@@ -986,11 +993,10 @@ body {
         color: black;
     }
     
-    
     .bin-status {
-        width: 70%;
+        width: 90%;
         justify-content: right;
-        margin-left: 50px;
+        margin-left: -30px;
         margin-bottom: 2rem;
         background: #f9f9f9;
         padding: 15px;
@@ -1008,7 +1014,8 @@ body {
         width: 100%;
     }
     .stat{
-        margin-right: 75px;
+        margin-right: 50px;
+        margin-top: 10px;
         font-size: 13px;
     }
     .progress-bar-container {
