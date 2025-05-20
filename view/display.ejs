@@ -17,9 +17,21 @@
     th {
       background-color: #eee;
     }
+    .notification {
+    background-color: #f0f8ff;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-left: 4px solid #007bff;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+  }
   </style>
 </head>
 <body>
+
+  <div id="notification-container" style="padding: 1rem; max-height: 300px; overflow-y: auto; border: 1px solid #ccc; width: 300px;">
+    <h3>Real-Time Notifications</h3>
+  </div>
   <h1>Bin Data (Fill Level ≥ 85%)</h1>
   <table id="binTable">
     <thead>
@@ -73,6 +85,33 @@
 
     // Optional: auto-refresh every 30 seconds
     setInterval(fetchBinData, 30000);
+  </script>
+  <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+  <script>
+    // Connect to your server (adjust URL as needed)
+    const socket = io('http://localhost:3000'); // or your production URL
+  
+    socket.on('connect', () => {
+      console.log('Connected to notification server');
+    });
+  
+    // Listen for real-time notification events
+    socket.on('pushNotification', (data) => {
+      console.log('Notification received:', data);
+  
+      // Display the message in your notification container
+      const notifContainer = document.getElementById('notification-container');
+  
+      const notifElement = document.createElement('div');
+      notifElement.classList.add('notification');
+      notifElement.innerText = data.message;
+  
+      notifContainer.prepend(notifElement);
+    });
+  
+    socket.on('disconnect', () => {
+      console.log('Disconnected from server');
+    });
   </script>
 </body>
 </html>
