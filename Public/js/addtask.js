@@ -1,44 +1,44 @@
-document.addEventListener('DOMContentLoaded', () => {
-  loadStaffList();
+// Helper: Map assign_area floor names ("First floor" → "1", etc.)
+function getFloorNumber(assignArea) {
+  if (!assignArea) return null;
+  const floorMap = {
+    'First floor': '1',
+    'Second floor': '2',
+    'Third floor': '3',
+    'Fourth floor': '4',
+    'Fifth floor': '5',
+    'Sixth floor': '6'
+  };
+  return floorMap[assignArea] || (assignArea.match(/\d+/) ? assignArea.match(/\d+/)[0] : null);
+}
 
-  // Attach event listener for save button
-  document.getElementById('saveAssignmentBtn').addEventListener('click', saveAssignment);
+// Load janitors assigned to a specific floor into the staffSelect dropdown
+async function loadStaffList(floorNumber = "1") {
+  try {
+    const response = await fetch('/api/staff');
+    if (!response.ok) throw new Error('Failed to fetch staff list');
+    const staffList = await response.json();
 
-  // Attach event listener for modal close (×)
-  document.querySelector('#binModal .close').addEventListener('click', () => {
-    document.getElementById('binModal').style.display = 'none';
-  });
-
-  // Optional: Close modal on clicking outside modal content
-  window.addEventListener('click', (event) => {
-    const modal = document.getElementById('binModal');
-    if (event.target === modal) {
-      modal.style.display = 'none';
-    }
-  });
-
-  // Attach click handlers to bin cards to open modal
-  document.querySelectorAll('.bin-info-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const binCode = card.id; // e.g., 'S1Bin1'
-
-      // TODO: Replace this mapping with your actual bin IDs from DB
-      const binIdMapping = {
-        'S1Bin1': 'mongodbBinId1',
-        'S1Bin2': 'mongodbBinId2',
-        'S1Bin3': 'mongodbBinId3',
-      };
-
-      const binId = binIdMapping[binCode];
-      if (!binId) {
-        alert('Bin ID not found for ' + binCode);
-        return;
-      }
-
-      openAssignModal(binId);
+    // Filter janitors assigned to selected floor
+    const filteredStaff = staffList.filter(staff => {
+      const assignArea = staff.assign_area || "";
+      const assignedFloorNum = getFloorNumber(assignArea);
+      return assignedFloorNum === floorNumber;
     });
-  });
-});
+
+    const staffSelect = document.getElementById('staffSelect');
+    staffSelect.innerHTML = ''; // clear previous options
+
+    filteredStaff.forEach(staff => {
+      const option = document.createElement('option');
+      option.value = staff._id;
+      option.textContent = staff.name;
+      staffSelect.appendChild(option);
+    });
+  } catch (error) {
+    console.error('Failed to load staff:', error);
+  }
+}
 
 async function saveAssignment() {
   const modal = document.getElementById('binModal');
@@ -81,37 +81,15 @@ async function saveAssignment() {
     alert('Assignment saved successfully!');
     modal.style.display = 'none';
 
-    // Optionally clear task message after saving
     document.getElementById('message').value = '';
   } catch (error) {
     alert('Error: ' + error.message);
   }
 }
 
-async function loadStaffList() {
-  try {
-    const response = await fetch('/api/staff');
-    if (!response.ok) throw new Error('Failed to fetch staff list');
-    const staffList = await response.json();
-
-    const staffSelect = document.getElementById('staffSelect');
-    staffSelect.innerHTML = ''; // clear previous options
-
-    staffList.forEach(staff => {
-      const option = document.createElement('option');
-      option.value = staff._id;
-      option.textContent = staff.name;
-      staffSelect.appendChild(option);
-    });
-  } catch (error) {
-    console.error('Failed to load staff:', error);
-  }
-}
-
 let endTimeInterval = null;
 async function openAssignModal(binId) {
   try {
-    // Fetch bin info
     const binRes = await fetch(`/api/bin/${binId}`);
     if (!binRes.ok) throw new Error('Failed to fetch bin info');
     const bin = await binRes.json();
@@ -122,7 +100,10 @@ async function openAssignModal(binId) {
     const modal = document.getElementById('binModal');
     modal.dataset.currentBinId = binId;
 
-    // Fetch latest assignment start time for this bin
+
+    loadStaffList(String(bin.floor));
+
+
     const logRes = await fetch(`/api/activity-log/latest?bin_id=${binId}`);
     let startTime = new Date();
     if (logRes.ok) {
@@ -134,16 +115,63 @@ async function openAssignModal(binId) {
 
     document.getElementById('startTimeDisplay').textContent = formatTime(startTime);
 
-    // Clear previous end time interval if any
     if (endTimeInterval) clearInterval(endTimeInterval);
 
-    // Start updating end time every second with current time
     endTimeInterval = setInterval(() => {
       document.getElementById('endTimeDisplay').textContent = formatTime(new Date());
     }, 1000);
 
-    modal.style.display = 'block'; // Show modal
+    modal.style.display = 'block';
   } catch (error) {
     console.error(error);
   }
 }
+
+function formatTime(date) {
+  return date.toTimeString().split(' ')[0];
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const floorDropdown = document.querySelector('.floor-dropdown');
+  const floorHeader = document.querySelector('.content-right h3');
+  const floorImage = document.querySelector('.content-left img');
+
+  loadStaffList("1");
+  floorHeader.textContent = 'Floor 1';
+  floorImage.src = '/image/Floor Plan 1.png';
+
+  floorDropdown.addEventListener('change', () => {
+    const selectedFloor = floorDropdown.value;
+    floorHeader.textContent = `Floor ${selectedFloor}`;
+    floorImage.src = `/image/Floor Plan ${selectedFloor}.png`;
+    loadStaffList(selectedFloor);
+  });
+
+  document.getElementById('saveAssignmentBtn').addEventListener('click', saveAssignment);
+
+  document.querySelector('#binModal .close').addEventListener('click', () => {
+    document.getElementById('binModal').style.display = 'none';
+  });
+
+  window.addEventListener('click', event => {
+    const modal = document.getElementById('binModal');
+    if (event.target === modal) modal.style.display = 'none';
+  });
+
+  document.querySelectorAll('.bin-info-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const binCode = card.id;
+      const binIdMapping = {
+        'S1Bin1': 'mongodbBinId1',
+        'S1Bin2': 'mongodbBinId2',
+        'S1Bin3': 'mongodbBinId3',
+      };
+      const binId = binIdMapping[binCode];
+      if (!binId) {
+        alert('Bin ID not found for ' + binCode);
+        return;
+      }
+      openAssignModal(binId);
+    });
+  });
+});

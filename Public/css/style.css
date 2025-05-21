@@ -1023,3 +1023,48 @@ padding: 2rem;
 .right-forgot input{
     margin-bottom: 1rem;
 }
+
+
+#successModal.modal {
+  display: none;
+  position: fixed;
+  top: 0; 
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal box */
+#successModal .modal-content {
+  background: #fff;
+  padding: 20px 30px;
+  border-radius: 8px;
+  text-align: center;
+  width: 300px;
+  position: relative;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Modal message */
+#successModal .modal-content p {
+  font-size: 18px;
+  margin: 0;
+}
+
+/* Close button */
+#successModal .modal-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  border: none;
+  background: none;
+  font-size: 24px;
+  cursor: pointer;
+  line-height: 1;
+}
