@@ -348,21 +348,29 @@
 
         <!-- Update Staff Modal -->
         <div id="updateStaffModal" class="modal">
-          <div class="modal-content">
+          <div class="modal-content1">
             <h2>Update Staff Information</h2>
             <form id="updateStaffForm">
               <input type="hidden" id="updateUserId" name="userId" />
 
               <div class="row">
-                <div class="input">
+                <div class="input4">
                   <label>Name</label><br />
                   <input type="text" id="updateName" required placeholder="Name" />
                 </div>
 
-                <div class="input">
-                  <label>Gender</label><br />
-                  <input type="radio" name="updateGender" value="Male" /> Male
-                  <input type="radio" name="updateGender" value="Female" /> Female
+                <div class="input3">
+                  <label class="input-label">Gender</label>
+                  <div class="gender-options">
+                    <label>
+                      <input type="radio" name="gender" value="male" />
+                      Male
+                    </label>
+                    <label>
+                      <input type="radio" name="gender" value="female" />
+                      Female
+                    </label>
+                  </div>
                 </div>
               </div>
 
@@ -371,18 +379,18 @@
                   <label>Age</label><br />
                   <input type="text" id="updateAge" required placeholder="Enter age" />
                 </div>
-                <div class="input">
+                <div class="input2">
                   <label>Contact Number</label><br />
                   <input type="text" id="updateContact" required placeholder="Add contact number" />
                 </div>
               </div>
 
-              <div class="input">
+              <div class="input1">
                 <label>Address</label><br />
                 <input type="text" id="updateAddress" required class="address" placeholder="Enter Address" /><br />
               </div>
 
-              <div class="input">
+              <div class="input1">
                 <label>Email Address</label><br />
                 <input type="email" id="updateEmail" required class="email" placeholder="Enter Email Address" />
               </div>
