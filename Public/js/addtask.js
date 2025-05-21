@@ -19,7 +19,6 @@ async function loadStaffList(floorNumber = "1") {
     if (!response.ok) throw new Error('Failed to fetch staff list');
     const staffList = await response.json();
 
-    // Filter janitors assigned to selected floor
     const filteredStaff = staffList.filter(staff => {
       const assignArea = staff.assign_area || "";
       const assignedFloorNum = getFloorNumber(assignArea);
@@ -27,7 +26,7 @@ async function loadStaffList(floorNumber = "1") {
     });
 
     const staffSelect = document.getElementById('staffSelect');
-    staffSelect.innerHTML = ''; // clear previous options
+    staffSelect.innerHTML = '';
 
     filteredStaff.forEach(staff => {
       const option = document.createElement('option');
@@ -64,8 +63,8 @@ async function saveAssignment() {
     bin_level: binLevel,
     floor: floor,
     assigned_task: taskMessage,
-    date: now.toISOString().slice(0, 10), // YYYY-MM-DD
-    time: now.toTimeString().split(' ')[0], // HH:MM:SS
+    date: now.toISOString().slice(0, 10),
+    time: now.toTimeString().split(' ')[0],
     status: 'assigned'
   };
 
@@ -80,29 +79,57 @@ async function saveAssignment() {
 
     alert('Assignment saved successfully!');
     modal.style.display = 'none';
-
     document.getElementById('message').value = '';
   } catch (error) {
     alert('Error: ' + error.message);
   }
 }
 
+// Format Date object to 12-hour time with AM/PM
+function formatTimeAMPM(date) {
+  let hours = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+
+  const strMinutes = minutes.toString().padStart(2, '0');
+  const strSeconds = seconds.toString().padStart(2, '0');
+
+  return `${hours}:${strMinutes}:${strSeconds} ${ampm}`;
+}
+
 let endTimeInterval = null;
+
+function setStartTime(date) {
+  document.getElementById('startTimeDisplay').textContent = formatTimeAMPM(date);
+}
+
+function startEndTimeLive() {
+  if (endTimeInterval) clearInterval(endTimeInterval);
+  endTimeInterval = setInterval(() => {
+    document.getElementById('endTimeDisplay').textContent = formatTimeAMPM(new Date());
+  }, 1000);
+}
+
 async function openAssignModal(binId) {
   try {
     const binRes = await fetch(`/api/bin/${binId}`);
     if (!binRes.ok) throw new Error('Failed to fetch bin info');
     const bin = await binRes.json();
 
+    const floorDropdown = document.querySelector('.floor-dropdown');
+    const selectedFloor = floorDropdown ? floorDropdown.value : (bin.floor ?? '-');
+
     document.getElementById('binLevelSpan').textContent = bin.bin_level ?? '-';
-    document.getElementById('floorSpan').textContent = bin.floor ?? '-';
+    document.getElementById('floorSpan').textContent = selectedFloor;
 
     const modal = document.getElementById('binModal');
     modal.dataset.currentBinId = binId;
 
-
-    loadStaffList(String(bin.floor));
-
+    loadStaffList(selectedFloor);
 
     const logRes = await fetch(`/api/activity-log/latest?bin_id=${binId}`);
     let startTime = new Date();
@@ -113,22 +140,13 @@ async function openAssignModal(binId) {
       }
     }
 
-    document.getElementById('startTimeDisplay').textContent = formatTime(startTime);
-
-    if (endTimeInterval) clearInterval(endTimeInterval);
-
-    endTimeInterval = setInterval(() => {
-      document.getElementById('endTimeDisplay').textContent = formatTime(new Date());
-    }, 1000);
+    setStartTime(startTime);
+    startEndTimeLive();
 
     modal.style.display = 'block';
   } catch (error) {
     console.error(error);
   }
-}
-
-function formatTime(date) {
-  return date.toTimeString().split(' ')[0];
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -175,3 +193,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+    function updateClock() {
+  const now = new Date();
+  let hours = now.getHours();
+  const minutes = now.getMinutes();
+  const seconds = now.getSeconds();
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+
+  // Pad minutes and seconds with leading zeros
+  const strMinutes = minutes.toString().padStart(2, '0');
+  const strSeconds = seconds.toString().padStart(2, '0');
+
+  const timeString = `${hours}:${strMinutes}:${strSeconds} ${ampm}`;
+  document.getElementById('clock').textContent = timeString;
+}
+
+updateClock();
+setInterval(updateClock, 1000);

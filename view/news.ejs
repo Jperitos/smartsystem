@@ -21,6 +21,7 @@
   </style>
 </head>
 <body>
+  <div id="clock" style="font-size: 24px; font-family: monospace;"></div>
   <h2>Janitors and Their Assigned Areas</h2>
   <table id="janitorsTable">
     <thead>
@@ -90,6 +91,29 @@
 
     // Load janitors on page load
     window.addEventListener('DOMContentLoaded', loadJanitors);
+
+
+    function updateClock() {
+  const now = new Date();
+  let hours = now.getHours();
+  const minutes = now.getMinutes();
+  const seconds = now.getSeconds();
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+
+  // Pad minutes and seconds with leading zeros
+  const strMinutes = minutes.toString().padStart(2, '0');
+  const strSeconds = seconds.toString().padStart(2, '0');
+
+  const timeString = `${hours}:${strMinutes}:${strSeconds} ${ampm}`;
+  document.getElementById('clock').textContent = timeString;
+}
+
+updateClock();
+setInterval(updateClock, 1000);
+
   </script>
 </body>
 </html>
