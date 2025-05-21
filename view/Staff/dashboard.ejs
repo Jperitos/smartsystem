@@ -162,7 +162,7 @@
         <div class="container-map">
           <div class="map-container">
             <div class="box">
-              <img src="../image/Floor Plan 1.png" alt="" class="img-map" id="floorImage"/>
+              <img src="../image/Floor Plan 1.png" alt="" class="img-map" id="floorImage" />
             </div>
           </div>
           <div class="floorstat">
@@ -220,7 +220,7 @@
                   </select>
                 </div>
               </div>
-              <img src="/image/Floor Plan 1.png" alt="Floor Plan" />
+              <img src="/image/Floor Plan 1.png" alt="Floor Plan" class="img-map" id="floorImage" />
             </div>
 
             <div class="content-right">
@@ -284,6 +284,7 @@
             </div>
 
             <div id="binModal" class="modal" style="display: none">
+<<<<<<< HEAD
                 <div class="modal-content">
                   <span class="close">&times;</span>
                   <h2 id="modal-title">Bin Details</h2>
@@ -313,10 +314,34 @@
                       <textarea id="message" name="message" rows="4" cols="50" placeholder="Add task..."></textarea>
                     </div>
                     <button id="saveAssignmentBtn">Save Assignment</button>
+=======
+              <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2 id="modal-title">Bin Details</h2>
+                <div id="modal-body">
+                  <div class="bins">
+                    <div>Bin Level: <span id="binLevelSpan">-</span></div>
+                    <div>Floor: <span id="floorSpan">-</span></div>
+>>>>>>> 3bf643a21175ad73376910553877354bd23b7828
                   </div>
+                  <div class="assign">
+                    <label for="staffSelect">Assign Staff</label>
+                    <select id="staffSelect" name="staffSelect">
+                      <!-- Options will be populated dynamically -->
+                    </select>
+                  </div>
+                  <div class="time">
+                    <div>Start Time: <span id="startTimeDisplay">-</span></div>
+                    <div>End Time: <span id="endTimeDisplay">-</span></div>
+                  </div>
+                  <div class="task">
+                    <label for="message">Add Task:</label>
+                    <textarea id="message" name="message" rows="4" cols="50" placeholder="Add task..."></textarea>
+                  </div>
+                  <button id="saveAssignmentBtn">Save Assignment</button>
                 </div>
               </div>
-
+            </div>
           </div>
         </div>
       </div>
@@ -355,21 +380,29 @@
 
         <!-- Update Staff Modal -->
         <div id="updateStaffModal" class="modal">
-          <div class="modal-content">
+          <div class="modal-content1">
             <h2>Update Staff Information</h2>
             <form id="updateStaffForm">
               <input type="hidden" id="updateUserId" name="userId" />
 
               <div class="row">
-                <div class="input">
+                <div class="input4">
                   <label>Name</label><br />
                   <input type="text" id="updateName" required placeholder="Name" />
                 </div>
 
-                <div class="input">
-                  <label>Gender</label><br />
-                  <input type="radio" name="updateGender" value="Male" /> Male
-                  <input type="radio" name="updateGender" value="Female" /> Female
+                <div class="input3">
+                  <label class="input-label">Gender</label>
+                  <div class="gender-options">
+                    <label>
+                      <input type="radio" name="gender" value="male" />
+                      Male
+                    </label>
+                    <label>
+                      <input type="radio" name="gender" value="female" />
+                      Female
+                    </label>
+                  </div>
                 </div>
               </div>
 
@@ -378,18 +411,18 @@
                   <label>Age</label><br />
                   <input type="text" id="updateAge" required placeholder="Enter age" />
                 </div>
-                <div class="input">
+                <div class="input2">
                   <label>Contact Number</label><br />
                   <input type="text" id="updateContact" required placeholder="Add contact number" />
                 </div>
               </div>
 
-              <div class="input">
+              <div class="input1">
                 <label>Address</label><br />
                 <input type="text" id="updateAddress" required class="address" placeholder="Enter Address" /><br />
               </div>
 
-              <div class="input">
+              <div class="input1">
                 <label>Email Address</label><br />
                 <input type="email" id="updateEmail" required class="email" placeholder="Enter Email Address" />
               </div>
@@ -407,7 +440,7 @@
               </div>
             </form>
           </div>
-</div>
+        </div>
         <!-- delete staff -->
         <div id="deleteConfirmModal" class="modal-delete">
           <div class="modal-content-delete">

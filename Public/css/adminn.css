@@ -201,7 +201,7 @@ body {
         margin-right: 90px;
         margin-bottom: 20px;
     }
-.modal {
+.modal1 {
     display: none;
     position: fixed;
     top: 0;
@@ -212,6 +212,7 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    border: solid;
 }
 
 /* Add this class to show modal with flex display */
@@ -219,20 +220,31 @@ body {
     display: flex;
 }
 
-.modal-content {
+.modal-content1 {
     background: white;
-    padding: 20px;
+    padding-top: 10px;
     border-radius: 10px;
-    width: 600px;
+    width: 550px;
     max-width: 90%;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     z-index: 1001;
     position: relative;
     justify-content: center;
     align-items: center;
-    margin-left: 27%;
+    margin-top: 50px;
+    margin-left: 32%;
 }
 
+form {
+    max-width: 95%; 
+    justify-content: center;
+    margin-left: 10px;
+    align-items: center;
+}
+
+.modal-content1 h2{
+  margin-left: 35px;
+}
 .close {
   position: absolute;
   right: 15px;
@@ -958,10 +970,11 @@ body {
 
     .box {
         height: 100%;
-        max-width: 100%; 
+        max-width: 400px; 
         color: #000;
         display: flex;
         justify-content: center;
+        object-fit: cover;
         align-items: center;
         overflow: hidden;
     
@@ -1146,24 +1159,36 @@ body {
       .cancel-btn { 
         border-radius: 10px;
         background: #3A7D44; 
+        /* margin-right: 30px; */
     }
       
       .row{
         display: flex;
         flex-direction: row;
-     
+      }
+      .row1{
+        display: flex;
+        flex-direction: row;
+        margin: 20px;
       }
     .input{
         margin-top: 1rem;
         margin-inline: 2rem;
     }
-.input input[type="radio"] {
+    .input2{
+      margin-top: 1rem;
+      margin-inline: 2rem;
+      width: 38%;
+    }
+    
+   .input input[type="radio"] {
         border: solid;
     }
+    
     label{
         font-size: 13px;
     }
-    .input input,select{
+    .input select{
         padding: 10px;
         border-radius: 5px;
         border-color: #333;
@@ -1176,6 +1201,51 @@ body {
         width: 90%;
     }
     
+     .input1 {
+      margin-top: 1rem;
+      margin-inline: 2rem;
+      width: 95%;
+  }
+
+  .input4 {
+      margin-top: 1rem;
+      margin-inline: 2rem;
+      width: 95%;
+  }
+
+
+ .input3 {
+      margin-top: 1rem;
+      margin-inline: 2rem;
+      width: 80%;
+      margin-left: -40px;
+  }
+  .input-label {
+    font-weight: 400;
+    margin-top: 7px;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .gender-options {
+    display: flex;
+    gap: 2rem; /* Adjust spacing between Male and Female */
+    align-items: center;
+  }
+
+  .gender-options label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 16px;
+    margin-top: -10px;
+    cursor: pointer;
+  }
+
+  .gender-options input[type="radio"] {
+    margin-top: -2px;
+    cursor: pointer;
+  }
     /* delete modal */
     .modal-delete {
         display: none;

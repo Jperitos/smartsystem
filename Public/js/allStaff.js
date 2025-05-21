@@ -60,7 +60,7 @@ fetch("/api/users")
       const updateBtn = document.createElement("button");
       updateBtn.innerHTML = '<i class="fas fa-pen"></i>';
       updateBtn.classList.add("btn-icon");
-      updateBtn.style.color = "#007bff";
+      updateBtn.style.color = "#3674B5";
       updateBtn.style.backgroundColor = "#f4f4f4";
       tdAction.appendChild(updateBtn);
 
