@@ -201,7 +201,7 @@ body {
         margin-right: 90px;
         margin-bottom: 20px;
     }
-.modal {
+.modal1 {
     display: none;
     position: fixed;
     top: 0;
@@ -212,6 +212,7 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    border: solid;
 }
 
 /* Add this class to show modal with flex display */
@@ -219,7 +220,7 @@ body {
     display: flex;
 }
 
-.modal-content {
+.modal-content1 {
     background: white;
     padding: 20px;
     border-radius: 10px;
@@ -958,10 +959,11 @@ body {
 
     .box {
         height: 100%;
-        max-width: 100%; 
+        max-width: 400px; 
         color: #000;
         display: flex;
         justify-content: center;
+        object-fit: cover;
         align-items: center;
         overflow: hidden;
     
