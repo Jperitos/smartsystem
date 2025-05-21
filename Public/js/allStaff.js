@@ -61,6 +61,7 @@ fetch("/api/users")
       updateBtn.innerHTML = '<i class="fas fa-pen"></i>';
       updateBtn.classList.add("btn-icon");
       updateBtn.style.color = "#3674B5";
+      updateBtn.style.fontSize = "12px";
       updateBtn.style.backgroundColor = "#f4f4f4";
       tdAction.appendChild(updateBtn);
 
@@ -74,6 +75,7 @@ fetch("/api/users")
       deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
       deleteBtn.classList.add("btn-icon");
       deleteBtn.style.color = "#dc3545";
+      updateBtn.style.fontSize = "12px";
       deleteBtn.style.backgroundColor = "#f4f4f4";
       tdAction.appendChild(deleteBtn);
 
