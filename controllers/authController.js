@@ -40,14 +40,16 @@ exports.signup = async (req, res) => {
     });
 
     const result = await newUser.save();
+    return res.redirect('/login');
     result.password = undefined;
 
     return res.status(201).json({
       success: true,
       message: "Your Account has been Created Successfully!",
       user: result,
-      redirect: "/login",
+       
     });
+     
   } catch (error) {
     console.error("Signup Error:", error);
     return res.status(500).json({ success: false, message: "Server error. Please try again later." });

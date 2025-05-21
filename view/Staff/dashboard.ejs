@@ -299,9 +299,15 @@
                       </select>
                     </div>
                     <div class="time">
-                        <div>Start Time: <span id="startTimeDisplay">-</span></div>
-                        <div>End Time: <span id="endTimeDisplay">-</span></div>
+                      <div>
+                        <label for="startTimeDisplay" style="font-weight: bold;">Start Time:</label>
+                        <span id="startTimeDisplay" aria-live="polite" aria-atomic="true">-</span>
                       </div>
+                      <div>
+                        <label for="endTimeDisplay" style="font-weight: bold;">End Time:</label>
+                        <span id="endTimeDisplay" aria-live="polite" aria-atomic="true">-</span>
+                      </div>
+                    </div>
                     <div class="task">
                       <label for="message">Add Task:</label>
                       <textarea id="message" name="message" rows="4" cols="50" placeholder="Add task..."></textarea>

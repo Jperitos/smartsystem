@@ -17,7 +17,7 @@ const io = socketIo(server);  // Enable real-time updates
 const { identifier } = require("./middlewares/identification");
 const authRouter = require('./routers/authRouter');
 const postsRouter = require('./routers/postsRouter');
-const { SensoredData } = require('./models/userModel'); 
+const { SensoredData, UserInfo } = require('./models/userModel'); 
 const { ActivityLog, HistoryLog, User, Bin, BinLive } = require('./models/userModel');
 const userRouters = require('./routers/userRouters');
 const authenticated = require("./middlewares/Authenticated");
@@ -169,9 +169,26 @@ app.get('/api/bin-data', async (req, res) => {
 
 app.get('/api/staff', async (req, res) => {
   try {
-    const staffUsers = await User.find({ u_role: { $in: ['staff', 'janitor'] } }).select('_id name');
-    res.json(staffUsers);
+
+    const janitors = await User.find({ u_role: 'janitor' }).select('_id name');
+
+    const userIds = janitors.map(u => u._id);
+
+    const userInfos = await UserInfo.find({ user: { $in: userIds } }).select('user assign_area');
+
+    const assignAreaMap = {};
+    userInfos.forEach(info => {
+      assignAreaMap[info.user.toString()] = info.assign_area;
+    });
+    const janitorsWithArea = janitors.map(janitor => ({
+      _id: janitor._id,
+      name: janitor.name,
+      assign_area: assignAreaMap[janitor._id.toString()] || null,
+    }));
+
+    res.json(janitorsWithArea);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: 'Failed to fetch staff' });
   }
 });
