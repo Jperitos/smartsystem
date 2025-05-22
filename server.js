@@ -10,8 +10,15 @@ const app = express();
 const PORT_HTTP = 9000;
 const PORT_WS = 9001;
 const { saveBinData } = require('./middlewares/dbHandler');
+
+// Import routers
+const staffRouter = require('./routers/staffRouter');
+
 app.use(cors());
 app.use(express.json());
+
+// API routes
+app.use('/api', staffRouter);
 
 // Store latest bin data for frontend retrieval
 let latestBinData = null;

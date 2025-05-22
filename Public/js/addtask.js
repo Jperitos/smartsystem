@@ -154,6 +154,12 @@ async function saveAssignment() {
       modal.style.display = 'none';
       if (messageEl) messageEl.value = '';
     }
+    
+    // Refresh the activity logs table with new data if function exists
+    if (typeof window.refreshActivityLogs === 'function') {
+      window.refreshActivityLogs();
+    }
+    
   } catch (error) {
     console.error('Error in saveAssignment function:', error);
     alert('Error: ' + error.message);
@@ -351,26 +357,27 @@ document.addEventListener('DOMContentLoaded', () => {
     // Make the card visually appear clickable
     card.style.cursor = 'pointer';
   });
+
+  // Set up clock
+  updateClock();
+  setInterval(updateClock, 1000);
 });
 
-// Clock in the modal (if you want a live clock somewhere)
+// Function to update clock display
 function updateClock() {
-  const now = new Date();
-  let hours = now.getHours();
-  const minutes = now.getMinutes();
-  const seconds = now.getSeconds();
-  const ampm = hours >= 12 ? 'PM' : 'AM';
-
-  hours = hours % 12;
-  hours = hours ? hours : 12;
-
-  const strMinutes = minutes.toString().padStart(2, '0');
-  const strSeconds = seconds.toString().padStart(2, '0');
-
-  const timeString = `${hours}:${strMinutes}:${strSeconds} ${ampm}`;
-  const clockElem = document.getElementById('clock');
-  if(clockElem) clockElem.textContent = timeString;
+  const clockElement = document.getElementById('clock');
+  if (clockElement) {
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
+    
+    // Format time with AM/PM
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const formattedHours = hours % 12 || 12;
+    const formattedMinutes = minutes.toString().padStart(2, '0');
+    const formattedSeconds = seconds.toString().padStart(2, '0');
+    
+    clockElement.textContent = `${formattedHours}:${formattedMinutes}:${formattedSeconds} ${ampm}`;
+  }
 }
-
-updateClock();
-setInterval(updateClock, 1000);
