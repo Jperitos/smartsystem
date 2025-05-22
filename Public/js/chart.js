@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             datasets: [{
                 label: 'Waste Collected',
-                data: [6, 7, 4, 6, 7, 4, 6, 7],
+                data: [6, 7, 4, 6, 7, 4, 6, 10,9,6,5,8],
                 backgroundColor: '#14532d', 
                 borderRadius: 10,
                 barThickness: 40,

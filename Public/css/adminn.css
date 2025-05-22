@@ -158,7 +158,7 @@ body {
     .filter1 {
         display: flex;
         align-items: center;
-        margin-right: 150px;
+        margin-right: 170px;
         gap: 10px;
     }
     
@@ -360,6 +360,7 @@ form {
         flex: 1;
         min-width:150px;
         margin-top: 28px;
+        margin-left: 30px;
       }
       .content-right h3{
         margin-top: -25px;
@@ -939,28 +940,28 @@ form {
     
     .container-map{
         position: absolute;
-        top: 60px;
-        right: -15px;
+        top: 35px;
+        right: -5px;
     }
     
     .map-container {
-        max-width: 100%;
-        height: 250px;
+        max-width: 90%;
+        height: 350px;
         display: flex;
         padding: 0;
         justify-content: center;
         align-items: center;
-        margin-right: 50px;
+        /* margin-right: 150px; */
         margin-top: 30px;
         background: #f4f4f4; 
     }
 
-    .map-container img {
+    /* .map-container img {
     width: 100%;
     height: 100%;
     object-fit: cover; 
     display: block;
-}
+} */
 
     .floor-no {
         margin-top: 20px;
@@ -973,7 +974,7 @@ form {
         color: #000;
         display: flex;
         justify-content: center;
-        object-fit: cover;
+        object-fit: fill;
         align-items: center;
         overflow: hidden;
     
@@ -988,14 +989,15 @@ form {
     .floorstat {
         display: flex;
         align-items: center;
-        margin-top: 20px;
+        /* margin-top: 20px; */
+        margin-left: 22px;
         gap: 10px;
         justify-content: space-between ;
         margin-bottom: 10px;
     }
     
     .floor-dropdown {
-        width: 20%;
+        width: 23%;
         padding: 7px;
         margin-left: -30px;
         padding-right: 15px;
@@ -1006,13 +1008,14 @@ form {
     }
     
     .bin-status {
-        width: 90%;
+        width: 85%;
         justify-content: right;
         margin-left: -30px;
         margin-bottom: 2rem;
         background: #f9f9f9;
         padding: 15px;
         border-radius: 8px;
+        margin-left: -5px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
     

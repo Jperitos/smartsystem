@@ -10,7 +10,7 @@ fetch("/api/users")
   .then((res) => res.json())
   .then((users) => {
     const tbody = document.getElementById("staffTableBody");
-    tbody.innerHTML = ""; // clear existing rows if any
+    tbody.innerHTML = ""; 
 
     users.forEach((user, index) => {
       const info = user.info || {};

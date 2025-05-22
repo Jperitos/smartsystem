@@ -63,106 +63,24 @@
               <p>For the month of January</p>
             </div>
             <div class="card">
-              <h3>Recyclable</h3>
+              <h3>Foodwaste</h3>
               <p class="weight">1 kg</p>
               <p>For the month of January</p>
             </div>
           </div>
           <div class="chart-container">
-            <canvas id="wasteChart"></canvas>
+            <canvas id="wasteChart" style="margin-top: 30px"></canvas>
           </div>
-        </div>
-
-        <div class="his-head">
-          <div class="header-title">
-            <h4>Activity Logs</h4>
-          </div>
-
-          <div class="filter">
-            <input type="date" id="dateFilter" />
-            <img src="../image/filter-alt-regular-24 (1).png" alt="filter" id="sortBtn" />
-          </div>
-        </div>
-
-        <div class="table-container">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Bins</th>
-                <th>Floor</th>
-                <th>Staff</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id="tableBody">
-              <tr>
-                <td>Bin 011</td>
-                <td>Floor 1</td>
-                <td>Jade Arpiliag</td>
-                <td>2025-07-03</td>
-                <td>8:30 AM</td>
-                <td><button class="status done">Done</button></td>
-              </tr>
-              <tr>
-                <td>Bin 021</td>
-                <td>Floor 2</td>
-                <td>Angal Iballtorasca</td>
-                <td>2025-06-27</td>
-                <td>5:30 PM</td>
-                <td><button class="status done">Done</button></td>
-              </tr>
-              <tr>
-                <td>Bin 032</td>
-                <td>Floor 3</td>
-                <td>Jamaica Anobahh</td>
-                <td>2025-03-12</td>
-                <td>11:30 PM</td>
-                <td><button class="status done">Done</button></td>
-              </tr>
-              <tr>
-                <td>Bin 032</td>
-                <td>Floor 6</td>
-                <td>John Daveh Larapan</td>
-                <td>2025-03-12</td>
-                <td>12:30 AM</td>
-                <td><button class="status done">Done</button></td>
-              </tr>
-              <tr>
-                <td>Bin 032</td>
-                <td>Floor 6</td>
-                <td>John Daveh Larapan</td>
-                <td>2025-03-12</td>
-                <td>12:30 AM</td>
-                <td><button class="status done">Done</button></td>
-              </tr>
-              <tr>
-                <td>Bin 032</td>
-                <td>Floor 6</td>
-                <td>John Daveh Larapan</td>
-                <td>2025-03-12</td>
-                <td>12:30 AM</td>
-                <td><button class="status done">Done</button></td>
-              </tr>
-              <tr>
-                <td>Bin 032</td>
-                <td>Floor 6</td>
-                <td>John Daveh Larapan</td>
-                <td>2025-03-12</td>
-                <td>12:30 AM</td>
-                <td><button class="status done">Done</button></td>
-              </tr>
-            </tbody>
-          </table>
         </div>
 
         <div class="container-map">
           <div class="map-container">
-            <div class="box"><img src="../image/Floor Plan.png" alt="" class="img-map" /></div>
+            <div class="box">
+              <div id="floorImageContainer1"></div>
+            </div>
           </div>
           <div class="floorstat">
-            <select class="floor-dropdown">
+            <select class="floor-dropdown" id="floor1">
               <option value="1">Floor 1</option>
               <option value="2">Floor 2</option>
               <option value="3">Floor 3</option>
@@ -288,22 +206,14 @@
             <thead>
               <tr>
                 <th>History ID</th>
-                <th>Username</th>
+                <th>Email</th>
                 <th>Role</th>
                 <th>Time In</th>
                 <th>Time Out</th>
                 <th>Date</th>
               </tr>
             </thead>
-            <tbody id="tableBody">
-              <tr>
-                <td>JohnDoe</td>
-                <td>Admin</td>
-                <td>08:00 AM</td>
-                <td>04:00 PM</td>
-                <td>2025-04-28</td>
-              </tr>
-            </tbody>
+            <tbody id="tableBody"></tbody>
           </table>
         </div>
       </div>
@@ -328,7 +238,7 @@
                 <th>Contact No.</th>
                 <th>Assigned Floor</th>
                 <th>Status</th>
-                <th>Action</th>
+                <!-- <th>Action</th> -->
               </tr>
             </thead>
             <tbody id="staffTableBody"></tbody>
@@ -520,5 +430,6 @@
     <script src="/js/allStafff.js"></script>
     <script src="/js/setting.js"></script>
     <script src="/js/changepass.js"></script>
+    <script src="/js/floorque1.js"></script>
   </body>
 </html>

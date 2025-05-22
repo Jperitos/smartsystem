@@ -162,11 +162,11 @@
         <div class="container-map">
           <div class="map-container">
             <div class="box">
-              <img src="../image/Floor Plan 1.png" alt="" class="img-map" id="floorImage" />
+              <div id="floorImageContainer1"></div>
             </div>
           </div>
           <div class="floorstat">
-            <select class="floor-dropdown" id="floorSelect">
+            <select class="floor-dropdown" id="floor1">
               <option value="1">Floor 1</option>
               <option value="2">Floor 2</option>
               <option value="3">Floor 3</option>
@@ -210,7 +210,7 @@
               <div class="header">
                 <p class="bin-info">Bin Information</p>
                 <div class="floorstat1">
-                  <select id="floors" class="floorsdropdown" >
+                  <select id="floors" class="floorsdropdown">
                     <option value="1">Floor 1</option>
                     <option value="2">Floor 2</option>
                     <option value="3">Floor 3</option>
@@ -218,12 +218,9 @@
                     <option value="5">Floor 5</option>
                     <option value="6">Floor 6</option>
                   </select>
-                  
                 </div>
-                
               </div>
               <div id="floorImageContainer"></div>
-              
             </div>
 
             <div class="content-right">
@@ -363,18 +360,18 @@
               <div class="row">
                 <div class="input">
                   <label>Name</label><br />
-                  <input type="text" id="updateName" required placeholder="Name" />
+                  <input type="text" id="updateName" required placeholder="Name" disabled />
                 </div>
 
                 <div class="input3">
                   <label class="input-label">Gender</label>
                   <div class="gender-options">
                     <label>
-                      <input type="radio" name="gender" value="male" />
+                      <input type="radio" name="gender" value="male" disabled />
                       Male
                     </label>
                     <label>
-                      <input type="radio" name="gender" value="female" />
+                      <input type="radio" name="gender" value="female" disabled />
                       Female
                     </label>
                   </div>
@@ -384,28 +381,28 @@
               <div class="row">
                 <div class="input">
                   <label>Age</label><br />
-                  <input type="text" id="updateAge" required placeholder="Enter age" />
+                  <input type="text" id="updateAge" disabled />
                 </div>
                 <div class="input2">
                   <label>Contact Number</label><br />
-                  <input type="text" id="updateContact" required placeholder="Add contact number" />
+                  <input type="text" id="updateContact" disabled />
                 </div>
               </div>
 
               <div class="input1">
                 <label>Address</label><br />
-                <input type="text" id="updateAddress" required class="address" placeholder="Enter Address" /><br />
+                <input type="text" id="updateAddress" required class="address" disabled /><br />
               </div>
 
               <div class="input1">
                 <label>Email Address</label><br />
-                <input type="email" id="updateEmail" required class="email" placeholder="Enter Email Address" />
+                <input type="email" id="updateEmail" required class="email" disabled />
               </div>
 
               <div class="row">
                 <div class="input">
                   <label>Assign Floor</label><br />
-                  <input type="number" id="updateFloor" required placeholder="Floor" />
+                  <input type="number" id="updateFloor" />
                 </div>
               </div>
 
@@ -471,7 +468,7 @@
           <div class="profile-section">
             <img src="../image/profile2.jpg" alt="Profile Image" class="profile-img" />
             <h3>Jerald Aliviano</h3>
-            <p>Admin</p>
+            <p>Head Staff</p>
 
             <ul class="settings-menu">
               <li class="tab-link active" data-tab="personal-info">Personal Information</li>
@@ -656,5 +653,6 @@
     <script src="/js/floor.js"></script>
     <script src="/js/addtask.js"></script>
     <script src="/js/floorque.js"></script>
+    <script src="/js/floorque1.js"></script>
   </body>
 </html>

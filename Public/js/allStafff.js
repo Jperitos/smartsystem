@@ -49,16 +49,26 @@
 
   // Status
   const tdStatus = document.createElement('td');
-  tdStatus.textContent = user.status || 'N/A';
-  tr.appendChild(tdStatus);
+const statusText = user.status || 'N/A';
+tdStatus.textContent = statusText;
+
+if (statusText.toLowerCase() === 'active') {
+  tdStatus.style.color = '#3A7D44';
+} else if (statusText.toLowerCase() === 'inactive') {
+  tdStatus.style.color = 'red';
+} else {
+  tdStatus.style.color = 'black'; 
+}
+
+tr.appendChild(tdStatus);
 
   // Action (View button)
-  const tdAction = document.createElement('td');
-const viewBtn = document.createElement('button');
-viewBtn.textContent = 'View';
-viewBtn.classList.add('viewing', 'btn-view'); 
-tdAction.appendChild(viewBtn);
-tr.appendChild(tdAction);
+  // const tdAction = document.createElement('td');
+// const viewBtn = document.createElement('button');
+// viewBtn.textContent = 'View';
+// viewBtn.classList.add('viewing', 'btn-view'); 
+// tdAction.appendChild(viewBtn);
+// tr.appendChild(tdAction);
 
   tbody.appendChild(tr);
 });
