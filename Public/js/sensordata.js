@@ -1,13 +1,5 @@
-
 // Connect to your backend WebSocket server (adjust host/port as needed)
 const ws = new WebSocket('ws://localhost:9001');
-
-
-
-  
-
-  // sensordata.js
-
 
 ws.onopen = () => {
   console.log('WebSocket connected to backend for real-time bin data');
@@ -37,24 +29,30 @@ ws.onclose = () => {
 // Function to update DOM elements for a bin
 function updateBinData(binId, binData) {
   if (!binData) return;
-
-  // Select the bin card by binId - make sure these IDs exist in your HTML
-  const binCard = document.querySelector(`.bin-info-card strong:contains(${binId.toUpperCase()})`)?.parentElement;
-
-  // Alternative: add ids to your bin info cards for easier targeting
-  // e.g. <div class="bin-info-card" id="s1bin1-card"> ... </div>
-
-  // For a robust way, let’s just select by ID for now:
-  const card = document.getElementById(`${binId}-card`);
-  if (!card) return;
-
-  // Update Bin Weight, Height, Average inside the card — adjust selectors based on your markup
-  card.querySelector('.bin-weight').textContent = `Bin Weight: ${binData.weight.toFixed(1)}%`;
-  card.querySelector('.bin-height').textContent = `Bin Height: ${binData.height}%`;
-  card.querySelector('.bin-average').textContent = `Bin Average: ${binData.avg.toFixed(1)}%`;
+  
+  // Convert binId to uppercase format used in HTML (s1bin1 -> S1Bin1)
+  const formattedBinId = binId.replace(/^s(\d+)bin(\d+)$/i, (_, floor, num) => 
+    `S${floor}Bin${num}`);
+  
+  // Find the bin card by ID
+  const binCard = document.getElementById(formattedBinId);
+  if (!binCard) return;
+  
+  // Update spans inside this bin card with latest values
+  const avgSpan = binCard.querySelector(`#${binId}-avg`);
+  const heightSpan = binCard.querySelector(`#${binId}-height`);
+  const weightSpan = binCard.querySelector(`#${binId}-weight`);
+  
+  if (avgSpan) avgSpan.textContent = `${binData.avg.toFixed(1)}`;
+  if (heightSpan) heightSpan.textContent = `${binData.height}`;
+  if (weightSpan) weightSpan.textContent = `${binData.weight.toFixed(1)}`;
+  
+  // If modal is open and showing this bin, update the values there too
+  const modal = document.getElementById('binModal');
+  if (modal && modal.style.display === 'block' && modal.dataset.currentBinId === formattedBinId) {
+    document.getElementById('binLevelSpan').textContent = avgSpan ? avgSpan.textContent : '-';
+  }
 }
-
-
 
 function updateProgressBars(data) {
     data.forEach((sensorData) => {

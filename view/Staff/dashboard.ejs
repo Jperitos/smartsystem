@@ -14,6 +14,41 @@
       rel="stylesheet"
     />
     <script src="/js/profileupdet.js" defer></script>
+    <style>
+      .bin-info-card {
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      
+      .bin-info-card:hover {
+        background-color: #f5f5f5;
+        transform: translateY(-3px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      }
+      
+      /* Save button styles */
+      .save-btn1 {
+        cursor: pointer;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        margin-top: 15px;
+      }
+      
+      .save-btn1:hover {
+        background-color: #45a049;
+      }
+      
+      .save-btn1:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+        opacity: 0.7;
+      }
+    </style>
   </head>
   <body>
     <aside>
@@ -246,7 +281,7 @@
 
               <div class="bin-info-card" id="S1Bin2">
                 <i class="bx bx-trash"></i>
-                <div class="bin-details">
+                <div class="bin-details" data-floor="1">
                   <strong>S1Bin2</strong>
                   <div class="bin-row">
                     <span>Bin Type: Non-Biodegradable</span>
@@ -265,7 +300,7 @@
 
               <div class="bin-info-card" id="S1Bin3">
                 <i class="bx bx-trash"></i>
-                <div class="bin-details">
+                <div class="bin-details" data-floor="1">
                   <strong>S1Bin3</strong>
                   <div class="bin-row">
                     <span>Bin Type: Recyclable</span>
@@ -310,7 +345,12 @@
                     <textarea id="message" name="message" rows="4" placeholder="Add task..."></textarea>
                   </div>
 
-                  <button id="saveAssignmentBtn" class="save-btn1">Save Assignment</button>
+                  <!-- Success message that will appear when saved -->
+                  <div id="success-message" style="display: none; color: green; margin: 10px 0; text-align: center; font-weight: bold;">
+                    Assignment saved successfully!
+                  </div>
+
+                  <button id="saveAssignmentBtn" class="save-btn1" onclick="saveAssignment()">Save Assignment</button>
                 </div>
               </div>
             </div>
@@ -325,15 +365,15 @@
             <div class="search-bin-staff">
               <input type="text" id="binSearch3" placeholder="Search" class="search-bar2" />
             </div>
-            <div class="filter">
+            <!-- <div class="filter">
               <p id="sortBtn">Sort By</p>
               <i class="bx bx-sort-a-z"></i>
-            </div>
+            </div> -->
           </div>
         </div>
 
         <div>
-          <table class="table2">
+          <table class="table2" id="staffTable">
             <thead>
               <tr>
                 <th>Staff ID</th>
@@ -427,40 +467,46 @@
       </div>
 
       <!-- Staffs -->
-      <div id="staffs" class="content-panel">
-        <div class="head-staff">
-          <h3>Collect Information</h3>
-          <div class="right-head">
-            <div class="search-bin-staff">
-              <input type="text" id="binSearch" placeholder="Search" class="search-bar2" />
-            </div>
-            <div class="filter">
-              <p id="sortBtn">Sort By</p>
-              <i class="bx bx-sort-a-z"></i>
-            </div>
-          </div>
-        </div>
-        <div>
-          <table class="table2">
-            <tr>
-              <th>Staff ID</th>
-              <th>Assign Floor</th>
-              <th>Name</th>
-              <th>Start</th>
-              <th>End</th>
-              <th>Status</th>
-            </tr>
-            <tr>
-              <td>1001</td>
-              <td>Floor 4</td>
-              <td>Angel Anuba</td>
-              <td>2025-07-03 08:00 AM</td>
-              <td>2025-07-03 10:00 AM</td>
-              <td class="status-pending">Pending</td>
-            </tr>
-          </table>
-        </div>
+     <div id="staffs" class="content-panel">
+  <div class="head-staff">
+    <h3>Collect Information</h3>
+    <div class="right-head">
+      <div class="search-bin-staff">
+        <input type="text" id="binSearch" placeholder="Search" class="search-bar2" />
       </div>
+      <div class="filter">
+        <p id="sortBtn">Sort By</p>
+        <i class="bx bx-sort-a-z"></i>
+      </div>
+    </div>
+  </div>
+  <div>
+    <table class="table2" id="staffTable">
+      <thead>
+        <tr>
+          <th>Staff ID</th>
+          <th>Assign Floor</th>
+          <th>Name</th>
+          <th>Start</th>
+          <th>End</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="staffBody">
+        <tr class="staff-row">
+          <td>1001</td>
+          <td>Floor 4</td>
+          <td>Angel Anuba</td>
+          <td>2025-07-03 08:00 AM</td>
+          <td>2025-07-03 10:00 AM</td>
+          <td class="status-pending">Pending</td>
+        </tr>
+       
+      </tbody>
+    </table>
+  </div>
+</div>
+
 
       <!-- Settings -->
       <div id="settings" class="content-panel">
@@ -656,5 +702,7 @@
     <script src="/js/floorque1.js"></script>
     <script src="/js/floorbins.js"></script>
     <script src="/js/floorbins1.js"></script>
+    <script src="/js/filter.js"></script>
+    <script src="/js/filter1.js"></script>
   </body>
 </html>
