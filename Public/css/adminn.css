@@ -230,7 +230,7 @@ body {
     position: relative;
     justify-content: center;
     align-items: center;
-    margin-top: 15px;
+    margin-top: 80px;
     margin-left: 32%;
 }
 
@@ -1023,6 +1023,7 @@ form {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        font-weight: 500;
         color: #15421C;
         font-size: 14px;
         margin-top: 1rem;
@@ -1346,7 +1347,7 @@ form {
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
         position: relative;
         margin-left: 38%;
-        margin-top: 15%;
+        margin-top: 20%;
       }
       .modal-content-delete p{
         color: black;
@@ -1391,6 +1392,14 @@ form {
         color: rgb(182, 182, 0);
     }
     
+      /* .floorstat1{
+     padding: 20px;
+  } */
+  .floorsdropdown{
+    padding: 8px 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+  }
     .btn-send {
         background-color: #3A7D44;
         color: white;          

@@ -47,27 +47,29 @@
         <h1>Overview</h1>
         <div class="analytics">
           <div class="toggle-buttons">
-            <button class="toggle active">Day</button>
-            <button class="toggle">Week</button>
-            <button class="toggle">Month</button>
+            <button class="toggle active" data-period="day">Day</button>
+            <button class="toggle" data-period="week">Week</button>
+            <button class="toggle" data-period="month">Month</button>
           </div>
+
           <div class="summary-cards">
             <div class="card">
               <h3>Biodegradable</h3>
-              <p class="weight">10 kg</p>
-              <p>For the month of January</p>
+              <p class="weight" id="bioWeight">10 kg</p>
+              <p id="bioLabel">For the month of January</p>
             </div>
             <div class="card">
               <h3>Non-Biodegradable</h3>
-              <p class="weight">5 kg</p>
-              <p>For the month of January</p>
+              <p class="weight" id="nonbioWeight">5 kg</p>
+              <p id="nonbioLabel">For the month of January</p>
             </div>
             <div class="card">
               <h3>Foodwaste</h3>
-              <p class="weight">1 kg</p>
-              <p>For the month of January</p>
+              <p class="weight" id="foodWeight">1 kg</p>
+              <p id="foodLabel">For the month of January</p>
             </div>
           </div>
+
           <div class="chart-container">
             <canvas id="wasteChart" style="margin-top: 30px"></canvas>
           </div>
@@ -431,5 +433,7 @@
     <script src="/js/setting.js"></script>
     <script src="/js/changepass.js"></script>
     <script src="/js/floorque1.js"></script>
+    <script src="/js/floorbins2.js"></script>
+    <script src="/js/charttab.js"></script>
   </body>
 </html>

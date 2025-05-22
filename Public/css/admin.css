@@ -974,10 +974,12 @@ input, select {
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
     
+    
     .bin-status p {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        font-weight: 500;
         color: #15421C;
         font-size: 14px;
         margin-top: 1rem;
