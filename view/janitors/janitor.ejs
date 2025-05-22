@@ -221,7 +221,7 @@
               <td class="task-text">Get the trash bag in the office</td>
               <td class="status-pending">Pending</td>
               <td>
-                <button class="update-btn" onclick="openUpdateModal(this)" data-id="1001">Update</button>
+                <button class="update-btn3" data-id="1001">Update</button>
               </td>
             </tr>
           </table>
@@ -229,25 +229,25 @@
       </div>
 
       <!-- Modal -->
-      <div id="updateModal" class="modal-task" style="display: none">
+      <div id="updateModal" class="modal-task">
         <div class="modal-content">
-          <span class="close">&times;</span>
+          <span class="close" id="closeModal">&times;</span>
           <h2>Update Activity Log</h2>
           <form id="updateForm">
             <input type="hidden" id="collectionId" />
             <div class="form-group">
               <label>Status</label>
               <select id="statusUpdate" required>
-                <option value="pending">Pending</option>
                 <option value="done">Done</option>
+                <option value="pending">Pending</option>
               </select>
             </div>
-            <div class="form-group">
+            <div class="form-group1">
               <label>Proof of Collection (Image)</label>
-              <input type="file" id="proofImage" accept="image/*" required />
+              <input type="file" id="proofImage" accept="image/*" />
             </div>
             <div class="form-group">
-              <label>Notes (Optional)</label>
+              <label>Response</label>
               <textarea id="notes"></textarea>
             </div>
             <button type="submit" class="update-btn">Submit Update</button>
@@ -445,10 +445,7 @@
     <script src="/js/allStaff.js"></script>
     <script src="/js/floorque1.js"></script>
     <script src="/js/floorbins1.js"></script>
-<<<<<<< HEAD
     <script src="/js/updateModal.js"></script>
-=======
     <script src="/js/search1.js"></script>
->>>>>>> e747d71302272ee6b98e9c034b24cd6d6101e275
   </body>
 </html>
