@@ -152,7 +152,7 @@ async function openAssignModal(binId) {
     setStartTime(startTime);
     startEndTimeLive();
 
-    modal.style.display = 'block';
+    modal.style.display = 'flex';
   } catch (error) {
     console.error(error);
     alert('Error loading bin data.');
@@ -191,22 +191,47 @@ document.addEventListener('DOMContentLoaded', () => {
     if (event.target === modal) modal.style.display = 'none';
   });
 
-  // Bin cards click events to open modal
-  document.querySelectorAll('.bin-info-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const binCode = card.id;
-      const binIdMapping = {
-        'S1Bin1': 'mongodbBinId1',
-        'S1Bin2': 'mongodbBinId2',
-        'S1Bin3': 'mongodbBinId3',
-      };
-      const binId = binIdMapping[binCode];
-      if (!binId) {
-        alert('Bin ID not found for ' + binCode);
-        return;
+  console.log('Setting up bin card click handlers...');
+  
+  // Make bin cards clickable - ensure this runs after DOM is ready
+  const binCards = document.querySelectorAll('.bin-info-card');
+  console.log('Found bin cards:', binCards.length);
+  
+  binCards.forEach(card => {
+    card.addEventListener('click', function() {
+      console.log('Bin card clicked:', this.id);
+      const binCode = this.id; // bin ID like S1Bin1
+      
+      // Extract bin data from the card
+      const binDetails = this.querySelector('.bin-details');
+      // Properly extract bin level data from the card
+      const binAvgSpan = this.querySelector('[id$="-avg"]');
+      const binAvg = binAvgSpan ? binAvgSpan.textContent.trim() : '-';
+      
+      // Get floor number from dataset attribute
+      const floorNumber = binDetails.dataset.floor || '1';
+      
+      // Set modal data
+      document.getElementById('binLevelSpan').textContent = binAvg;
+      document.getElementById('floorSpan').textContent = `Floor ${floorNumber}`;
+      document.getElementById('modal-title').textContent = `Details for ${binCode}`;
+      
+      // Show the modal
+      const modal = document.getElementById('binModal');
+      if (modal) {
+        // Reset any position styles that might be interfering
+        modal.style.position = 'fixed';
+        // Set display to flex for proper centering
+        modal.style.display = 'flex';
+        modal.dataset.currentBinId = binCode;
       }
-      openAssignModal(binId);
+      
+      // Load staff for this floor
+      loadStaffList(floorNumber);
     });
+    
+    // Make the card visually appear clickable
+    card.style.cursor = 'pointer';
   });
 });
 

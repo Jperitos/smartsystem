@@ -45,38 +45,45 @@ document.addEventListener('DOMContentLoaded', function () {
       }, 200); // Try every 200ms
     });
   });
-});
+  
+  // Add back bin details click handlers as a backup
+  document.querySelectorAll('.bin-info-card').forEach(card => {
+    card.addEventListener('click', function() {
+      const binId = this.id; // e.g., S1Bin1
+      const binDetails = this.querySelector('.bin-details');
+      
+      // Get bin level from span elements
+      const binAvgSpan = this.querySelector('[id$="-avg"]');
+      const binLevel = binAvgSpan ? binAvgSpan.textContent.trim() : '-';
+      
+      // Get floor from data attribute
+      const binFloor = binDetails.dataset.floor || '1';
 
-// bins details
-document.querySelectorAll('.bin-info-card').forEach(card => {
-  card.addEventListener('click', function () {
-    const binId = this.dataset.id || this.id; // Use data-id if preferred
-    const binLevel = this.dataset.level || 'N/A';
-    const binFloor = this.dataset.floor || 'N/A';
+      // Show modal
+      const modal = document.getElementById('binModal');
+      if (!modal) return;
+      
+      // Reset position to fixed to ensure proper centering
+      modal.style.position = 'fixed';
+      modal.style.display = 'flex';
+      modal.dataset.currentBinId = binId;
 
-    // Show modal
-    const modal = document.getElementById('binModal');
-    modal.style.display = 'flex';
-
-    // Update title
-    document.getElementById('modal-title').textContent = `Details for Bin ${binId}`;
-
-    // Update content
-    const bins = modal.querySelector('.bins');
-    bins.innerHTML = `
-      <div>Bin Level: ${binLevel}</div>
-      <div>Floor: ${binFloor}</div>
-    `;
-
-    // Optionally reset or fill task/staff/etc.
-    document.getElementById('message').value = '';
-    document.getElementById('floor').selectedIndex = 0;
+      // Update modal contents
+      document.getElementById('modal-title').textContent = `Details for ${binId}`;
+      document.getElementById('binLevelSpan').textContent = binLevel;
+      document.getElementById('floorSpan').textContent = `Floor ${binFloor}`;
+      
+      // Reset message field
+      const messageField = document.getElementById('message');
+      if (messageField) messageField.value = '';
+    });
   });
 });
 
 // Close modal on "X"
-document.querySelector('.close').addEventListener('click', () => {
-  document.getElementById('binModal').style.display = 'none';
+document.querySelector('.close')?.addEventListener('click', () => {
+  const modal = document.getElementById('binModal');
+  if (modal) modal.style.display = 'none';
 });
 
 // Close modal if clicked outside content

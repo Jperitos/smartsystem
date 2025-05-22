@@ -1126,9 +1126,9 @@ form {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
 }
 
 .modal-content2 {
@@ -1138,9 +1138,25 @@ form {
   width: 600px;
   max-width: 90%;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-  position: relative;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   border: 1px solid #ccc;
   font-family: 'Segoe UI', sans-serif;
+  animation: modal-fade-in 0.3s ease;
+  margin: 0;
+}
+
+@keyframes modal-fade-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
 }
 
 .close {
