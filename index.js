@@ -1,4 +1,3 @@
-
 const express = require("express");
 const http = require('http');
 const helmet = require("helmet");
@@ -139,6 +138,85 @@ app.get('/api/activity-logs', async (req, res) => {
     res.json(logs);
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+});
+
+// POST endpoint for creating new activity logs
+app.post('/api/activity-logs', async (req, res) => {
+  try {
+    const { bin_id, u_id, bin_level, floor, assigned_task, date, time, status } = req.body;
+    
+    // Validate required fields
+    if (!bin_id || !u_id) {
+      return res.status(400).json({ error: 'bin_id and u_id are required fields' });
+    }
+    
+    console.log('Received assignment data:', req.body);
+    
+    // Handle string IDs vs MongoDB ObjectIds
+    let processedBinId = bin_id;
+    let processedUId = u_id;
+    
+    // If bin_id is not a valid ObjectId format, search by bin_code instead
+    const isValidObjectId = /^[0-9a-fA-F]{24}$/.test(bin_id);
+    if (!isValidObjectId) {
+      try {
+        // Try to find the bin by its code
+        const bin = await Bin.findOne({ bin_code: bin_id });
+        if (bin) {
+          processedBinId = bin._id;
+        } else {
+          // Create a new bin if it doesn't exist
+          const newBin = new Bin({
+            bin_code: bin_id,
+            bin_level: bin_level || 0,
+            type: 'unknown',
+            status: 'active'
+          });
+          const savedBin = await newBin.save();
+          processedBinId = savedBin._id;
+        }
+      } catch (err) {
+        console.error('Error processing bin_id:', err);
+        return res.status(400).json({ error: 'Invalid bin ID format' });
+      }
+    }
+    
+    // Create new activity log
+    const newActivityLog = new ActivityLog({
+      bin_id: processedBinId,
+      u_id: processedUId,
+      bin_level: bin_level || 0,
+      floor: floor || 1,
+      assigned_task: assigned_task || '',
+      date: date ? new Date(date) : new Date(),
+      time: time || new Date().toTimeString().split(' ')[0],
+      status: status || 'assigned'
+    });
+    
+    console.log('Saving activity log:', newActivityLog);
+    
+    // Save to database
+    const savedLog = await newActivityLog.save();
+    
+    // Update the bin's data
+    try {
+      await Bin.findByIdAndUpdate(processedBinId, {
+        $set: { 
+          last_collected: new Date(),
+          assigned_to: processedUId,
+          bin_level: bin_level || 0
+        }
+      });
+    } catch (binErr) {
+      console.warn('Could not update bin data:', binErr);
+      // Continue even if bin update fails
+    }
+    
+    res.status(201).json(savedLog);
+  } catch (error) {
+    console.error('Error saving activity log:', error);
+    res.status(500).json({ error: 'Failed to save assignment', details: error.message });
   }
 });
 

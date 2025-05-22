@@ -40,48 +40,130 @@ async function loadStaffList(floorNumber = "1") {
 }
 
 async function saveAssignment() {
-  const modal = document.getElementById('binModal');
-  const binId = modal.dataset.currentBinId;
-  const staffId = document.getElementById('staffSelect').value;
-  const taskMessage = document.getElementById('message').value.trim();
-
-  const binLevelRaw = document.getElementById('binLevelSpan').textContent;
-  const floorRaw = document.getElementById('floorSpan').textContent.replace('Floor ', '');
-  const binLevel = isNaN(Number(binLevelRaw)) ? null : Number(binLevelRaw);
-  const floor = isNaN(Number(floorRaw)) ? null : Number(floorRaw);
-
-  if (!binId || !staffId) {
-    alert('Please select a bin and a staff member.');
-    return;
-  }
-
-  const now = new Date();
-
-  const payload = {
-    bin_id: binId,
-    u_id: staffId,
-    bin_level: binLevel,
-    floor: floor,
-    assigned_task: taskMessage,
-    date: now.toISOString().slice(0, 10),
-    time: now.toTimeString().split(' ')[0],
-    status: 'assigned'
-  };
-
+  console.log('SAVE ASSIGNMENT FUNCTION CALLED');
+  
   try {
-    const res = await fetch('/api/activity-log', {
+    const modal = document.getElementById('binModal');
+    if (!modal) {
+      console.error('Modal element not found');
+      return;
+    }
+    
+    const binId = modal.dataset.currentBinId;
+    console.log('Bin ID:', binId);
+    
+    const staffSelect = document.getElementById('staffSelect');
+    if (!staffSelect) {
+      console.error('Staff select element not found');
+      return;
+    }
+    
+    const staffId = staffSelect.value;
+    console.log('Staff ID:', staffId);
+    
+    const messageEl = document.getElementById('message');
+    if (!messageEl) {
+      console.error('Message element not found');
+      return;
+    }
+    
+    const taskMessage = messageEl.value.trim();
+    console.log('Task message:', taskMessage);
+
+    const binLevelSpan = document.getElementById('binLevelSpan');
+    if (!binLevelSpan) {
+      console.error('Bin level span not found');
+      return;
+    }
+    
+    const binLevelRaw = binLevelSpan.textContent;
+    console.log('Bin level raw:', binLevelRaw);
+    
+    const floorSpan = document.getElementById('floorSpan');
+    if (!floorSpan) {
+      console.error('Floor span not found');
+      return;
+    }
+    
+    const floorRaw = floorSpan.textContent.replace('Floor ', '');
+    console.log('Floor raw:', floorRaw);
+    
+    const binLevel = isNaN(Number(binLevelRaw)) ? null : Number(binLevelRaw);
+    const floor = isNaN(Number(floorRaw)) ? null : Number(floorRaw);
+    console.log('Parsed bin level:', binLevel);
+    console.log('Parsed floor:', floor);
+
+    if (!binId || !staffId) {
+      alert('Please select a bin and a staff member.');
+      return;
+    }
+
+    // Disable save button while processing
+    const saveBtn = document.getElementById('saveAssignmentBtn');
+    if (saveBtn) {
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'Saving...';
+    }
+
+    const now = new Date();
+    console.log('Current date/time:', now);
+
+    const payload = {
+      bin_id: binId,
+      u_id: staffId,
+      bin_level: binLevel,
+      floor: floor,
+      assigned_task: taskMessage,
+      date: now.toISOString().slice(0, 10),
+      time: now.toTimeString().split(' ')[0],
+      status: 'assigned'
+    };
+    
+    console.log('Payload to send:', payload);
+
+    console.log('About to fetch from /api/activity-logs');
+    const res = await fetch('/api/activity-logs', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     });
+    
+    console.log('Fetch response status:', res.status);
 
-    if (!res.ok) throw new Error('Failed to save assignment');
+    if (!res.ok) {
+      console.error('Response not OK:', res.status, res.statusText);
+      throw new Error('Failed to save assignment: ' + res.status);
+    }
 
-    alert('Assignment saved successfully!');
-    modal.style.display = 'none';
-    document.getElementById('message').value = '';
+    console.log('Assignment saved successfully');
+    
+    // Show success message inside the modal
+    const successMsg = document.getElementById('success-message');
+    if (successMsg) {
+      successMsg.style.display = 'block';
+      
+      // Close modal and reset form after a short delay
+      setTimeout(() => {
+        modal.style.display = 'none';
+        if (messageEl) messageEl.value = '';
+        if (successMsg) successMsg.style.display = 'none'; // Hide message for next time
+      }, 1500); // 1.5 seconds delay
+    } else {
+      // Fallback if success message element not found
+      alert('Assignment saved successfully!');
+      modal.style.display = 'none';
+      if (messageEl) messageEl.value = '';
+    }
   } catch (error) {
+    console.error('Error in saveAssignment function:', error);
     alert('Error: ' + error.message);
+  } finally {
+    // Re-enable save button
+    const saveBtn = document.getElementById('saveAssignmentBtn');
+    if (saveBtn) {
+      saveBtn.disabled = false;
+      saveBtn.textContent = 'Save Assignment';
+    }
   }
 }
 
@@ -166,24 +248,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initialize page with floor 1 data
   loadStaffList("1");
-  floorHeader.textContent = 'Floor 1';
-  floorImage.src = '/image/Floor Plan 1.png';
+  if (floorHeader) floorHeader.textContent = 'Floor 1';
+  if (floorImage) floorImage.src = '/image/Floor Plan 1.png';
 
   // Floor dropdown change handler
-  floorDropdown.addEventListener('change', () => {
-    const selectedFloor = floorDropdown.value;
-    floorHeader.textContent = `Floor ${selectedFloor}`;
-    floorImage.src = `/image/Floor Plan ${selectedFloor}.png`;
-    loadStaffList(selectedFloor);
-  });
+  if (floorDropdown) {
+    floorDropdown.addEventListener('change', () => {
+      const selectedFloor = floorDropdown.value;
+      if (floorHeader) floorHeader.textContent = `Floor ${selectedFloor}`;
+      if (floorImage) floorImage.src = `/image/Floor Plan ${selectedFloor}.png`;
+      loadStaffList(selectedFloor);
+    });
+  }
 
-  // Save button event
-  document.getElementById('saveAssignmentBtn').addEventListener('click', saveAssignment);
+  // Explicitly attach event listener to Save Assignment button
+  const saveBtn = document.getElementById('saveAssignmentBtn');
+  if (saveBtn) {
+    console.log('Attaching click event to Save Assignment button');
+    saveBtn.addEventListener('click', function(event) {
+      event.preventDefault();
+      console.log('Save Assignment button clicked');
+      saveAssignment();
+    });
+  } else {
+    console.error('Save Assignment button not found in DOM on page load');
+  }
 
   // Modal close button
-  document.querySelector('#binModal .close').addEventListener('click', () => {
-    document.getElementById('binModal').style.display = 'none';
-  });
+  const closeBtn = document.querySelector('#binModal .close');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      document.getElementById('binModal').style.display = 'none';
+    });
+  }
 
   // Close modal on outside click
   window.addEventListener('click', event => {
@@ -224,6 +321,27 @@ document.addEventListener('DOMContentLoaded', () => {
         // Set display to flex for proper centering
         modal.style.display = 'flex';
         modal.dataset.currentBinId = binCode;
+
+        // Make sure success message is hidden
+        const successMsg = document.getElementById('success-message');
+        if (successMsg) {
+          successMsg.style.display = 'none';
+        }
+
+        // Ensure Save Assignment button has its event listener
+        const saveBtn = document.getElementById('saveAssignmentBtn');
+        if (saveBtn) {
+          // Remove existing listeners to avoid duplicates
+          const newSaveBtn = saveBtn.cloneNode(true);
+          saveBtn.parentNode.replaceChild(newSaveBtn, saveBtn);
+          
+          // Add fresh event listener
+          newSaveBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            console.log('Save Assignment button clicked from modal');
+            saveAssignment();
+          });
+        }
       }
       
       // Load staff for this floor
