@@ -80,6 +80,10 @@ const userSchema = new mongoose.Schema({
   avatar: {
     type: String,
   },
+  profile_image: {
+    type: String,
+    default: '/image/profile2.jpg'
+  },
 }, {
   timestamps: true,
   toJSON: { virtuals: true },

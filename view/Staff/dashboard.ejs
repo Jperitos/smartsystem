@@ -48,6 +48,170 @@
         cursor: not-allowed;
         opacity: 0.7;
       }
+      
+      /* Modal styling */
+      .modal2 {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        justify-content: center;
+        align-items: center;
+      }
+      
+      .modal-content2 {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        width: 500px;
+        max-width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      }
+      
+      .close {
+        position: absolute;
+        right: 15px;
+        top: 10px;
+        font-size: 24px;
+        cursor: pointer;
+      }
+      
+      #modal-title {
+        margin-top: 0;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+      }
+      
+      .clock-display {
+        display: inline-block;
+        padding: 8px;
+        background-color: #f5f5f5;
+        border-radius: 4px;
+        font-size: 16px;
+        color: #333;
+        margin-top: 5px;
+      }
+      
+      /* Profile image upload styling */
+      .profile-image-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .image-preview-wrapper {
+        margin-bottom: 15px;
+        position: relative;
+      }
+      
+      #image-preview {
+        border: 2px solid #ddd;
+        object-fit: cover;
+        transition: all 0.3s ease;
+      }
+      
+      #image-preview.preview-active {
+        border-color: #4CAF50;
+      }
+      
+      .file-input {
+        opacity: 0;
+        width: 0.1px;
+        height: 0.1px;
+        position: absolute;
+      }
+      
+      /* Button alignment fixes */
+      .button-group {
+        display: flex;
+        gap: 10px;
+        align-items: stretch;
+        margin-bottom: 10px;
+        height: 40px;
+      }
+      
+      .upload-btn-wrapper {
+        height: 40px;
+      }
+      
+      .file-input-label, .update-btn {
+        height: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 14px;
+        text-align: center;
+        border: none;
+        margin: 0;
+        box-sizing: border-box;
+      }
+      
+      .file-input-label {
+        background-color: #4CAF50;
+        color: white;
+      }
+      
+      .file-input-label:hover {
+        background-color: #45a049;
+      }
+      
+      .update-btn {
+        background-color: #2196F3;
+        color: white;
+      }
+      
+      .update-btn:hover {
+        background-color: #0b7dda;
+      }
+      
+      .file-info {
+        display: block;
+        margin-top: 5px;
+        color: #666;
+        font-style: italic;
+      }
+      
+      /* Notification styling */
+      #notification-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        max-width: 350px;
+      }
+      
+      /* Form validation styling */
+      input:required:invalid,
+      input:focus:invalid {
+        border-color: #ff6b6b;
+      }
+      
+      input:required:valid {
+        border-color: initial; /* Reset to default border color */
+      }
+      
+      /* Error message for form validation */
+      .error-message {
+        color: #ff6b6b;
+        font-size: 12px;
+        margin-top: 5px;
+        display: none;
+      }
+      
+      input:required:invalid + .error-message {
+        display: block;
+      }
     </style>
   </head>
   <body>
@@ -512,9 +676,9 @@
       <div id="settings" class="content-panel">
         <div class="content">
           <div class="profile-section">
-            <img src="../image/profile2.jpg" alt="Profile Image" class="profile-img" />
-            <h3>Jerald Aliviano</h3>
-            <p>Staff</p>
+            <img src="../image/profile2.jpg" alt="Profile Image" class="profile-img" id="profile-header-img" />
+            <h3 id="user-display-name">Loading...</h3>
+            <p id="user-role">Staff</p>
 
             <ul class="settings-menu">
               <li class="tab-link active" data-tab="personal-info">Personal Information</li>
@@ -532,13 +696,17 @@
                 <div class="form-row">
                   <div class="form-group half-width">
                     <label>Name</label>
-                    <input type="text" name="name" />
+                    <input type="text" name="name" required />
                   </div>
                   <div class="form-group half-width">
                     <label>Gender</label>
                     <div class="gender-options">
-                      <input type="radio" name="gender" value="Male" /> Male
-                      <input type="radio" name="gender" value="Female" /> Female
+                      <label>
+                        <input type="radio" name="gender" value="Male" required /> Male
+                      </label>
+                      <label>
+                        <input type="radio" name="gender" value="Female" required /> Female
+                      </label>
                     </div>
                   </div>
                 </div>
@@ -546,30 +714,40 @@
                 <div class="form-row">
                   <div class="form-group half-width">
                     <label>Birthdate</label>
-                    <input type="date" name="birthdate" />
+                    <input type="date" name="birthdate" required />
                   </div>
                   <div class="form-group half-width">
                     <label>Contact Number</label>
-                    <input type="text" name="contact" />
+                    <input type="text" name="contact" required />
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label>Address</label>
-                  <input type="text" name="address" />
+                  <input type="text" name="address" required />
                 </div>
 
                 <div class="form-group">
                   <label>Email Address</label>
-                  <input type="email" name="email" />
+                  <input type="email" name="email" required />
                 </div>
 
                 <div class="form-group">
                   <label>Profile Image</label>
-                  <input type="file" id="profile-image-input" />
+                  <div class="profile-image-container">
+                    <div class="image-preview-wrapper">
+                      <img id="image-preview" src="<%= typeof user !== 'undefined' && user.profile_image ? user.profile_image : '/image/profile2.jpg' %>" alt="Profile preview" style="max-width: 100px; max-height: 100px; margin-bottom: 10px; border-radius: 50%;">
+                    </div>
+                    <div class="button-group">
+                      <div class="upload-btn-wrapper">
+                        <input type="file" id="profile-image-input" accept="image/*" class="file-input" />
+                        <label for="profile-image-input" class="file-input-label" style="height:40px;">Choose Image</label>
+                      </div>
+                      <button type="submit" class="update-btn" style="height:40px;">Update Profile</button>
+                    </div>
+                    <small class="file-info">Max size: 2MB. Accepted formats: JPG, PNG, GIF</small>
+                  </div>
                 </div>
-
-                <button type="submit" class="update-btn">Update</button>
               </form>
             </div>
 
@@ -704,5 +882,7 @@
     <script src="/js/floorbins1.js"></script>
     <script src="/js/filter.js"></script>
     <script src="/js/filter1.js"></script>
+    <script src="/js/activityLogs.js"></script>
+    <script src="/js/profileImage.js"></script>
   </body>
 </html>

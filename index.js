@@ -11,6 +11,8 @@ const app = express();
 const socketIo = require('socket.io');
 const server = http.createServer(app);
 const io = socketIo(server);  // Enable real-time updates
+const multer = require('multer');
+const fs = require('fs');
 
 
 const { identifier } = require("./middlewares/identification");
@@ -24,6 +26,41 @@ require('./middlewares/passport-setup');
 const userdisplay = require("./routers/userRouts");
 const { saveBinData } = require('./middlewares/dbHandler');
 const imageRouter = require('./routers/imageRouter');
+
+// Configure multer for file storage
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    // Create uploads/profiles directory if it doesn't exist
+    const uploadDir = path.join(__dirname, 'public/uploads/profiles');
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
+  },
+  filename: function (req, file, cb) {
+    // Generate unique filename with timestamp
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const fileExt = path.extname(file.originalname);
+    cb(null, 'profile-' + uniqueSuffix + fileExt);
+  }
+});
+
+// File filter to accept only images
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image/')) {
+    cb(null, true);
+  } else {
+    cb(new Error('Only image files are allowed'), false);
+  }
+};
+
+const upload = multer({ 
+  storage: storage,
+  limits: {
+    fileSize: 2 * 1024 * 1024 // 2MB max file size
+  },
+  fileFilter: fileFilter
+});
 
 app.use(cors());
 app.use(helmet({
@@ -314,5 +351,95 @@ app.get('/api/activity-log/latest', async (req, res) => {
 // Socket.IO connection handler
 io.on('connection', (socket) => {
   console.log('🔌 Web client connected');
+});
+
+// Serve static files from uploads directory
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
+
+// Profile update endpoint with image upload
+app.post('/api/update-profile', upload.single('profile_image'), async (req, res) => {
+  try {
+    const { user_id, name, gender, birthdate, contact, address, email } = req.body;
+    
+    console.log('Profile update request received:', req.body);
+    if (req.file) {
+      console.log('Image file received:', req.file.filename);
+    }
+    
+    if (!user_id) {
+      return res.status(400).json({ message: 'User ID is required' });
+    }
+    
+    // Find the user
+    const user = await User.findById(user_id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    
+    // Update user basic info
+    if (name) user.name = name;
+    if (email) user.email = email;
+    
+    // Update profile image if uploaded
+    let imagePath = '';
+    if (req.file) {
+      // Create relative path to image for storage in DB
+      imagePath = `/uploads/profiles/${req.file.filename}`;
+      
+      // Update the user's profile image path
+      user.profile_image = imagePath;
+    }
+    
+    // Get or create user info document
+    let userInfo = await UserInfo.findOne({ user: user_id });
+    
+    // If userInfo doesn't exist and we have the required fields, create it
+    if (!userInfo) {
+      if (!gender || !birthdate || !contact || !address) {
+        return res.status(400).json({ 
+          message: 'Missing required fields for profile creation',
+          details: 'Gender, birthdate, contact, and address are required for new profiles'
+        });
+      }
+      
+      userInfo = new UserInfo({ 
+        user: user_id,
+        gender,
+        birthdate: new Date(birthdate),
+        contact,
+        address,
+        assign_area: 'First floor' // Default value
+      });
+    } else {
+      // Update existing userInfo fields
+      if (gender) userInfo.gender = gender;
+      if (birthdate) userInfo.birthdate = new Date(birthdate);
+      if (contact) userInfo.contact = contact;
+      if (address) userInfo.address = address;
+    }
+    
+    // Save both documents
+    await Promise.all([user.save(), userInfo.save()]);
+    
+    console.log('Profile updated successfully for user:', user.name);
+    
+    res.status(200).json({ 
+      message: 'Profile updated successfully',
+      imagePath: imagePath || user.profile_image || null,
+      name: user.name,
+      email: user.email,
+      userInfo: {
+        gender: userInfo.gender,
+        birthdate: userInfo.birthdate,
+        contact: userInfo.contact,
+        address: userInfo.address,
+        assign_area: userInfo.assign_area
+      }
+    });
+    
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    res.status(500).json({ message: 'Failed to update profile', error: error.message });
+  }
 });
 
