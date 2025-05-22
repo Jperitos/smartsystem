@@ -1,16 +1,16 @@
 const mongoose = require('mongoose');
 const { v4: uuidv4 } = require('uuid');
-const {SensoredData} = require('../models/userModel');
+const { SensoredData, User, Bin, Notification } = require('../models/userModel');
+
 const MONGO_URI = "mongodb+srv://jamesarpilang04:KnCcxkCLH8KVIBy4@cluster0.yammk.mongodb.net/authExample?retryWrites=true&w=majority&appName=Cluster0";
 
-mongoose.connect(MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then(() => {
-  console.log('✅ Connected to MongoDB via Mongoose (dbHandler)');
-}).catch(err => {
-  console.error('❌ MongoDB connection error (dbHandler):', err);
-});
+mongoose.connect(MONGO_URI)
+  .then(() => {
+    console.log('✅ Connected to MongoDB via Mongoose (dbHandler)');
+  })
+  .catch(err => {
+    console.error('❌ MongoDB connection error (dbHandler):', err);
+  });
 
 // In-memory state tracking for bins
 const savedBins = {
@@ -19,7 +19,6 @@ const savedBins = {
   bin3: { started: false, full: false },
 };
 
-// Define or import these helper functions if not already in this file
 function getHeightPercentage(distance) {
   const minDistance = 11;
   const maxDistance = 35;
@@ -35,6 +34,53 @@ function getWeightPercentage(weight) {
   return Math.min((weight / maxWeight) * 100, 100);
 }
 
+// Notification sending function
+async function sendBinNotification(binKey, fillLevel) {
+  try {
+    const janitor = await User.findOne({ u_role: 'janitor' });
+    if (!janitor) {
+      console.warn('⚠️ No janitorial user found, notification not sent.');
+      return;
+    }
+
+    const bin = await Bin.findOne({ bin_code: binKey });
+    if (!bin) {
+      console.warn(`⚠️ Bin with key "${binKey}" not found, notification not sent.`);
+      return;
+    }
+
+    let notifType, message;
+
+    if (fillLevel >= 85 && fillLevel <= 94) {
+      notifType = 'Almost Full Alert';
+      message = `${binKey.toUpperCase()} is almost full at ${fillLevel.toFixed(1)}%. Please prepare to empty it soon.`;
+    } else if (fillLevel >= 95 && fillLevel <= 100) {
+      notifType = 'Full Bin Alert';
+      message = `${binKey.toUpperCase()} is FULL at ${fillLevel.toFixed(1)}%! Please empty it ASAP.`;
+    } else {
+      // No notification needed outside these ranges
+      return;
+    }
+
+    const notification = new Notification({
+      user_id: janitor._id,
+      bin_id: bin._id,
+      message,
+      notif_type: notifType,
+      created_at: new Date(),
+      send_time: null,
+      status: 'pending',
+    });
+
+    await notification.save();
+    console.log(`🔔 Notification sent to janitorial staff: ${notifType} for ${binKey}`);
+
+  } catch (err) {
+    console.error('❌ Error sending notification:', err.message);
+  }
+}
+
+// Updated saveBinData to accept and use userId and binId
 async function saveBinData(binKey, binData, binType) {
   const weightPct = getWeightPercentage(binData.weight);
   const heightPct = getHeightPercentage(binData.height);
@@ -58,6 +104,9 @@ async function saveBinData(binKey, binData, binType) {
         });
         await newEntry.save();
         console.log(`💾 Saved starting fill for ${binKey}`);
+
+        // Send almost full notification
+        await sendBinNotification(binKey, avg);
       }
     } else if (avg >= 95 && avg <= 100) {
       if (!savedBins[binKey].full) {
@@ -73,6 +122,9 @@ async function saveBinData(binKey, binData, binType) {
         });
         await newEntry.save();
         console.log(`💾 Saved FULL bin alert for ${binKey}`);
+
+        // Send full bin notification
+        await sendBinNotification(binKey, avg);
       }
     } else {
       // Reset flags if below 85%

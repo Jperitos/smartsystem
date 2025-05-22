@@ -55,7 +55,7 @@ router.get("/google/callback", passport.authenticate("google", { failureRedirect
         redirectUrl = "/admin/admin";
         break;
       case "staff":
-        redirectUrl = "/staff/dashboardd";
+        redirectUrl = "/staff/dashboard";
         break;
       case "janitor":
         redirectUrl = "/janitors/janitor";

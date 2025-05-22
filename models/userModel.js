@@ -182,6 +182,12 @@ const binLiveSchema = new mongoose.Schema({
   }
 });
 
+const floorSchema = new mongoose.Schema({
+  floorName: String,
+  imagePath: String,
+  createdAt: { type: Date, default: Date.now }
+});
+
 const BinLive = mongoose.model("BinLive", binLiveSchema);
 const UserInfo = mongoose.model("UserInfo", userInfoSchema);
 const User = mongoose.model("User", userSchema);
@@ -191,7 +197,7 @@ const Alert = mongoose.model("Alert", alertSchema);
 const Bin = mongoose.model("Bin", binSchema);
 const HistoryLog = mongoose.model("HistoryLog", historyLogSchema);
 const Notification = mongoose.model("Notification", notificationSchema);
-
+const Floor = mongoose.model('Floor', floorSchema);
 
 module.exports = {
     User,
@@ -202,5 +208,6 @@ module.exports = {
     Bin,
     HistoryLog,
     Notification,
-    BinLive
+    BinLive,
+    Floor
 };

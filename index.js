@@ -23,8 +23,8 @@ const userRouters = require('./routers/userRouters');
 const authenticated = require("./middlewares/Authenticated");
 require('./middlewares/passport-setup');
 const userdisplay = require("./routers/userRouts");
-
-
+const { saveBinData } = require('./middlewares/dbHandler');
+const imageRouter = require('./routers/imageRouter');
 
 app.use(cors());
 app.use(helmet({
@@ -58,7 +58,6 @@ app.use(authRouter);
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/view");
 app.use(express.static("public"));
-app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
 
 io.on('connection', (socket) => {
@@ -96,6 +95,10 @@ app.get("/display", (req, res) => {
 app.get("/news", (req, res) => {
     res.render("news");
 });
+app.get("/image", (req, res) => {
+    res.render("image");
+});
+
 app.get("/staff/dashboard", identifier, (req, res) => {
   res.render("staff/dashboard");
 });
@@ -139,7 +142,10 @@ app.get('/api/activity-logs', async (req, res) => {
   }
 });
 
+app.use('/floor-images', express.static(path.join(__dirname, 'floor-images')));
 
+// Use the image router
+app.use('/api/images', imageRouter);
 
 // GET History Logs
 app.get('/api/history-logs', async (req, res) => {
@@ -223,6 +229,8 @@ app.get('/api/activity-log/latest', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+
 
 
 // Socket.IO connection handler

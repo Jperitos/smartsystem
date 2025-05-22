@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Floor Images Upload & Display</title>
+<style>
+  img { max-width: 200px; margin: 10px; border: 1px solid #ccc; }
+  .floor-item { margin-bottom: 20px; }
+</style>
+</head>
+<body>
+<div class="floorstat1">
+                  <select id="floorSelect" class="floor-dropdown" >
+                    <option value="1">Floor 1</option>
+                    <option value="2">Floor 2</option>
+                    <option value="3">Floor 3</option>
+                    <option value="4">Floor 4</option>
+                    <option value="5">Floor 5</option>
+                    <option value="6">Floor 6</option>
+                  </select>
+                  
+                </div>
+                <div id="floorImageContainer"></div>
+<h1>Upload Floor Image</h1>
+<form id="uploadForm" enctype="multipart/form-data">
+  <input type="text" name="floorName" placeholder="Floor Name" required />
+  <input type="file" name="floorImage" accept="image/*" required />
+  <button type="submit">Upload</button>
+</form>
+
+<h2>Uploaded Floor Images</h2>
+<div id="floorList"></div>
+
+<script>
+  const floorList = document.getElementById('floorList');
+  const uploadForm = document.getElementById('uploadForm');
+
+  // Fetch and display floor images
+  async function loadFloors() {
+    floorList.innerHTML = 'Loading floors...';
+    try {
+      const res = await fetch('/api/images/floors');
+      const floors = await res.json();
+      floorList.innerHTML = '';
+
+      floors.forEach(floor => {
+        const div = document.createElement('div');
+        div.className = 'floor-item';
+
+        const img = document.createElement('img');
+        // The imagePath is like "floor-images/floor-123.jpg"
+        img.src = '/' + floor.imagePath.replace(/\\/g, '/'); // handle backslash for windows
+
+        const name = document.createElement('p');
+        name.textContent = floor.floorName;
+
+        div.appendChild(img);
+        div.appendChild(name);
+        floorList.appendChild(div);
+      });
+
+      if (floors.length === 0) {
+        floorList.textContent = 'No floor images uploaded yet.';
+      }
+    } catch (err) {
+      floorList.textContent = 'Failed to load floor images.';
+    }
+  }
+
+  uploadForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const formData = new FormData(uploadForm);
+  try {
+    const res = await fetch('/api/images/upload-floor-image', {
+      method: 'POST',
+      body: formData
+    });
+
+    // Read raw text first (only once)
+    const text = await res.text();
+
+    let data;
+    try {
+      data = JSON.parse(text); // Try parsing as JSON
+    } catch {
+      // Not JSON, alert raw text (likely an error page or message)
+      alert('Server did not return valid JSON:\n' + text);
+      return;
+    }
+
+    if (res.ok) {
+      alert('Upload successful!');
+      uploadForm.reset();
+      loadFloors();
+    } else {
+      alert('Upload failed: ' + (data.message || JSON.stringify(data)));
+    }
+  } catch (err) {
+    alert('Upload error: ' + err.message);
+  }
+});
+
+  // Load floors on page load
+  loadFloors();
+</script>
+<script src="/js/floorque.js"></script>
+</body>
+</html>

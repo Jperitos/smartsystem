@@ -18,20 +18,22 @@
       background-color: #eee;
     }
     .notification {
-    background-color: #f0f8ff;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-left: 4px solid #007bff;
-    font-size: 14px;
-    font-family: Arial, sans-serif;
-  }
+      background-color: #f0f8ff;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-left: 4px solid #007bff;
+      font-size: 14px;
+      font-family: Arial, sans-serif;
+    }
   </style>
 </head>
 <body>
 
   <div id="notification-container" style="padding: 1rem; max-height: 300px; overflow-y: auto; border: 1px solid #ccc; width: 300px;">
     <h3>Real-Time Notifications</h3>
+    <div id="notifications-list"></div>
   </div>
+
   <h1>Bin Data (Fill Level ≥ 85%)</h1>
   <table id="binTable">
     <thead>
@@ -49,6 +51,8 @@
       <!-- Data rows go here -->
     </tbody>
   </table>
+
+  <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
 
   <script>
     async function fetchBinData() {
@@ -80,38 +84,67 @@
       }
     }
 
-    // Fetch data on page load
+    // Fetch data on page load and every 30 seconds
     fetchBinData();
-
-    // Optional: auto-refresh every 30 seconds
     setInterval(fetchBinData, 30000);
-  </script>
-  <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
-  <script>
-    // Connect to your server (adjust URL as needed)
-    const socket = io('http://localhost:3000'); // or your production URL
-  
+
+    // Notifications logic
+    const notifContainer = document.getElementById('notifications-list');
+
+    async function fetchNotifications() {
+      try {
+        const res = await fetch('/api/notifications');
+        if (!res.ok) throw new Error('Failed to fetch notifications');
+        const notifications = await res.json();
+
+        if (notifications.length === 0) {
+          notifContainer.innerHTML = '<p>No notifications</p>';
+          return;
+        }
+
+        notifContainer.innerHTML = notifications.map(notif => `
+          <div class="notification">
+            <strong>${notif.notif_type}</strong><br>
+            <small>${new Date(notif.created_at).toLocaleString()}</small>
+            <p>${notif.message}</p>
+            <small><em>Bin: ${notif.bin_id?.bin_code || 'Unknown'}</em></small>
+          </div>
+        `).join('');
+      } catch (error) {
+        notifContainer.innerHTML = `<p style="color:red;">Failed to load notifications</p>`;
+        console.error('Error fetching notifications:', error);
+      }
+    }
+
+    // Initial load
+    fetchNotifications();
+
+    // Socket.io connection and realtime updates
+    const socket = io();
+
     socket.on('connect', () => {
       console.log('Connected to notification server');
     });
-  
-    // Listen for real-time notification events
+
     socket.on('pushNotification', (data) => {
       console.log('Notification received:', data);
-  
-      // Display the message in your notification container
-      const notifContainer = document.getElementById('notification-container');
-  
+
       const notifElement = document.createElement('div');
       notifElement.classList.add('notification');
-      notifElement.innerText = data.message;
-  
+      notifElement.innerHTML = `
+        <strong>${data.notif_type || 'Notification'}</strong><br>
+        <small>${new Date(data.created_at || Date.now()).toLocaleString()}</small>
+        <p>${data.message}</p>
+        <small><em>Bin: ${data.bin_code || 'Unknown'}</em></small>
+      `;
+
       notifContainer.prepend(notifElement);
     });
-  
+
     socket.on('disconnect', () => {
-      console.log('Disconnected from server');
+      console.log('Disconnected from notification server');
     });
   </script>
+
 </body>
 </html>
