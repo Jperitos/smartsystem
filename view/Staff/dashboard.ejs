@@ -19,18 +19,18 @@
         cursor: pointer;
         transition: all 0.2s ease;
       }
-      
+
       .bin-info-card:hover {
         background-color: #f5f5f5;
         transform: translateY(-3px);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
-      
+
       /* Save button styles */
       .save-btn1 {
         cursor: pointer;
         padding: 10px 20px;
-        background-color: #4CAF50;
+        background-color: #4caf50;
         color: white;
         border: none;
         border-radius: 5px;
@@ -38,17 +38,17 @@
         transition: all 0.3s ease;
         margin-top: 15px;
       }
-      
+
       .save-btn1:hover {
         background-color: #45a049;
       }
-      
+
       .save-btn1:disabled {
         background-color: #cccccc;
         cursor: not-allowed;
         opacity: 0.7;
       }
-      
+
       /* Modal styling */
       .modal2 {
         display: none;
@@ -58,11 +58,11 @@
         top: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0,0,0,0.5);
+        background-color: rgba(0, 0, 0, 0.5);
         justify-content: center;
         align-items: center;
       }
-      
+
       .modal-content2 {
         background-color: #fff;
         padding: 20px;
@@ -72,9 +72,9 @@
         max-height: 90vh;
         overflow-y: auto;
         position: relative;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
       }
-      
+
       .close {
         position: absolute;
         right: 15px;
@@ -82,13 +82,13 @@
         font-size: 24px;
         cursor: pointer;
       }
-      
+
       #modal-title {
         margin-top: 0;
         padding-bottom: 10px;
         border-bottom: 1px solid #eee;
       }
-      
+
       .clock-display {
         display: inline-block;
         padding: 8px;
@@ -98,36 +98,36 @@
         color: #333;
         margin-top: 5px;
       }
-      
+
       /* Profile image upload styling */
       .profile-image-container {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
       }
-      
+
       .image-preview-wrapper {
         margin-bottom: 15px;
         position: relative;
       }
-      
+
       #image-preview {
         border: 2px solid #ddd;
         object-fit: cover;
         transition: all 0.3s ease;
       }
-      
+
       #image-preview.preview-active {
-        border-color: #4CAF50;
+        border-color: #4caf50;
       }
-      
+
       .file-input {
         opacity: 0;
         width: 0.1px;
         height: 0.1px;
         position: absolute;
       }
-      
+
       /* Button alignment fixes */
       .button-group {
         display: flex;
@@ -136,12 +136,13 @@
         margin-bottom: 10px;
         height: 40px;
       }
-      
+
       .upload-btn-wrapper {
         height: 40px;
       }
-      
-      .file-input-label, .update-btn {
+
+      .file-input-label,
+      .update-btn {
         height: 100%;
         display: inline-flex;
         align-items: center;
@@ -156,32 +157,32 @@
         margin: 0;
         box-sizing: border-box;
       }
-      
+
       .file-input-label {
-        background-color: #4CAF50;
+        background-color: #4caf50;
         color: white;
       }
-      
+
       .file-input-label:hover {
         background-color: #45a049;
       }
-      
+
       .update-btn {
-        background-color: #2196F3;
+        background-color: #2196f3;
         color: white;
       }
-      
+
       .update-btn:hover {
         background-color: #0b7dda;
       }
-      
+
       .file-info {
         display: block;
         margin-top: 5px;
         color: #666;
         font-style: italic;
       }
-      
+
       /* Notification styling */
       #notification-container {
         position: fixed;
@@ -190,17 +191,17 @@
         z-index: 9999;
         max-width: 350px;
       }
-      
+
       /* Form validation styling */
       input:required:invalid,
       input:focus:invalid {
         border-color: #ff6b6b;
       }
-      
+
       input:required:valid {
         border-color: initial; /* Reset to default border color */
       }
-      
+
       /* Error message for form validation */
       .error-message {
         color: #ff6b6b;
@@ -208,7 +209,7 @@
         margin-top: 5px;
         display: none;
       }
-      
+
       input:required:invalid + .error-message {
         display: block;
       }
@@ -551,7 +552,10 @@
                   </div>
 
                   <!-- Success message that will appear when saved -->
-                  <div id="success-message" style="display: none; color: green; margin: 10px 0; text-align: center; font-weight: bold;">
+                  <div
+                    id="success-message"
+                    style="display: none; color: green; margin: 10px 0; text-align: center; font-weight: bold"
+                  >
                     Assignment saved successfully!
                   </div>
 
@@ -604,18 +608,26 @@
 
               <div class="row">
                 <div class="input">
-                  <label>Staff Name <span class="view-only-indicator">(View only)</span></label><br />
-                  <input type="text" id="updateName" required placeholder="Full Name" disabled style="color: #333 !important; font-weight: 500 !important; background-color: #f9f9f9 !important;" />
+                  <label>Staff Name <span class="view-only-indicator">(View only)</span></label
+                  ><br />
+                  <input
+                    type="text"
+                    id="updateName"
+                    required
+                    placeholder="Full Name"
+                    disabled
+                    style="color: #333 !important; font-weight: 500 !important; background-color: #f9f9f9 !important"
+                  />
                 </div>
 
                 <div class="input3">
                   <label class="input-label">Gender <span class="view-only-indicator">(View only)</span></label>
                   <div class="gender-options">
-                    <label style="color: #333 !important;">
+                    <label style="color: #333 !important">
                       <input type="radio" name="gender" value="male" disabled />
                       Male
                     </label>
-                    <label style="color: #333 !important;">
+                    <label style="color: #333 !important">
                       <input type="radio" name="gender" value="female" disabled />
                       Female
                     </label>
@@ -625,29 +637,63 @@
 
               <div class="row">
                 <div class="input">
-                  <label>Age <span class="view-only-indicator">(View only)</span></label><br />
-                  <input type="text" id="updateAge" disabled style="color: #333 !important; font-weight: 500 !important; background-color: #f9f9f9 !important;" />
+                  <label>Age <span class="view-only-indicator">(View only)</span></label
+                  ><br />
+                  <input
+                    type="text"
+                    id="updateAge"
+                    disabled
+                    style="color: #333 !important; font-weight: 500 !important; background-color: #f9f9f9 !important"
+                  />
                 </div>
                 <div class="input2">
-                  <label>Contact Number <span class="view-only-indicator">(View only)</span></label><br />
-                  <input type="text" id="updateContact" disabled style="color: #333 !important; font-weight: 500 !important; background-color: #f9f9f9 !important;" />
+                  <label>Contact Number <span class="view-only-indicator">(View only)</span></label
+                  ><br />
+                  <input
+                    type="text"
+                    id="updateContact"
+                    disabled
+                    style="color: #333 !important; font-weight: 500 !important; background-color: #f9f9f9 !important"
+                  />
                 </div>
               </div>
 
               <div class="input1">
-                <label>Address <span class="view-only-indicator">(View only)</span></label><br />
-                <input type="text" id="updateAddress" required class="address" disabled style="color: #333 !important; font-weight: 500 !important; background-color: #f9f9f9 !important;" /><br />
+                <label>Address <span class="view-only-indicator">(View only)</span></label
+                ><br />
+                <input
+                  type="text"
+                  id="updateAddress"
+                  required
+                  class="address"
+                  disabled
+                  style="color: #333 !important; font-weight: 500 !important; background-color: #f9f9f9 !important"
+                /><br />
               </div>
 
               <div class="input1">
-                <label>Email Address <span class="view-only-indicator">(View only)</span></label><br />
-                <input type="email" id="updateEmail" required class="email" disabled style="color: #333 !important; font-weight: 500 !important; background-color: #f9f9f9 !important;" />
+                <label>Email Address <span class="view-only-indicator">(View only)</span></label
+                ><br />
+                <input
+                  type="email"
+                  id="updateEmail"
+                  required
+                  class="email"
+                  disabled
+                  style="color: #333 !important; font-weight: 500 !important; background-color: #f9f9f9 !important"
+                />
               </div>
 
               <div class="row">
                 <div class="input">
                   <label class="editable-field-label">Assign Floor</label><br />
-                  <input type="number" id="updateFloor" min="1" placeholder="Enter floor number" style="font-weight: 500; background-color: #f0fff0; border-color: #4CAF50;" />
+                  <input
+                    type="number"
+                    id="updateFloor"
+                    min="1"
+                    placeholder="Enter floor number"
+                    style="font-weight: 500; background-color: #f0fff0; border-color: #4caf50"
+                  />
                 </div>
               </div>
 
@@ -671,6 +717,7 @@
         </div>
       </div>
 
+<<<<<<< HEAD
       <!-- Collection / Activity Logs -->
       <div id="staffs" class="content-panel">
         <h3>Collection Activity Log</h3>
@@ -699,6 +746,42 @@
             <tbody id="activityTableBody">
               <tr>
                 <td colspan="6" style="text-align: center; padding: 20px; color: #666;">Loading activity logs...</td>
+=======
+      <!-- Staffs -->
+      <div id="staffs" class="content-panel">
+        <div class="head-staff">
+          <h3>Collect Information</h3>
+          <div class="right-head">
+            <div class="search-bin-staff">
+              <input type="text" id="binSearch" placeholder="Search" class="search-bar2" />
+            </div>
+            <div class="filter">
+              <p id="sortBtn">Sort By</p>
+              <i class="bx bx-sort-a-z"></i>
+            </div>
+          </div>
+        </div>
+        <div>
+          <table class="table2" id="staffTable">
+            <thead>
+              <tr>
+                <th>Staff ID</th>
+                <th>Assign Floor</th>
+                <th>Name</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="staffBody">
+              <tr class="staff-row">
+                <td>1001</td>
+                <td>Floor 4</td>
+                <td>Angel Anuba</td>
+                <td>2025-07-03 08:00 AM</td>
+                <td>2025-07-03 10:00 AM</td>
+                <td class="status-pending">Pending</td>
+>>>>>>> 5a1589acebf178e4c8cc3c70b05c14148e195731
               </tr>
             </tbody>
           </table>
@@ -734,12 +817,8 @@
                   <div class="form-group half-width">
                     <label>Gender</label>
                     <div class="gender-options">
-                      <label>
-                        <input type="radio" name="gender" value="Male" required /> Male
-                      </label>
-                      <label>
-                        <input type="radio" name="gender" value="Female" required /> Female
-                      </label>
+                      <label> <input type="radio" name="gender" value="Male" required /> Male </label>
+                      <label> <input type="radio" name="gender" value="Female" required /> Female </label>
                     </div>
                   </div>
                 </div>
@@ -769,14 +848,21 @@
                   <label>Profile Image</label>
                   <div class="profile-image-container">
                     <div class="image-preview-wrapper">
-                      <img id="image-preview" src="<%= typeof user !== 'undefined' && user.profile_image ? user.profile_image : '/image/profile2.jpg' %>" alt="Profile preview" style="max-width: 100px; max-height: 100px; margin-bottom: 10px; border-radius: 50%;">
+                      <img
+                        id="image-preview"
+                        src="<%= typeof user !== 'undefined' && user.profile_image ? user.profile_image : '/image/profile2.jpg' %>"
+                        alt="Profile preview"
+                        style="max-width: 100px; max-height: 100px; margin-bottom: 10px; border-radius: 50%"
+                      />
                     </div>
                     <div class="button-group">
                       <div class="upload-btn-wrapper">
                         <input type="file" id="profile-image-input" accept="image/*" class="file-input" />
-                        <label for="profile-image-input" class="file-input-label" style="height:40px;">Choose Image</label>
+                        <label for="profile-image-input" class="file-input-label" style="height: 40px"
+                          >Choose Image</label
+                        >
                       </div>
-                      <button type="submit" class="update-btn" style="height:40px;">Update Profile</button>
+                      <button type="submit" class="update-btn" style="height: 40px">Update Profile</button>
                     </div>
                     <small class="file-info">Max size: 2MB. Accepted formats: JPG, PNG, GIF</small>
                   </div>
