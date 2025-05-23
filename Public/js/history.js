@@ -240,6 +240,8 @@ document.addEventListener('DOMContentLoaded', function() {
   if (document.querySelector('#activityTableBody')) {
     loadActivityLogs();
   }
+  
+  // Only load history logs if the historyTableBody exists (admin.ejs only)
   if (document.querySelector('#historyTableBody')) {
     loadHistoryLogs();
   }
@@ -251,11 +253,13 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Small delay to ensure panel is visible before loading data
       setTimeout(() => {
-        if (target === 'activity-logs' || target === 'history') {
+        // Activity logs can be loaded from activity-logs panel or staffs panel (Collection)
+        if (target === 'activity-logs' || target === 'history' || target === 'staffs') {
           if (document.querySelector('#activityTableBody')) {
             loadActivityLogs();
           }
         }
+        // History logs only for admin.ejs (history-logs panel or activity panel)
         if (target === 'history-logs' || target === 'activity') {
           if (document.querySelector('#historyTableBody')) {
             loadHistoryLogs();
@@ -269,12 +273,19 @@ document.addEventListener('DOMContentLoaded', function() {
   setInterval(() => {
     // Only refresh if the panels are visible
     const activePanel = document.querySelector('.content-panel.active');
-    if (activePanel && (activePanel.id === 'activity-logs' || activePanel.id === 'history' || activePanel.id === 'history-logs' || activePanel.id === 'activity')) {
-      if (document.querySelector('#activityTableBody')) {
-        loadActivityLogs();
+    if (activePanel) {
+      const panelId = activePanel.id;
+      // Auto-refresh activity logs for activity-logs, history, or staffs panels
+      if (panelId === 'activity-logs' || panelId === 'history' || panelId === 'staffs') {
+        if (document.querySelector('#activityTableBody')) {
+          loadActivityLogs();
+        }
       }
-      if (document.querySelector('#historyTableBody')) {
-        loadHistoryLogs();
+      // Auto-refresh history logs only for admin.ejs panels
+      if (panelId === 'history-logs' || panelId === 'activity') {
+        if (document.querySelector('#historyTableBody')) {
+          loadHistoryLogs();
+        }
       }
     }
   }, 30000);
