@@ -200,6 +200,7 @@
               <p id="sortBtn">Sort By</p>
               <i class="bx bx-sort-a-z"></i>
             </div>
+            <button class="refresh-btn"><i class="bx bx-refresh"></i> Refresh</button>
           </div>
         </div>
         <div>
@@ -230,9 +231,9 @@
       <div id="updateModal" class="modal-task">
         <div class="modal-content">
           <span class="close" id="closeModal">&times;</span>
-          <h2>Update Activity Log</h2>
+          <h2>Update Collection Status</h2>
           <form id="updateForm">
-            <input type="hidden" id="collectionId" name="activity_id" />
+            <input type="hidden" id="collectionId" name="assignment_id" />
             
             <div class="form-group">
               <label>Task</label>
@@ -247,24 +248,10 @@
             <div class="form-group">
               <label>Status</label>
               <select id="statusUpdate" name="status" required>
-                <option value="done">Done</option>
-                <option value="pending">Pending</option>
-                <option value="in-progress">In Progress</option>
+                <option value="assigned">Assigned</option>
+                <option value="inprogress">In Progress</option>
+                <option value="completed">Completed</option>
               </select>
-            </div>
-            
-            <div class="form-group">
-              <label>Proof of Collection (Image)</label>
-              <div class="evidence-upload">
-                <div class="evidence-preview">
-                  <img src="/image/placeholder.jpg" id="evidencePreview" alt="Evidence Preview">
-                </div>
-                <div class="evidence-controls">
-                  <input type="file" id="proofImage" name="evidence_image" accept="image/*" style="display: none;" />
-                  <button type="button" class="upload-btn" id="uploadImageBtn">Upload Image</button>
-                  <p class="evidence-hint">Max size: 2MB. Accepted formats: JPG, PNG</p>
-                </div>
-              </div>
             </div>
             
             <div class="form-group">

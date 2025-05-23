@@ -243,4 +243,127 @@ router.delete('/staff/:id', async (req, res) => {
     }
 });
 
+// Get assignments for a specific janitor
+router.get('/janitor/assignments/:userId', async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        
+        if (!userId) {
+            return res.status(400).json({ message: 'User ID is required' });
+        }
+        
+        console.log(`Fetching assignments for janitor ID: ${userId}`);
+        
+        // Real implementation would look like:
+        /*
+        const assignments = await Assignment.find({ 
+            janitor_id: userId 
+        })
+        .populate('bin_id', 'bin_code location')
+        .sort({ date: -1, time: -1 })
+        .lean();
+        */
+        
+        // Mock data for demonstration
+        const mockAssignments = [
+            {
+                id: '1001',
+                bin_id: 'Bin 011',
+                floor: 'Floor 1',
+                task_description: 'Empty biodegradable bin',
+                date: '2024-07-15',
+                time: '08:30',
+                end_time: '',
+                status: 'assigned'
+            },
+            {
+                id: '1002',
+                bin_id: 'Bin 021',
+                floor: 'Floor 2',
+                task_description: 'Empty non-biodegradable bin',
+                date: '2024-07-15',
+                time: '09:00',
+                end_time: '',
+                status: 'assigned'
+            },
+            {
+                id: '1003',
+                bin_id: 'Bin 032',
+                floor: 'Floor 3',
+                task_description: 'Empty food waste bin',
+                date: '2024-07-14',
+                time: '10:30',
+                end_time: '2024-07-14 11:45',
+                status: 'completed'
+            },
+            {
+                id: '1004',
+                bin_id: 'Bin 041',
+                floor: 'Floor 4',
+                task_description: 'Check fill level',
+                date: '2024-07-14',
+                time: '14:00',
+                end_time: '2024-07-14 15:30',
+                status: 'completed'
+            },
+            {
+                id: '1005',
+                bin_id: 'Bin 051',
+                floor: 'Floor 5',
+                task_description: 'Sanitize bin',
+                date: '2024-07-16',
+                time: '08:00',
+                end_time: '',
+                status: 'inprogress'
+            }
+        ];
+        
+        res.json(mockAssignments);
+    } catch (error) {
+        console.error('Error fetching janitor assignments:', error);
+        res.status(500).json({ message: 'Failed to fetch assignments' });
+    }
+});
+
+// Update an assignment status
+router.patch('/janitor/assignments/:assignmentId', async (req, res) => {
+    try {
+        const assignmentId = req.params.assignmentId;
+        const { status, notes } = req.body;
+        
+        console.log(`Updating assignment ${assignmentId} with status: ${status}`);
+        
+        // Real implementation would look like:
+        /*
+        const assignment = await Assignment.findByIdAndUpdate(
+            assignmentId,
+            { 
+                status,
+                notes,
+                end_time: status === 'completed' ? new Date() : null
+            },
+            { new: true }
+        );
+        
+        if (!assignment) {
+            return res.status(404).json({ message: 'Assignment not found' });
+        }
+        */
+        
+        // Mock success response
+        res.json({ 
+            message: 'Assignment updated successfully',
+            assignment: {
+                id: assignmentId,
+                status,
+                notes,
+                end_time: status === 'completed' ? new Date().toISOString() : null
+            }
+        });
+    } catch (error) {
+        console.error('Error updating assignment:', error);
+        res.status(500).json({ message: 'Failed to update assignment' });
+    }
+});
+
 module.exports = router; 

@@ -1652,27 +1652,49 @@ body {
   font-style: italic;
 }
 
-.status-pending, .status-in-progress, .status-done {
+.status-assigned, .status-pending, .status-inprogress, .status-done {
   display: inline-block;
   padding: 5px 10px;
-  border-radius: 20px;
+  border-radius: 4px;
   font-size: 12px;
   font-weight: 500;
 }
 
-.status-pending {
-  background-color: #fff4e5;
-  color: #ff8c00;
+.status-assigned {
+  background-color: #E6A419;
+  color: white;
 }
 
-.status-in-progress {
-  background-color: #e5f6ff;
-  color: #0077cc;
+.status-pending {
+  background-color: #f0ad4e;
+  color: white;
+}
+
+.status-inprogress {
+  background-color: #5bc0de;
+  color: white;
 }
 
 .status-done {
-  background-color: #e8f5e9;
-  color: #2e7d32;
+  background-color: #5cb85c;
+  color: white;
+}
+
+.refresh-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.refresh-btn:hover {
+  background-color: #3d8b40;
 }
 
 /* Update Modal Enhancements */
