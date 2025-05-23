@@ -3,97 +3,185 @@
 
 console.log('SensorData: Using static bin level data from database for notifications');
 
-/*
-// Connect to your backend WebSocket server (adjust host/port as needed)
-const ws = new WebSocket('ws://localhost:9001');
+// WebSocket connection for real-time updates
+const ws = new WebSocket(`ws://${window.location.hostname}:9001`);
 
+// WebSocket event handlers
 ws.onopen = () => {
-  console.log('WebSocket connected to backend for real-time bin data');
+    console.log('Connected to WebSocket server');
 };
 
 ws.onmessage = (event) => {
-  try {
     const data = JSON.parse(event.data);
-
-    // Update bin info on page
-    updateBinData('s1bin1', data.bin1);
-    updateBinData('s1bin2', data.bin2);
-    updateBinData('s1bin3', data.bin3);
-  } catch (err) {
-    console.error('Error parsing WebSocket message:', err);
-  }
+    updateBinDisplays(data);
 };
 
 ws.onerror = (error) => {
-  console.error('WebSocket error:', error);
+    console.error('WebSocket error:', error);
 };
 
 ws.onclose = () => {
-  console.log('WebSocket connection closed');
+    console.log('Disconnected from WebSocket server');
+    // Attempt to reconnect after 5 seconds
+    setTimeout(() => {
+        window.location.reload();
+    }, 5000);
 };
-*/
 
-// Function to update DOM elements for a bin (kept for compatibility but not used)
-function updateBinData(binId, binData) {
-  // DISABLED: No longer updating dynamic sensor data
-  // Static bin level data is now used for notifications from database
-  console.log(`updateBinData called for ${binId} - using static data instead`);
-  return;
-  
-  /*
-  if (!binData) return;
-  
-  // Convert binId to uppercase format used in HTML (s1bin1 -> S1Bin1)
-  const formattedBinId = binId.replace(/^s(\d+)bin(\d+)$/i, (_, floor, num) => 
-    `S${floor}Bin${num}`);
-  
-  // Find the bin card by ID
-  const binCard = document.getElementById(formattedBinId);
-  if (!binCard) return;
-  
-  // Update spans inside this bin card with latest values
-  const avgSpan = binCard.querySelector(`#${binId}-avg`);
-  const heightSpan = binCard.querySelector(`#${binId}-height`);
-  const weightSpan = binCard.querySelector(`#${binId}-weight`);
-  
-  if (avgSpan) avgSpan.textContent = `${binData.avg.toFixed(1)}`;
-  if (heightSpan) heightSpan.textContent = `${binData.height}`;
-  if (weightSpan) weightSpan.textContent = `${binData.weight.toFixed(1)}`;
-  
-  // If modal is open and showing this bin, update the values there too
-  const modal = document.getElementById('binModal');
-  if (modal && modal.style.display === 'block' && modal.dataset.currentBinId === formattedBinId) {
-    document.getElementById('binLevelSpan').textContent = avgSpan ? avgSpan.textContent : '-';
-  }
-  */
+function getHeightPercentage(heightCm) {
+    const minHeight = 35;
+    const maxHeight = 11;
+    if (typeof heightCm !== 'number') return 0;
+    if (heightCm <= maxHeight) return 100;
+    if (heightCm >= minHeight) return 0;
+    return Math.round(((minHeight - heightCm) / (minHeight - maxHeight)) * 100);
 }
 
-function updateProgressBars(data) {
-  // DISABLED: No longer using dynamic progress bars
-  // Static bin level data is used for notifications instead
-  console.log('updateProgressBars called - using static data system instead');
-  return;
-  
-  /*
-  data.forEach((sensorData) => {
-    const binId = sensorData.data_id.split('_')[1];
-    const fillLevel = sensorData.fillLevel;
-    console.log(`Bin ${binId} - Fill Level: ${fillLevel}%`);
+function getWeightPercentage(weightG) {
+    const maxWeight = 5000;
+    if (typeof weightG !== 'number') return 0;
+    if (weightG >= maxWeight) return 100;
+    if (weightG <= 0) return 0;
+    return Math.round((weightG / maxWeight) * 100);
+}
 
-    const progressBar = document.querySelector(`.progress-bar[data-progress="${binId}"]`);
-    const progressText = document.querySelector(`.progress-text[data-progress="${binId}"]`);
+// Function to update bin displays
+function updateBinDisplays(data) {
+    // Update each bin's data
+    for (const binKey in data) {
+        if (binKey === 'timestamp') continue;
+        
+        const binData = data[binKey];
+        const binId = `S1Bin${binKey.slice(-1)}`; // Convert bin1, bin2, bin3 to S1Bin1, S1Bin2, S1Bin3
+        
+        // Calculate percentages
+        const heightPct = getHeightPercentage(binData.height);
+        const weightPct = getWeightPercentage(binData.weight);
+        const avgPct = ((heightPct + weightPct) / 2).toFixed(1);
 
-    if (progressBar && progressText) {
-      progressBar.style.width = `${fillLevel}%`;
-      progressText.textContent = `${fillLevel}%`;
-    } else {
-      console.warn(`Elements not found for binId ${binId}`);
+        // Update average
+        const avgElement = document.getElementById(`${binId.toLowerCase()}-avg`);
+        if (avgElement) {
+            avgElement.textContent = `${avgPct}%`;
+        }
+        
+        // Update height
+        const heightElement = document.getElementById(`${binId.toLowerCase()}-height`);
+        if (heightElement) {
+            heightElement.textContent = `${binData.height.toFixed(1)}cm (${heightPct}%)`;
+        }
+        
+        // Update weight
+        const weightElement = document.getElementById(`${binId.toLowerCase()}-weight`);
+        if (weightElement) {
+            weightElement.textContent = `${binData.weight.toFixed(1)}g (${weightPct}%)`;
+        }
+        
+        // Update bin card color based on fill level (using calculated average)
+        const binCard = document.getElementById(binId);
+        if (binCard) {
+            // Remove existing color classes
+            binCard.classList.remove('bin-empty', 'bin-warning', 'bin-full');
+            
+            // Add appropriate color class based on average fill level
+            if (avgPct >= 90) {
+                binCard.classList.add('bin-full');
+            } else if (avgPct >= 70) {
+                binCard.classList.add('bin-warning');
+            } else {
+                binCard.classList.add('bin-empty');
+            }
+        }
+
+        // Animate bin level bar
+        const barElement = document.getElementById(`${binId.toLowerCase()}-bar`);
+        if (barElement) {
+            barElement.style.width = `${avgPct}%`;
+        }
     }
-  });
-  */
 }
 
-// Initialize static bin level system
+// Initial data fetch
+fetch('/api/latest-data')
+    .then(response => response.json())
+    .then(data => {
+        if (data && !data.message) {
+            updateBinDisplays(data);
+        }
+    })
+    .catch(error => console.error('Error fetching initial data:', error));
+
+// Add CSS styles for bin status colors
+const style = document.createElement('style');
+style.textContent = `
+    .bin-info-card {
+        transition: all 0.3s ease;
+    }
+    
+    .bin-empty {
+        border-left: 4px solid #4caf50;
+    }
+    
+    .bin-warning {
+        border-left: 4px solid #ff9800;
+    }
+    
+    .bin-full {
+        border-left: 4px solid #f44336;
+    }
+    
+    .bin-row {
+        display: flex;
+        justify-content: space-between;
+        margin: 5px 0;
+    }
+    
+    .bin-details {
+        padding: 10px;
+    }
+    
+    .bin-details strong {
+        font-size: 1.1em;
+        color: #333;
+    }
+`;
+document.head.appendChild(style);
+
+// Function to handle floor changes
+function updateFloorData(floorNumber) {
+    console.log(`🔄 Updating floor data to floor ${floorNumber}`);
+    // Update floor title
+    document.getElementById('floorTitle').textContent = `Floor ${floorNumber}`;
+    
+    // Update bin IDs and data-floor attributes
+    const bins = ['S1Bin1', 'S1Bin2', 'S1Bin3'];
+    bins.forEach((binId, index) => {
+        const newBinId = `S${floorNumber}Bin${index + 1}`;
+        const binElement = document.getElementById(binId);
+        if (binElement) {
+            binElement.id = newBinId;
+            binElement.querySelector('.bin-details').setAttribute('data-floor', floorNumber);
+            console.log(`✅ Updated bin ID from ${binId} to ${newBinId}`);
+        } else {
+            console.warn(`⚠️ Could not find bin element ${binId}`);
+        }
+    });
+}
+
+// Initialize when the page loads
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('Static bin level notification system initialized');
+    console.log('🚀 Initializing bin monitoring system...');
+    fetchInitialData();
+    connectWebSocket();
+
+    // Add event listener for floor changes
+    const floorSelect = document.getElementById('floors');
+    if (floorSelect) {
+        floorSelect.addEventListener('change', (e) => {
+            updateFloorData(e.target.value);
+        });
+        console.log('✅ Floor change listener added');
+    } else {
+        console.warn('⚠️ Could not find floor select element');
+    }
 });

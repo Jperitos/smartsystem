@@ -94,41 +94,42 @@ ws.on('message', async (message) => {
   try {
     const data = JSON.parse(msgStr);
 
-    // Validate payload structure
+    // Validate payload structure (now expects 'average' field from Arduino)
     const isValidPayload =
       data?.bin1 && data?.bin2 && data?.bin3 &&
       typeof data.bin1.weight === 'number' &&
       typeof data.bin1.height === 'number' &&
+      typeof data.bin1.average === 'number' &&
       typeof data.bin2.weight === 'number' &&
       typeof data.bin2.height === 'number' &&
+      typeof data.bin2.average === 'number' &&
       typeof data.bin3.weight === 'number' &&
-      typeof data.bin3.height === 'number';
+      typeof data.bin3.height === 'number' &&
+      typeof data.bin3.average === 'number';
 
     if (!isValidPayload) {
       console.warn("⚠️ Invalid payload structure or missing fields");
       return;
     }
 
-    // Process each bin to add percentages and averages
-    function processBin(bin) {
-      const weightPct = getWeightPercentage(bin.weight);
-      const heightPct = getHeightPercentage(bin.height);
-      const avg = (weightPct + heightPct) / 2;
-      return {
-        weight: bin.weight,
-        weightPct,
-        height: bin.height,
-        heightPct,
-        avg,
-      };
-    }
-
-    // Assign latestBinData here — before saving!
+    // Assign latestBinData directly from Arduino values
     latestBinData = {
-      bin1: processBin(data.bin1),
-      bin2: processBin(data.bin2),
-      bin3: processBin(data.bin3),
-      timestamp: new Date(), // better to keep Date object, not string
+      bin1: {
+        weight: data.bin1.weight,
+        height: data.bin1.height,
+        average: data.bin1.average
+      },
+      bin2: {
+        weight: data.bin2.weight,
+        height: data.bin2.height,
+        average: data.bin2.average
+      },
+      bin3: {
+        weight: data.bin3.weight,
+        height: data.bin3.height,
+        average: data.bin3.average
+      },
+      timestamp: new Date(),
     };
 
     // Log bin status for debug
@@ -136,12 +137,12 @@ ws.on('message', async (message) => {
     ['bin1', 'bin2', 'bin3'].forEach(binKey => {
       const b = latestBinData[binKey];
       console.log(
-        `${binKey.toUpperCase()} -> Weight: ${b.weight.toFixed(2)} kg (${b.weightPct.toFixed(1)}%) | Height: ${b.height} cm (${b.heightPct}%) | Avg: ${b.avg.toFixed(1)}%`
+        `${binKey.toUpperCase()} -> Weight: ${b.weight} | Height: ${b.height} | Avg: ${b.average}`
       );
     });
     console.log("================================\n");
 
-    // Now save each bin's data
+    // Save each bin's data (optional: update saveBinData to accept the new structure)
     for (const binKey of ['bin1', 'bin2', 'bin3']) {
       await saveBinData(binKey, latestBinData[binKey], binTypes[binKey]);
     }

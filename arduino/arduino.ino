@@ -43,6 +43,9 @@ const char phoneNumber[] = "+639766262752";
 // Variables for SMS alerts and call management
 bool smsSent1 = false, smsSent2 = false, smsSent3 = false;
 bool callMade = false;
+bool callInProgress = false;
+unsigned long callStartTime = 0;
+const unsigned long callDuration = 25000; // 25 seconds call duration
 unsigned long previousMillis = 0;
 
 // Function prototypes
@@ -53,6 +56,7 @@ void alertBuzzer(int count);
 void fullBinAlert();
 void sendSMSFormatted(const char* title, int weight, int weightPerc, int height, int heightPerc, int level);
 void makeCall();
+void manageCall();
 void sendBinData(float w1, int h1, float w2, int h2, float w3, int h3);
 void checkESP32Commands();
 void sendManualSMS();
@@ -94,6 +98,8 @@ void setup() {
 }
 
 void loop() {
+  manageCall();  // Handle ongoing call (hang up if timed out)
+
   unsigned long currentMillis = millis();
   if (currentMillis - previousMillis >= interval) {
     previousMillis = currentMillis;
@@ -177,13 +183,13 @@ void loop() {
       digitalWrite(LED_ALERT, LOW);
     }
 
-    if ((bin1 >= 95 || bin2 >= 95 || bin3 >= 95) && !callMade) {
+    if ((bin1 >= 95 || bin2 >= 95 || bin3 >= 95) && !callMade && !callInProgress) {
       delay(2000);
       makeCall();
       callMade = true;
     }
 
-    if (bin1 < 95 && bin2 < 95 && bin3 < 95) {
+    if (bin1 < 95 && bin2 < 95 && bin3 < 95 && !callInProgress) {
       callMade = false;
     }
 
@@ -198,7 +204,7 @@ void loop() {
     lcd.print("%  ");
   }
 
-  // Also check for manual SMS command from ESP32
+  // Check for manual SMS command from ESP32
   checkESP32Commands();
 }
 
@@ -255,11 +261,11 @@ void fullBinAlert() {
 void sendSMSFormatted(const char* title, int weight, int weightPerc, int height, int heightPerc, int level) {
   Serial.println("Sending SMS...");
   sim800l.println("AT+CMGF=1");
-  delay(1000);
+  delay(500);
   sim800l.print("AT+CMGS=\"");
   sim800l.print(phoneNumber);
   sim800l.println("\"");
-  delay(1000);
+  delay(500);
 
   sim800l.print(title);
   sim800l.print("\r\n");
@@ -285,19 +291,32 @@ void sendSMSFormatted(const char* title, int weight, int weightPerc, int height,
   delay(200);
 
   sim800l.write(26);  // CTRL+Z to send SMS
-  delay(5000);
+  delay(3000);
   Serial.println("SMS Sent!");
 }
 
 void makeCall() {
-  Serial.println("Making call...");
-  sim800l.print("ATD");
-  sim800l.print(phoneNumber);
-  sim800l.println(";");
-  delay(30000);
-  sim800l.println("ATH");
-  delay(1000);
-  Serial.println("Call ended.");
+  if (!callInProgress) {
+    Serial.println("Making call...");
+    sim800l.print("ATD");
+    sim800l.print(phoneNumber);
+    sim800l.println(";");
+    callStartTime = millis();
+    callInProgress = true;
+    callMade = true;
+  }
+}
+
+void manageCall() {
+  if (callInProgress) {
+    if (millis() - callStartTime >= callDuration) {
+      Serial.println("Call duration reached, hanging up...");
+      sim800l.println("ATH"); // Hang up
+      delay(500);             // Brief delay for hang up command
+      callInProgress = false;
+      Serial.println("Call ended.");
+    }
+  }
 }
 
 void sendBinData(float w1, int h1, float w2, int h2, float w3, int h3) {
@@ -365,15 +384,21 @@ void sendManualSMS() {
   Serial.println(msg);
 
   sim800l.println("AT+CMGF=1");  // SMS text mode
-  delay(1000);
+  delay(500);
+  while (sim800l.available()) sim800l.read(); // flush buffer
+
   sim800l.print("AT+CMGS=\"");
   sim800l.print(phoneNumber);
   sim800l.println("\"");
-  delay(1000);
+  delay(500);
+  while (sim800l.available()) sim800l.read(); // flush buffer
+
   sim800l.print(msg);
-  delay(100);
+  delay(500);
+
   sim800l.write(26);  // CTRL+Z to send SMS
-  delay(5000);
+  delay(3000);
+  while (sim800l.available()) Serial.write(sim800l.read());
 
   Serial.println("Manual SMS Sent!");
 }
