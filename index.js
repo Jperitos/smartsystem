@@ -261,46 +261,86 @@ app.post('/api/test-assignment-notification', async (req, res) => {
         verified: true
       });
       await testUser.save();
+      console.log('Created test user:', testUser.name);
     }
     
-    // Create test assignment with static bin level
-    const testBinLevel = Math.floor(Math.random() * 50) + 50; // Random level between 50-100%
-    const binCodes = ['S1Bin1', 'S1Bin2', 'S1Bin3'];
-    const randomBin = binCodes[Math.floor(Math.random() * binCodes.length)];
-    const floor = 1;
+    // Get or create a test bin
+    let testBin = await Bin.findOne();
+    if (!testBin) {
+      testBin = new Bin({
+        bin_code: 'S1Bin1',
+        type: 'biodegradable',
+        location: 'Floor 1 North',
+        bin_level: 75,
+        capacity: 100,
+        status: 'active'
+      });
+      await testBin.save();
+      console.log('Created test bin:', testBin.bin_code);
+    }
     
-    // Create activity log
-    const newActivityLog = new ActivityLog({
-      bin_id: null, // We'll use bin code instead
+    // Create test assignment with realistic data
+    const testBinLevel = Math.floor(Math.random() * 50) + 50; // Random level between 50-100%
+    const floor = Math.floor(Math.random() * 6) + 1; // Random floor 1-6
+    const taskDescriptions = [
+      'Empty and clean the bin',
+      'Replace bin liner and sanitize',
+      'Full bin collection required',
+      'Regular maintenance check',
+      'Emergency bin collection'
+    ];
+    const randomTask = taskDescriptions[Math.floor(Math.random() * taskDescriptions.length)];
+    
+    console.log('Creating activity log with:', {
+      bin_id: testBin._id,
       u_id: testUser._id,
       bin_level: testBinLevel,
       floor: floor,
-      assigned_task: 'Test assignment - Empty and clean the bin',
+      assigned_task: randomTask
+    });
+    
+    // Create activity log directly (this will automatically trigger notification via the POST endpoint logic)
+    const newActivityLog = new ActivityLog({
+      bin_id: testBin._id,
+      u_id: testUser._id,
+      bin_level: testBinLevel,
+      floor: floor,
+      assigned_task: randomTask,
       date: new Date(),
       time: new Date().toTimeString().split(' ')[0],
       status: 'assigned'
     });
     
     await newActivityLog.save();
+    console.log('Activity log saved:', newActivityLog._id);
     
-    // Send notification with static bin level
-    await sendAssignmentNotification(
-      testUser._id, 
-      randomBin, 
-      'Test assignment - Empty and clean the bin', 
-      floor, 
-      testBinLevel
-    );
+    // Send notification manually since we're bypassing the POST endpoint
+    try {
+      console.log('🔔 Sending task assignment notification to user:', testUser._id);
+      
+      await sendAssignmentNotification(
+        testUser._id, 
+        testBin._id, 
+        randomTask, 
+        floor, 
+        testBinLevel
+      );
+      
+      console.log('✅ Task assignment notification sent successfully');
+    } catch (notifErr) {
+      console.warn('⚠️ Failed to send task assignment notification:', notifErr.message);
+    }
     
     res.json({ 
       success: true, 
       message: 'Test assignment notification created',
       data: {
         assignedTo: testUser.name,
-        binCode: randomBin,
+        binCode: testBin.bin_code,
         floor: floor,
         binLevel: `${testBinLevel}%`,
-        task: 'Test assignment - Empty and clean the bin'
+        task: randomTask,
+        activityLogId: newActivityLog._id
       }
     });
   } catch (error) {
@@ -424,13 +464,21 @@ app.post('/api/activity-logs', async (req, res) => {
       // Continue even if bin update fails
     }
     
-    // Automatically create notification for the assigned staff member
+    // AUTOMATICALLY SEND NOTIFICATION TO ASSIGNED USER
     try {
-      console.log('Creating notification for activity log...');
-      await sendAssignmentNotification(processedUId, processedBinId, assigned_task, floor || 1, bin_level);
-      console.log('Notification created successfully');
+      console.log('🔔 Sending task assignment notification to user:', processedUId);
+      
+      await sendAssignmentNotification(
+        processedUId, 
+        processedBinId, 
+        assigned_task || 'Empty and clean the bin', 
+        floor || 1, 
+        bin_level || 0
+      );
+      
+      console.log('✅ Task assignment notification sent successfully');
     } catch (notifErr) {
-      console.warn('Failed to create notification:', notifErr);
+      console.warn('⚠️ Failed to send task assignment notification:', notifErr.message);
       // Don't fail the activity log creation if notification fails
     }
     
@@ -922,6 +970,28 @@ app.put('/api/activity-logs/:id', async (req, res) => {
       details: error.message,
       timestamp: new Date().toISOString()
     });
+  }
+});
+
+// Get user's current notifications count (for badge display)
+app.get('/api/notifications/count', async (req, res) => {
+  try {
+    const { user_id } = req.query;
+    
+    if (!user_id) {
+      return res.status(400).json({ error: 'user_id is required' });
+    }
+    
+    const { Notification } = require('./models/userModel');
+    const unreadCount = await Notification.countDocuments({ 
+      user_id: user_id, 
+      status: 'sent' 
+    });
+    
+    res.json({ unreadCount });
+  } catch (error) {
+    console.error('Error getting notification count:', error);
+    res.status(500).json({ error: 'Failed to get notification count', details: error.message });
   }
 });
 

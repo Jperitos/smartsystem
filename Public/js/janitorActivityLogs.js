@@ -340,6 +340,9 @@ document.addEventListener('DOMContentLoaded', async function() {
       }
     });
   });
+  
+  // Trigger notification check for new assignments
+  checkForNewAssignments();
 });
 
 // Auto-refresh every 30 seconds
@@ -355,4 +358,17 @@ setInterval(() => {
 
 // Export functions for global access
 window.loadJanitorActivityLogs = loadJanitorActivityLogs;
-window.getCurrentJanitor = getCurrentJanitor; 
+window.getCurrentJanitor = getCurrentJanitor;
+
+// Function to check for new task assignments and trigger notifications
+async function checkForNewAssignments() {
+  try {
+    // If notification manager is available, refresh it
+    if (window.notificationManager) {
+      console.log('🔔 Checking for new task assignment notifications...');
+      await window.notificationManager.loadNotifications();
+    }
+  } catch (error) {
+    console.warn('Could not check for new assignments:', error);
+  }
+} 
