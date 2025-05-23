@@ -35,13 +35,26 @@ document.addEventListener('DOMContentLoaded', () => {
   `;
   document.body.insertAdjacentHTML('beforeend', modalHTML);
 
-  // Load and display logs
+  // Apply padding and spacing styles to the table and tbody
+  const activityTable = document.querySelector('#activityTable');
+  const tableBody = document.querySelector('#activityTableBody');
+  if (activityTable) {
+    activityTable.style.width = '100%';
+    activityTable.style.borderCollapse = 'separate';
+    activityTable.style.borderSpacing = '0 10px';
+    activityTable.style.padding = '20px';
+  }
+  if (tableBody) {
+    tableBody.style.padding = '20px';
+  }
+
   loadActivityLogs();
 
   // Modal close events
   document.getElementById('closeModal').addEventListener('click', () => {
     document.getElementById('updateModal').style.display = 'none';
   });
+
   window.addEventListener('click', (event) => {
     const modal = document.getElementById('updateModal');
     if (event.target === modal) {
@@ -122,29 +135,35 @@ async function loadActivityLogs() {
     }
 
     let counter = 1001;
+    const tdStyle = 'vertical-align: middle; padding: 10px;';
     filteredData.forEach(log => {
       const tr = document.createElement('tr');
 
-      tr.innerHTML += `<td style="vertical-align: middle;">${counter++}</td>`;
-      tr.innerHTML += `<td style="vertical-align: middle;">${log.bin_id?.bin_code || `Bin ${log.bin_id?._id?.slice(-3) || 'N/A'}`}</td>`;
-      tr.innerHTML += `<td style="vertical-align: middle;">${log.floor ? `Floor ${log.floor}` : (log.bin_id?.location || 'N/A')}</td>`;
-      tr.innerHTML += `<td style="vertical-align: middle;">${log.u_id?.name || 'N/A'}</td>`;
+      tr.innerHTML += `<td style="${tdStyle}">${counter++}</td>`;
+      tr.innerHTML += `<td style="${tdStyle}">${log.bin_id?.bin_code || `Bin ${log.bin_id?._id?.slice(-3) || 'N/A'}`}</td>`;
+      tr.innerHTML += `<td style="${tdStyle}">${log.floor ? `Floor ${log.floor}` : (log.bin_id?.location || 'N/A')}</td>`;
+      tr.innerHTML += `<td style="${tdStyle}">${log.u_id?.name || 'N/A'}</td>`;
       const formattedDate = log.date ? new Date(log.date).toLocaleDateString('en-US') : 'N/A';
-      tr.innerHTML += `<td style="vertical-align: middle;">${formattedDate}</td>`;
-      tr.innerHTML += `<td style="vertical-align: middle;">${formatTime(log.start_time || log.time)}</td>`;
-      tr.innerHTML += `<td style="vertical-align: middle;">${formatTime(log.end_time)}</td>`;
+      tr.innerHTML += `<td style="${tdStyle}">${formattedDate}</td>`;
+      tr.innerHTML += `<td style="${tdStyle}">${formatTime(log.start_time || log.time)}</td>`;
+      tr.innerHTML += `<td style="${tdStyle}">${formatTime(log.end_time)}</td>`;
       const statusObj = displayStatus(log.status);
-      tr.innerHTML += `<td style="vertical-align: middle; color: ${statusObj.color}; font-weight: bold;">${statusObj.label}</td>`;
+      tr.innerHTML += `<td style="${tdStyle} color: ${statusObj.color}; font-weight: bold;">${statusObj.label}</td>`;
 
       const tdAction = document.createElement('td');
-      tdAction.style.verticalAlign = 'middle';
-      const updateBtn = document.createElement('button');
-      updateBtn.textContent = 'Update';
-      updateBtn.className = 'activity-update-btn';
-      updateBtn.style.padding = '5px 10px';
-      updateBtn.style.cursor = 'pointer';
+      tdAction.style = tdStyle;
 
-      updateBtn.addEventListener('click', () => {
+      const updateText = document.createElement('span');
+      updateText.textContent = 'Update';
+      updateText.className = 'activity-update-text';
+      updateText.style.color = 'white';
+      updateText.style.cursor = 'pointer';
+      updateText.style.background = '#3A7D44';
+      updateText.style.padding = '5px 20px';
+      updateText.style.borderRadius = '10px';
+      updateText.style.textDecoration = 'none';
+
+      updateText.addEventListener('click', () => {
         const modal = document.getElementById('updateModal');
         modal.style.display = 'block';
 
@@ -155,7 +174,7 @@ async function loadActivityLogs() {
         document.getElementById('notes').value = log.notes || '';
       });
 
-      tdAction.appendChild(updateBtn);
+      tdAction.appendChild(updateText);
       tr.appendChild(tdAction);
       table.appendChild(tr);
     });

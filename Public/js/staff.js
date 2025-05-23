@@ -197,7 +197,6 @@ editButtons.forEach((button) => {
     document.getElementById("updateEmail").value = "example@email.com";
     document.getElementById("updateFloor").value = "2";
     document.getElementById("updateMaritalStatus").value = "Single";
-
     updateModal.style.display = "flex"; 
   });
 });
