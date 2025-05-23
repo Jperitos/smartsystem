@@ -821,3 +821,48 @@ app.post('/api/send-assignment-notification', async (req, res) => {
   }
 });
 
+// PUT endpoint for updating activity log status
+app.put('/api/activity-logs/:id', async (req, res) => {
+  try {
+    const logId = req.params.id;
+    const { status, notes, end_time } = req.body;
+    
+    console.log(`Updating activity log ${logId} with status: ${status}`);
+    
+    // Validate the status
+    const validStatuses = ['assigned', 'inprogress', 'in-progress', 'completed', 'done'];
+    if (status && !validStatuses.includes(status.toLowerCase())) {
+      return res.status(400).json({ error: 'Invalid status value' });
+    }
+    
+    // Prepare update object
+    const updateData = {};
+    if (status) updateData.status = status.toLowerCase();
+    if (notes) updateData.notes = notes;
+    if (end_time) updateData.end_time = end_time;
+    
+    // If status is completed or done, set end_time to current time if not provided
+    if ((status === 'completed' || status === 'done') && !end_time) {
+      updateData.end_time = new Date().toTimeString().split(' ')[0];
+    }
+    
+    // Update the activity log
+    const updatedLog = await ActivityLog.findByIdAndUpdate(
+      logId,
+      { $set: updateData },
+      { new: true }
+    ).populate('u_id', 'name email u_role').populate('bin_id', 'bin_code location type');
+    
+    if (!updatedLog) {
+      return res.status(404).json({ error: 'Activity log not found' });
+    }
+    
+    console.log('Activity log updated successfully:', updatedLog);
+    res.json(updatedLog);
+    
+  } catch (error) {
+    console.error('Error updating activity log:', error);
+    res.status(500).json({ error: 'Failed to update activity log', details: error.message });
+  }
+});
+
