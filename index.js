@@ -68,7 +68,8 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://cdn.socket.io"],
+      imgSrc: ["'self'", "data:", "https:"],
       connectSrc: ["'self'", "http://localhost:8000", "ws://localhost:8000", "http://localhost:9000", "ws://localhost:9001"]
       
     }
@@ -94,7 +95,7 @@ app.use(passport.session());  // Use Passport session here
 app.use(authRouter);
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/view");
-app.use(express.static("public"));
+app.use(express.static("Public"));
 
 
 io.on('connection', (socket) => {
@@ -190,15 +191,26 @@ app.get('/api/users', async (req, res) => {
 // API endpoint for floor images
 app.get('/api/images/floors', async (req, res) => {
   try {
-    // For now, return static floor data
-    const floors = [
-      { _id: '1', floorName: 'Floor 1', imagePath: '/image/Floor Plan 1.png' },
-      { _id: '2', floorName: 'Floor 2', imagePath: '/image/Floor Plan 2.png' },
-      { _id: '3', floorName: 'Floor 3', imagePath: '/image/Floor Plan 3.png' },
-      { _id: '4', floorName: 'Floor 4', imagePath: '/image/Floor Plan 4.png' },
-      { _id: '5', floorName: 'Floor 5', imagePath: '/image/Floor Plan 5.png' },
-      { _id: '6', floorName: 'Floor 6', imagePath: '/image/Floor Plan 6.png' }
-    ];
+    // Fetch floor data from the database
+    const { Floor } = require('./models/userModel');
+    const floors = await Floor.find().sort({ createdAt: 1 }).lean(); // Sort by creation date
+    
+    // If no floors in database, return static floor data as fallback
+    if (floors.length === 0) {
+      console.log('No floors found in database, returning static floor data');
+      const staticFloors = [
+        { _id: '1', floorName: 'Floor 1', imagePath: '/image/Floor Plan 1.png' },
+        { _id: '2', floorName: 'Floor 2', imagePath: '/image/Floor Plan 2.png' },
+        { _id: '3', floorName: 'Floor 3', imagePath: '/image/Floor Plan 3.png' },
+        { _id: '4', floorName: 'Floor 4', imagePath: '/image/Floor Plan 4.png' },
+        { _id: '5', floorName: 'Floor 5', imagePath: '/image/Floor Plan 5.png' },
+        { _id: '6', floorName: 'Floor 6', imagePath: '/image/Floor Plan 6.png' }
+      ];
+      return res.json(staticFloors);
+    }
+    
+    // Return actual database floors
+    console.log(`Found ${floors.length} floors in database`);
     res.json(floors);
   } catch (err) {
     console.error('Error fetching floor images:', err);
@@ -546,7 +558,7 @@ io.on('connection', (socket) => {
 });
 
 // Serve static files from uploads directory
-app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'Public/uploads')));
 
 // Profile update endpoint with image upload
 app.post('/api/update-profile', upload.single('profile_image'), async (req, res) => {
