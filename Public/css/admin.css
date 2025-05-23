@@ -124,10 +124,38 @@ main {
 }
 .search-container {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
-    margin-left: 100px;
-    width: 100%; 
+    margin-bottom: 20px;
+    padding: 0 20px;
+}
+
+.search-container .filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.refresh-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.3s;
+}
+
+.refresh-btn:hover {
+    background-color: #3d8b40;
+}
+
+.refresh-btn i {
+    font-size: 16px;
 }
 
 .banner{
@@ -147,17 +175,10 @@ main {
 }
 
 .filter {
-    display: flex;
-    align-items: center;
-    margin-right: 160px;
-    gap: 10px;
-}
-
-.date-filter {
-    padding: 8px;
-    font-size: 14px #ccc;
+    padding: 8px 12px;
     border: 1px solid #ccc;
-    border-radius: 12px;
+    border-radius: 5px;
+    font-size: 14px;
 }
 
 .filter-btn {
@@ -1072,4 +1093,87 @@ input, select {
         margin-left: 70px;
         width: calc(100% - 70px);
     }
+}
+
+/* Activity Log and History Log Enhancements */
+.search-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0 20px;
+}
+
+.search-container .filter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.refresh-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background-color 0.3s;
+}
+
+.refresh-btn:hover {
+  background-color: #3d8b40;
+}
+
+.refresh-btn i {
+  font-size: 16px;
+}
+
+/* Activity Log Status Styles */
+.status-assigned, .status-pending, .status-inprogress, .status-done {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  border: none;
+}
+
+.status-assigned {
+  background-color: #E6A419;
+  color: white;
+}
+
+.status-pending {
+  background-color: #f0ad4e;
+  color: white;
+}
+
+.status-inprogress {
+  background-color: #5bc0de;
+  color: white;
+}
+
+.status-done {
+  background-color: #5cb85c;
+  color: white;
+}
+
+/* Table loading and empty states */
+.staff-table tbody tr td[colspan] {
+  text-align: center;
+  padding: 30px;
+  font-style: italic;
+  color: #666;
+}
+
+/* Date filter styling */
+.date-filter {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
 }

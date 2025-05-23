@@ -230,6 +230,20 @@
           </li>
 
           <li>
+            <a href="#" class="menu-item" data-target="activity-logs">
+              <i class="bx bx-history"></i>
+              <span>Activity Logs</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="#" class="menu-item" data-target="history-logs">
+              <i class="bx bx-history"></i>
+              <span>History Logs</span>
+            </a>
+          </li>
+
+          <li>
             <a href="#" class="menu-item" data-target="history">
               <img src="/image/trash-alt.png" alt="History Icon" width="20" height="20" />
               <span>Bins</span>
@@ -398,6 +412,74 @@
               </div>
             </a>
           </div>
+        </div>
+      </div>
+
+      <!-- Activity Logs -->
+      <div id="activity-logs" class="content-panel">
+        <h3>Activity Log</h3>
+
+        <div class="search-container">
+          <div class="filter">
+            <input type="date" id="activityDateFilter" class="date-filter" />
+            <button class="refresh-btn" id="refreshActivityLogs" style="margin-left: 10px;">
+              <i class="bx bx-refresh"></i> Refresh
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <table class="staff-table">
+            <thead>
+              <tr>
+                <th>Bins</th>
+                <th>Floor</th>
+                <th>Staff</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="activityTableBody">
+              <tr>
+                <td colspan="6" style="text-align: center; padding: 20px; color: #666;">Loading activity logs...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- History Logs -->
+      <div id="history-logs" class="content-panel">
+        <h3>History Log</h3>
+
+        <div class="search-container">
+          <div class="filter">
+            <input type="date" id="historyDateFilter" class="date-filter" />
+            <button class="refresh-btn" id="refreshHistoryLogs" style="margin-left: 10px;">
+              <i class="bx bx-refresh"></i> Refresh
+            </button>
+          </div>
+        </div>
+
+        <div class="historytab">
+          <table class="staff-table">
+            <thead>
+              <tr>
+                <th>History ID</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Time In</th>
+                <th>Time Out</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody id="historyTableBody">
+              <tr>
+                <td colspan="6" style="text-align: center; padding: 20px; color: #666;">Loading history logs...</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 

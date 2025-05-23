@@ -119,6 +119,9 @@
         <div class="search-container">
           <div class="filter">
             <input type="date" id="activityDateFilter" class="date-filter" />
+            <button class="refresh-btn" id="refreshActivityLogs" style="margin-left: 10px;">
+              <i class="bx bx-refresh"></i> Refresh
+            </button>
             <!-- <button id="activitySortBtn" class="filter-btn">
               <img src="../image/filter-alt-regular-24 (1).png" alt="filter" />
             </button> -->
@@ -139,12 +142,7 @@
             </thead>
             <tbody id="activityTableBody">
               <tr>
-                <td>Bin 011</td>
-                <td>Floor 1</td>
-                <td>Jade Arpiliag</td>
-                <td>2025-07-03</td>
-                <td>8:30 AM</td>
-                <td><button class="status-done">Done</button></td>
+                <td colspan="6" style="text-align: center; padding: 20px; color: #666;">Loading activity logs...</td>
               </tr>
             </tbody>
           </table>
@@ -157,6 +155,9 @@
         <div class="search-container">
           <div class="filter">
             <input type="date" id="historyDateFilter" class="date-filter" />
+            <button class="refresh-btn" id="refreshHistoryLogs" style="margin-left: 10px;">
+              <i class="bx bx-refresh"></i> Refresh
+            </button>
           </div>
         </div>
 
@@ -173,7 +174,9 @@
               </tr>
             </thead>
             <tbody id="historyTableBody">
-
+              <tr>
+                <td colspan="6" style="text-align: center; padding: 20px; color: #666;">Loading history logs...</td>
+              </tr>
             </tbody>
           </table>
         </div>
