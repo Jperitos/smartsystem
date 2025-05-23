@@ -230,10 +230,10 @@
             </a>
           </li>
 
-          <li>
-            <a href="#" class="menu-item" data-target="activity-logs">
-              <i class="bx bx-history"></i>
-              <span>Activity Logs</span>
+           <li>
+            <a href="#" class="menu-item" data-target="staffs">
+              <img src="/image/repeat-alt.png" alt="Pending Icon" width="20" height="20" />
+              <span>Collection</span>
             </a>
           </li>
 
@@ -248,13 +248,6 @@
             <a href="#" class="menu-item" data-target="activity">
               <img src="/image/community.png" alt="Staff Icon" width="20" height="20" />
               <span>Staff</span>
-            </a>
-          </li>
-
-          <li>
-            <a href="#" class="menu-item" data-target="staffs">
-              <img src="/image/repeat-alt.png" alt="Pending Icon" width="20" height="20" />
-              <span>Collection</span>
             </a>
           </li>
 
@@ -409,7 +402,7 @@
         </div>
       </div>
 
-      <!-- Activity Logs -->
+      <!-- Activity Logs
       <div id="activity-logs" class="content-panel">
         <h3>Activity Log</h3>
 
@@ -441,7 +434,7 @@
             </tbody>
           </table>
         </div>
-      </div>
+      </div> -->
 
       <div id="history" class="content-panel">
         <div class="tab-content" id="Bin">
@@ -717,8 +710,35 @@
         </div>
       </div>
 
-<<<<<<< HEAD
-      <!-- Collection / Activity Logs -->
+      <!-- Collection / Activity Logs --> 
+      <!-- <div id="staffs" class="content-panel">
+        <h3>Collection Activity Log</h3>
+
+        <div class="search-container">
+          <div class="filter">
+            <input type="date" id="activityDateFilter" class="date-filter" />
+            <button class="refresh-btn" id="refreshActivityLogs" style="margin-left: 10px;">
+              <i class="bx bx-refresh"></i> Refresh
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <table class="staff-table">
+            <thead>
+              <tr>
+                <th>Bins</th>
+                <th>Floor</th>
+                <th>Staff</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="activityTableBody">
+              <tr>
+                <td colspan="6" style="text-align: center; padding: 20px; color: #666;">Loading activity logs...</td> -->
+      <!-- Staffs -->
       <div id="staffs" class="content-panel">
         <h3>Collection Activity Log</h3>
 
@@ -746,42 +766,6 @@
             <tbody id="activityTableBody">
               <tr>
                 <td colspan="6" style="text-align: center; padding: 20px; color: #666;">Loading activity logs...</td>
-=======
-      <!-- Staffs -->
-      <div id="staffs" class="content-panel">
-        <div class="head-staff">
-          <h3>Collect Information</h3>
-          <div class="right-head">
-            <div class="search-bin-staff">
-              <input type="text" id="binSearch" placeholder="Search" class="search-bar2" />
-            </div>
-            <div class="filter">
-              <p id="sortBtn">Sort By</p>
-              <i class="bx bx-sort-a-z"></i>
-            </div>
-          </div>
-        </div>
-        <div>
-          <table class="table2" id="staffTable">
-            <thead>
-              <tr>
-                <th>Staff ID</th>
-                <th>Assign Floor</th>
-                <th>Name</th>
-                <th>Start</th>
-                <th>End</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id="staffBody">
-              <tr class="staff-row">
-                <td>1001</td>
-                <td>Floor 4</td>
-                <td>Angel Anuba</td>
-                <td>2025-07-03 08:00 AM</td>
-                <td>2025-07-03 10:00 AM</td>
-                <td class="status-pending">Pending</td>
->>>>>>> 5a1589acebf178e4c8cc3c70b05c14148e195731
               </tr>
             </tbody>
           </table>
