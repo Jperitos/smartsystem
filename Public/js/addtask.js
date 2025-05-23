@@ -140,6 +140,9 @@ async function saveAssignment() {
     // Show success message inside the modal
     const successMsg = document.getElementById('success-message');
     if (successMsg) {
+      // Update the success message to include bin level info from assignment
+      const binLevelText = binLevel !== null ? `${binLevel}%` : 'N/A';
+      successMsg.innerHTML = `Assignment saved successfully!<br><small>Notification sent to staff about ${binId} on Floor ${floor}<br>Bin Level: ${binLevelText}</small>`;
       successMsg.style.display = 'block';
       
       // Close modal and reset form after a short delay
@@ -147,10 +150,11 @@ async function saveAssignment() {
         modal.style.display = 'none';
         if (messageEl) messageEl.value = '';
         if (successMsg) successMsg.style.display = 'none'; // Hide message for next time
-      }, 1500); // 1.5 seconds delay
+      }, 2000); // Increased to 2 seconds to show notification message
     } else {
       // Fallback if success message element not found
-      alert('Assignment saved successfully!');
+      const binLevelText = binLevel !== null ? `${binLevel}%` : 'N/A';
+      alert(`Assignment saved successfully and notification sent to staff!\n\nBin: ${binId}\nFloor: ${floor}\nBin Level: ${binLevelText}\nTask: ${taskMessage || 'Empty and clean the bin'}`);
       modal.style.display = 'none';
       if (messageEl) messageEl.value = '';
     }

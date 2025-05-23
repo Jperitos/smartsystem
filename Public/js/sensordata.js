@@ -1,3 +1,9 @@
+// DISABLED: WebSocket connection for dynamic sensor data
+// The system now uses static bin level data from activity logs for notifications
+
+console.log('SensorData: Using static bin level data from database for notifications');
+
+/*
 // Connect to your backend WebSocket server (adjust host/port as needed)
 const ws = new WebSocket('ws://localhost:9001');
 
@@ -25,9 +31,16 @@ ws.onerror = (error) => {
 ws.onclose = () => {
   console.log('WebSocket connection closed');
 };
+*/
 
-// Function to update DOM elements for a bin
+// Function to update DOM elements for a bin (kept for compatibility but not used)
 function updateBinData(binId, binData) {
+  // DISABLED: No longer updating dynamic sensor data
+  // Static bin level data is now used for notifications from database
+  console.log(`updateBinData called for ${binId} - using static data instead`);
+  return;
+  
+  /*
   if (!binData) return;
   
   // Convert binId to uppercase format used in HTML (s1bin1 -> S1Bin1)
@@ -52,22 +65,35 @@ function updateBinData(binId, binData) {
   if (modal && modal.style.display === 'block' && modal.dataset.currentBinId === formattedBinId) {
     document.getElementById('binLevelSpan').textContent = avgSpan ? avgSpan.textContent : '-';
   }
+  */
 }
 
 function updateProgressBars(data) {
-    data.forEach((sensorData) => {
-      const binId = sensorData.data_id.split('_')[1];
-      const fillLevel = sensorData.fillLevel;
-      console.log(`Bin ${binId} - Fill Level: ${fillLevel}%`);
+  // DISABLED: No longer using dynamic progress bars
+  // Static bin level data is used for notifications instead
+  console.log('updateProgressBars called - using static data system instead');
+  return;
   
-      const progressBar = document.querySelector(`.progress-bar[data-progress="${binId}"]`);
-      const progressText = document.querySelector(`.progress-text[data-progress="${binId}"]`);
-  
-      if (progressBar && progressText) {
-        progressBar.style.width = `${fillLevel}%`;
-        progressText.textContent = `${fillLevel}%`;
-      } else {
-        console.warn(`Elements not found for binId ${binId}`);
-      }
-    });
-  }
+  /*
+  data.forEach((sensorData) => {
+    const binId = sensorData.data_id.split('_')[1];
+    const fillLevel = sensorData.fillLevel;
+    console.log(`Bin ${binId} - Fill Level: ${fillLevel}%`);
+
+    const progressBar = document.querySelector(`.progress-bar[data-progress="${binId}"]`);
+    const progressText = document.querySelector(`.progress-text[data-progress="${binId}"]`);
+
+    if (progressBar && progressText) {
+      progressBar.style.width = `${fillLevel}%`;
+      progressText.textContent = `${fillLevel}%`;
+    } else {
+      console.warn(`Elements not found for binId ${binId}`);
+    }
+  });
+  */
+}
+
+// Initialize static bin level system
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('Static bin level notification system initialized');
+});
