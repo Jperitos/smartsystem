@@ -1117,34 +1117,49 @@ body {
    .modal-task {
       display: none;
       position: fixed;
-      z-index: 1000;
+      z-index: 10000;
       left: 0;
       top: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: rgba(0, 0, 0, 0.4);
     }
 
     /* Modal Content Box */
-    .modal-content {
+    .modal-task .modal-content {
       background-color: #fff;
       margin: 10% auto;
       padding: 20px;
-      border-radius: 10px;
       width: 400px;
+      max-width: 90%;
+      border-radius: 12px;
       position: relative;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      color: black; /* Ensure modal content text is black */
     }
 
     /* Close Button */
-    .close {
+    .modal-task .close {
       position: absolute;
       top: 10px;
       right: 15px;
       font-size: 24px;
-      font-weight: bold;
-      color: #333;
       cursor: pointer;
+      color: #333 !important;
+    }
+
+    /* Ensure all text elements within modal-task are black */
+    .modal-task h1, 
+    .modal-task h2, 
+    .modal-task h3, 
+    .modal-task h4, 
+    .modal-task h5, 
+    .modal-task h6,
+    .modal-task p,
+    .modal-task label,
+    .modal-task span,
+    .modal-task div,
+    .modal-task .task-detail {
+      color: black !important;
     }
 
     .form-group1 {
@@ -1457,6 +1472,7 @@ body {
   max-width: 90%;
   border-radius: 12px;
   position: relative;
+  color: black; /* Ensure modal content text is black */
 }
 
 .modal-task .close {
@@ -1465,6 +1481,7 @@ body {
   right: 15px;
   font-size: 24px;
   cursor: pointer;
+  color: #333 !important;
 }
 
 /* Profile image upload styling */
@@ -1848,4 +1865,60 @@ textarea#notes {
 .staff-table td, .staff-table th {
   text-align: center;
   vertical-align: middle;
+}
+
+/* Specific styling for modal-task form elements */
+.modal-task .form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: black !important;
+}
+
+.modal-task .task-detail {
+  background-color: #f5f5f5;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 5px;
+  font-size: 14px;
+  color: black !important;
+}
+
+/* Ensure form inputs, selects, and textareas have black text */
+.modal-task input,
+.modal-task select,
+.modal-task textarea,
+.modal-task option {
+  color: black !important;
+}
+
+/* Specific styling for end time input */
+.modal-task input[type="time"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  color: black !important;
+  background-color: white;
+}
+
+.modal-task input[type="time"]:focus {
+  border-color: #3A7D44;
+  outline: none;
+  box-shadow: 0 0 3px rgba(58, 125, 68, 0.3);
+}
+
+.modal-task small {
+  color: #666 !important;
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
+}
+
+/* Override any status-related classes that might have white text in modal */
+.modal-task .status-assigned,
+.modal-task .status-pending,
+.modal-task .status-inprogress,
+.modal-task .status-done {
+  color: white !important; /* Keep status badges readable with white text on colored background */
 }

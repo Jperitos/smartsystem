@@ -825,44 +825,103 @@ app.post('/api/send-assignment-notification', async (req, res) => {
 app.put('/api/activity-logs/:id', async (req, res) => {
   try {
     const logId = req.params.id;
-    const { status, notes, end_time } = req.body;
+    const { status, notes, end_time, start_time, completion_date } = req.body;
     
-    console.log(`Updating activity log ${logId} with status: ${status}`);
+    console.log(`Updating activity log ${logId} with:`, { status, notes, end_time, start_time });
     
     // Validate the status
-    const validStatuses = ['assigned', 'inprogress', 'in-progress', 'completed', 'done'];
+    const validStatuses = ['assigned', 'inprogress', 'in-progress', 'completed', 'done', 'pending'];
     if (status && !validStatuses.includes(status.toLowerCase())) {
-      return res.status(400).json({ error: 'Invalid status value' });
+      return res.status(400).json({ error: `Invalid status value. Must be one of: ${validStatuses.join(', ')}` });
+    }
+    
+    // Get the current activity log to check previous status
+    const currentLog = await ActivityLog.findById(logId);
+    if (!currentLog) {
+      return res.status(404).json({ error: 'Activity log not found' });
     }
     
     // Prepare update object
     const updateData = {};
     if (status) updateData.status = status.toLowerCase();
     if (notes) updateData.notes = notes;
-    if (end_time) updateData.end_time = end_time;
     
-    // If status is completed or done, set end_time to current time if not provided
-    if ((status === 'completed' || status === 'done') && !end_time) {
-      updateData.end_time = new Date().toTimeString().split(' ')[0];
+    // Handle timestamps based on status changes
+    const newStatus = (status || '').toLowerCase();
+    const currentStatus = (currentLog.status || '').toLowerCase();
+    
+    // Add start timestamp if changing to in-progress
+    if (newStatus === 'inprogress' && currentStatus !== 'inprogress') {
+      updateData.start_time = start_time || new Date().toTimeString().split(' ')[0];
+      console.log('Task started at:', updateData.start_time);
     }
+    
+    // Handle end time for completed tasks
+    if (newStatus === 'completed' || newStatus === 'done') {
+      // Use provided end_time or generate current time
+      updateData.end_time = end_time || new Date().toTimeString().split(' ')[0];
+      updateData.completion_date = completion_date || new Date();
+      console.log('Task completed at:', updateData.end_time);
+    }
+    
+    // Update last modified timestamp
+    updateData.updated_at = new Date();
     
     // Update the activity log
     const updatedLog = await ActivityLog.findByIdAndUpdate(
       logId,
       { $set: updateData },
-      { new: true }
-    ).populate('u_id', 'name email u_role').populate('bin_id', 'bin_code location type');
+      { new: true, runValidators: true }
+    ).populate('u_id', 'name email u_role')
+     .populate('bin_id', 'bin_code location type status');
     
     if (!updatedLog) {
-      return res.status(404).json({ error: 'Activity log not found' });
+      return res.status(404).json({ error: 'Activity log not found after update' });
     }
     
-    console.log('Activity log updated successfully:', updatedLog);
-    res.json(updatedLog);
+    // Log the successful update
+    console.log('Activity log updated successfully:', {
+      id: updatedLog._id,
+      status: updatedLog.status,
+      user: updatedLog.u_id?.name,
+      bin: updatedLog.bin_id?.bin_code,
+      start_time: updatedLog.start_time,
+      end_time: updatedLog.end_time
+    });
+    
+    // If task is completed, optionally update the bin status
+    if (newStatus === 'completed' || newStatus === 'done') {
+      try {
+        if (updatedLog.bin_id) {
+          await Bin.findByIdAndUpdate(updatedLog.bin_id._id, {
+            $set: { 
+              last_collected: new Date(),
+              bin_level: 0, // Reset bin level after collection
+              status: 'active'
+            }
+          });
+          console.log('Bin status updated after completion');
+        }
+      } catch (binErr) {
+        console.warn('Could not update bin status:', binErr.message);
+        // Don't fail the activity log update if bin update fails
+      }
+    }
+    
+    // Return the updated log with enhanced response
+    res.json({
+      ...updatedLog.toObject(),
+      message: 'Activity log updated successfully',
+      timestamp: new Date().toISOString()
+    });
     
   } catch (error) {
     console.error('Error updating activity log:', error);
-    res.status(500).json({ error: 'Failed to update activity log', details: error.message });
+    res.status(500).json({ 
+      error: 'Failed to update activity log', 
+      details: error.message,
+      timestamp: new Date().toISOString()
+    });
   }
 });
 

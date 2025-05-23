@@ -279,8 +279,14 @@
               <select id="statusUpdate" name="status" required>
                 <option value="assigned">Assigned</option>
                 <option value="inprogress">In Progress</option>
-                <option value="completed">Completed</option>
+                <option value="completed">Done</option>
               </select>
+            </div>
+
+            <div class="form-group" id="endTimeGroup" style="display: none;">
+              <label>End Time</label>
+              <input type="time" id="endTime" name="end_time" placeholder="Select completion time" />
+              <small style="color: #666; font-size: 12px;">Leave empty to use current time</small>
             </div>
 
             <div class="form-group">
@@ -503,6 +509,7 @@
     <script src="/js/floorbins1.js"></script>
     <script src="/js/updateModal.js"></script>
     <script src="/js/search1.js"></script>
+    <script src="/js/janitorTaskUpdater.js"></script>
     <script src="/js/janitorActivityLogs.js"></script>
   </body>
 </html>

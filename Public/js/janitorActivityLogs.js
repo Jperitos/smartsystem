@@ -259,7 +259,12 @@ async function loadJanitorActivityLogs(filterDate = null) {
       updateBtn.style.fontSize = '12px';
       
       updateBtn.addEventListener('click', () => {
-        openUpdateModal(log);
+        // Use the new task updater instead of the old openUpdateModal
+        if (typeof window.openTaskUpdateModal === 'function') {
+          window.openTaskUpdateModal(log);
+        } else {
+          console.error('Task updater not available');
+        }
       });
       
       tdAction.appendChild(updateBtn);
@@ -286,34 +291,6 @@ async function loadJanitorActivityLogs(filterDate = null) {
     if (table) {
       table.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 20px; color: #d32f2f;">Error loading activity logs. Please try again.</td></tr>';
     }
-  }
-}
-
-// Function to open update modal
-function openUpdateModal(log) {
-  const modal = document.getElementById('updateModal');
-  if (modal) {
-    modal.style.display = 'block';
-    
-    // Populate modal fields
-    const collectionId = document.getElementById('collectionId');
-    const taskDescription = document.getElementById('taskDescription');
-    const taskLocation = document.getElementById('taskLocation');
-    const statusUpdate = document.getElementById('statusUpdate');
-    const notes = document.getElementById('notes');
-    
-    if (collectionId) collectionId.value = log._id || '';
-    if (taskDescription) taskDescription.textContent = log.assigned_task || 'Collection task - Empty and clean bin';
-    if (taskLocation) taskLocation.textContent = log.floor ? `Floor ${log.floor}` : (log.bin_id?.location || 'N/A');
-    if (statusUpdate) statusUpdate.value = (log.status || 'assigned').toLowerCase();
-    if (notes) notes.value = log.notes || '';
-    
-    console.log('Opened update modal for task:', {
-      id: log._id,
-      task: log.assigned_task,
-      status: log.status,
-      bin: log.bin_id?.bin_code
-    });
   }
 }
 
