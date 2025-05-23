@@ -229,9 +229,6 @@
         <div class="search-container">
           <div class="filter">
             <input type="date" id="activityDateFilter" class="date-filter" />
-            <button class="refresh-btn" id="refreshActivityLogs" style="margin-left: 10px;">
-              <i class="bx bx-refresh"></i> Refresh
-            </button>
           </div>
         </div>
 
@@ -239,6 +236,7 @@
           <table class="staff-table">
             <thead>
               <tr>
+                <th>Collection ID</th>
                 <th>Bins</th>
                 <th>Floor</th>
                 <th>Staff</th>
@@ -251,7 +249,7 @@
             </thead>
             <tbody id="activityTableBody">
               <tr>
-                <td colspan="6" style="text-align: center; padding: 20px; color: #666;">Loading activity logs...</td>
+                <td colspan="6" style="text-align: center; padding: 20px; color: #666">Loading activity logs...</td>
               </tr>
             </tbody>
           </table>
@@ -259,7 +257,6 @@
       </div>
 
       <!-- Update Task Modal -->
-<<<<<<< HEAD
       <div id="updateModal" class="modal-task">
         <div class="modal-content">
           <span class="close" id="closeModal">&times;</span>
@@ -301,30 +298,6 @@
           </form>
         </div>
       </div>
-=======
-      <!-- Update Task Modal -->
-<div id="updateModal" class="modal-task" style="display:none;">
-  <div class="modal-content">
-    <span class="close" id="closeModal">&times;</span>
-    <h2>Update Collection Status</h2>
-    <p><strong>Task:</strong> <span id="taskDescription"></span></p>
-    <p><strong>Location:</strong> <span id="taskLocation"></span></p>
-
-    <form id="updateTaskForm">
-      <input type="hidden" id="collectionId" name="collectionId" />
-      <label for="status">Status:</label>
-      <select id="status" name="status">
-        <option value="assigned">Assigned</option>
-        <option value="in-progress">In Progress</option>
-        <option value="completed">Completed</option>
-      </select>
-      <br /><br />
-      <button type="submit">Save</button>
-    </form>
-  </div>
-</div>
-
->>>>>>> ed9755f407d91db714d163957ed24395362bf6ec
 
       <!-- Settings -->
       <div id="settings" class="content-panel">
@@ -519,7 +492,7 @@
     <script src="/js/tabstaff.js"></script>
     <script src="/js/chart.js"></script>
     <script src="/js/logout.js"></script>
-    <script src="/js/history.js"></script>
+    <script src="/js/history1.js"></script>
     <script src="/js/sensordata.js"></script>
     <script src="/js/staffmodal.js"></script>
     <script src="/js/binupdate.js"></script>
@@ -531,6 +504,5 @@
     <script src="/js/floorbins1.js"></script>
     <script src="/js/updateModal.js"></script>
     <script src="/js/search1.js"></script>
-    <script src="/js/activityLogs.js"></script>
   </body>
 </html>

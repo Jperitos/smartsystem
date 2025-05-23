@@ -230,17 +230,17 @@
             </a>
           </li>
 
-           <li>
-            <a href="#" class="menu-item" data-target="staffs">
-              <img src="/image/repeat-alt.png" alt="Pending Icon" width="20" height="20" />
-              <span>Collection</span>
-            </a>
-          </li>
-
           <li>
             <a href="#" class="menu-item" data-target="history">
               <img src="/image/trash-alt.png" alt="History Icon" width="20" height="20" />
               <span>Bins</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="#" class="menu-item" data-target="staffs">
+              <img src="/image/repeat-alt.png" alt="Pending Icon" width="20" height="20" />
+              <span>Collection</span>
             </a>
           </li>
 
@@ -710,7 +710,7 @@
         </div>
       </div>
 
-      <!-- Collection / Activity Logs --> 
+      <!-- Collection / Activity Logs -->
       <!-- <div id="staffs" class="content-panel">
         <h3>Collection Activity Log</h3>
 
@@ -741,11 +741,10 @@
       <!-- Staffs -->
       <div id="staffs" class="content-panel">
         <h3>Collection Activity Log</h3>
-
         <div class="search-container">
           <div class="filter">
             <input type="date" id="activityDateFilter" class="date-filter" />
-            <button class="refresh-btn" id="refreshActivityLogs" style="margin-left: 10px;">
+            <button class="refresh-btn" id="refreshActivityLogs" style="margin-left: 10px">
               <i class="bx bx-refresh"></i> Refresh
             </button>
           </div>
@@ -759,13 +758,13 @@
                 <th>Floor</th>
                 <th>Staff</th>
                 <th>Date</th>
-                <th>Time</th>
+                <th>Start Time</th>
                 <th>Status</th>
               </tr>
             </thead>
             <tbody id="activityTableBody">
               <tr>
-                <td colspan="6" style="text-align: center; padding: 20px; color: #666;">Loading activity logs...</td>
+                <td colspan="6" style="text-align: center; padding: 20px; color: #666">Loading activity logs...</td>
               </tr>
             </tbody>
           </table>
@@ -985,7 +984,6 @@
     <script src="/js/floorbins1.js"></script>
     <script src="/js/filter.js"></script>
     <script src="/js/filter1.js"></script>
-    <script src="/js/activityLogs.js"></script>
     <script src="/js/profileImage.js"></script>
   </body>
 </html>

@@ -1800,3 +1800,33 @@ textarea#notes {
 .update-btn3:hover {
   background-color: #2d7238;
 }
+
+.staff-table thead th {
+    text-align: center;
+    padding: 10px 8px;
+    vertical-align: middle; /* optional: subtle background for header */
+    font-weight: bold;
+  }
+
+  /* Table body cells styling */
+  .staff-table tbody td {
+    text-align: center;
+    padding: 8px 6px;
+    vertical-align: middle;
+  }
+
+  /* Optional: Left align some specific columns */
+  /* Example: Bins, Floor, Staff, Date aligned left */
+  .staff-table thead th:nth-child(2),
+  .staff-table thead th:nth-child(3),
+  .staff-table thead th:nth-child(4),
+  .staff-table thead th:nth-child(5) {
+    text-align: left;
+  }
+
+  .staff-table tbody td:nth-child(2),
+  .staff-table tbody td:nth-child(3),
+  .staff-table tbody td:nth-child(4),
+  .staff-table tbody td:nth-child(5) {
+    text-align: left;
+  }

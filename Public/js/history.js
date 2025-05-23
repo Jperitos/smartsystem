@@ -1,4 +1,3 @@
-// Load Activity Logs with improved formatting and error handling
 async function loadActivityLogs() {
   try {
     console.log('Fetching activity logs...');
@@ -20,21 +19,53 @@ async function loadActivityLogs() {
     table.innerHTML = '';
     
     if (!data || data.length === 0) {
-      table.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px; color: #666;">No activity logs found</td></tr>';
+      table.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 20px; color: #666;">No activity logs found</td></tr>';
       return;
     }
     
     // Sort logs by date (newest first)
-    data.sort((a, b) => {
-      const dateA = new Date(a.date);
-      const dateB = new Date(b.date);
-      return dateB - dateA;
-    });
+    data.sort((a, b) => new Date(b.date) - new Date(a.date));
     
-    data.forEach((log, index) => {
+    // Filter only done/completed logs (case-insensitive)
+    const filteredData = data.filter(log => {
+      const status = (log.status || '').toLowerCase();
+      return status === 'done' || status === 'completed';
+    });
+
+    if (filteredData.length === 0) {
+      table.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 20px; color: #666;">No completed activity logs found</td></tr>';
+      return;
+    }
+    
+    // Helper to format time from HH:mm string to 12-hour format
+    function formatTime(timeStr) {
+      if (!timeStr) return 'N/A';
+      if (timeStr.includes(':')) {
+        const [hours, minutes] = timeStr.split(':');
+        const hour12 = ((parseInt(hours, 10) + 11) % 12) + 1;
+        const ampm = parseInt(hours, 10) >= 12 ? 'PM' : 'AM';
+        return `${hour12}:${minutes} ${ampm}`;
+      }
+      return timeStr;
+    }
+    
+    // Helper to capitalize first letter and lowercase the rest
+    function capitalizeFirstLetter(str) {
+      if (!str) return 'Pending';
+      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    }
+    
+    let binIdCounter = 1001; // Start Bin ID from 1001
+    
+    filteredData.forEach(log => {
       const tr = document.createElement("tr");
 
-      // Bin Code/ID
+      // Bin ID - incrementing from 1001
+      const tdBinId = document.createElement("td");
+      tdBinId.textContent = binIdCounter++;
+      tr.appendChild(tdBinId);
+
+      // Bin Code/Name
       const tdBinCode = document.createElement("td");
       tdBinCode.textContent = log.bin_id?.bin_code || `Bin ${log.bin_id?._id?.slice(-3) || 'N/A'}`;
       tr.appendChild(tdBinCode);
@@ -63,69 +94,44 @@ async function loadActivityLogs() {
       }
       tr.appendChild(tdDate);
 
-      // Time
-      const tdTime = document.createElement("td");
-      if (log.time) {
-        // Convert 24-hour time to 12-hour format if needed
-        const timeStr = log.time.toString();
-        if (timeStr.includes(':')) {
-          const [hours, minutes] = timeStr.split(':');
-          const hour12 = ((parseInt(hours) + 11) % 12) + 1;
-          const ampm = parseInt(hours) >= 12 ? 'PM' : 'AM';
-          tdTime.textContent = `${hour12}:${minutes} ${ampm}`;
-        } else {
-          tdTime.textContent = timeStr;
-        }
-      } else {
-        tdTime.textContent = 'N/A';
-      }
-      tr.appendChild(tdTime);
+      // Start Time
+      const tdStartTime = document.createElement("td");
+      tdStartTime.textContent = formatTime(log.start_time || log.time || null);
+      tr.appendChild(tdStartTime);
 
-      // Status
+      // End Time
+      const tdEndTime = document.createElement("td");
+      tdEndTime.textContent = formatTime(log.end_time || null);
+      tr.appendChild(tdEndTime);
+
+      // Status — text only, green color, no background, with capitalized first letter
       const tdStatus = document.createElement("td");
-      const statusBtn = document.createElement("button");
-      
-      // Set status class based on status value
-      const status = log.status?.toLowerCase() || 'pending';
-      let statusClass = 'status-pending';
-      
-      switch (status) {
-        case 'completed':
-        case 'done':
-          statusClass = 'status-done';
-          break;
-        case 'in-progress':
-        case 'inprogress':
-        case 'active':
-          statusClass = 'status-inprogress';
-          break;
-        case 'assigned':
-          statusClass = 'status-assigned';
-          break;
-        default:
-          statusClass = 'status-pending';
-      }
-      
-      statusBtn.className = statusClass;
-      statusBtn.textContent = log.status || 'Pending';
-      tdStatus.appendChild(statusBtn);
+      const statusSpan = document.createElement("span");
+      statusSpan.style.color = 'green';
+      statusSpan.textContent = capitalizeFirstLetter(log.status);
+      tdStatus.appendChild(statusSpan);
       tr.appendChild(tdStatus);
 
       table.appendChild(tr);
     });
     
-    console.log(`Loaded ${data.length} activity logs successfully`);
+    console.log(`Loaded ${filteredData.length} completed activity logs successfully`);
     
   } catch (error) {
     console.error('Error loading activity logs:', error);
     const table = document.querySelector('#activityTableBody');
     if (table) {
-      table.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px; color: #d32f2f;">Error loading activity logs. Please try again.</td></tr>';
+      table.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 20px; color: #d32f2f;">Error loading activity logs. Please try again.</td></tr>';
     }
   }
 }
 
-// Load History Logs with improved formatting and error handling
+// Call loadActivityLogs when DOM is ready
+document.addEventListener('DOMContentLoaded', loadActivityLogs);
+
+
+
+// History logs
 async function loadHistoryLogs() {
   try {
     console.log('Fetching history logs...');
