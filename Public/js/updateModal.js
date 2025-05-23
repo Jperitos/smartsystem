@@ -31,21 +31,67 @@ document.addEventListener('DOMContentLoaded', function () {
   // Handle form submission
   const updateForm = document.getElementById('updateForm');
   if (updateForm) {
-    updateForm.addEventListener('submit', function (e) {
+    updateForm.addEventListener('submit', async function (e) {
       e.preventDefault();
+      
       const id = document.getElementById('collectionId').value;
       const status = document.getElementById('statusUpdate').value;
-      const imageInput = document.getElementById('proofImage');
-      const image = imageInput && imageInput.files.length > 0 ? imageInput.files[0] : null;
       const notes = document.getElementById('notes').value;
-
-      // You can replace this with your actual logic
-      console.log({ id, status, image, notes });
-
-      alert("Update submitted!");
-
-      const modal = document.getElementById('updateModal');
-      if (modal) modal.style.display = 'none';
+      
+      if (!id) {
+        alert('Error: No collection ID found');
+        return;
+      }
+      
+      try {
+        console.log('Updating activity log:', { id, status, notes });
+        
+        // Prepare the update data
+        const updateData = {
+          status: status,
+          notes: notes
+        };
+        
+        // Add end_time if status is completed
+        if (status === 'completed' || status === 'done') {
+          updateData.end_time = new Date().toTimeString().split(' ')[0];
+        }
+        
+        // Make the API call
+        const response = await fetch(`/api/activity-logs/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(updateData)
+        });
+        
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+        }
+        
+        const updatedLog = await response.json();
+        console.log('Activity log updated successfully:', updatedLog);
+        
+        // Show success message
+        alert('Task status updated successfully!');
+        
+        // Close the modal
+        const modal = document.getElementById('updateModal');
+        if (modal) modal.style.display = 'none';
+        
+        // Refresh the activity logs table if the function exists
+        if (typeof window.loadJanitorActivityLogs === 'function') {
+          window.loadJanitorActivityLogs();
+        } else if (typeof loadActivityLogs === 'function') {
+          loadActivityLogs();
+        }
+        
+      } catch (error) {
+        console.error('Error updating activity log:', error);
+        alert('Error updating task status: ' + error.message);
+      }
     });
   }
 });
