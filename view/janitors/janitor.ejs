@@ -218,7 +218,6 @@
               </tr>
             </thead>
             <tbody id="activityTableBody">
-              <!-- Activity logs will be loaded dynamically -->
               <tr>
                 <td colspan="8" class="loading-indicator">Loading your tasks...</td>
               </tr>
@@ -234,17 +233,17 @@
           <h2>Update Collection Status</h2>
           <form id="updateForm">
             <input type="hidden" id="collectionId" name="assignment_id" />
-            
+
             <div class="form-group">
               <label>Task</label>
               <p id="taskDescription" class="task-detail"></p>
             </div>
-            
+
             <div class="form-group">
               <label>Location</label>
               <p id="taskLocation" class="task-detail"></p>
             </div>
-            
+
             <div class="form-group">
               <label>Status</label>
               <select id="statusUpdate" name="status" required>
@@ -253,12 +252,16 @@
                 <option value="completed">Completed</option>
               </select>
             </div>
-            
+
             <div class="form-group">
               <label>Notes</label>
-              <textarea id="notes" name="notes" placeholder="Provide additional details about this collection..."></textarea>
+              <textarea
+                id="notes"
+                name="notes"
+                placeholder="Provide additional details about this collection..."
+              ></textarea>
             </div>
-            
+
             <div class="modal-actions">
               <button type="submit" class="update-btn">Submit Update</button>
             </div>
@@ -297,9 +300,9 @@
                   <div class="form-group half-width">
                     <label>Gender</label>
                     <div class="gender-options">
-                      <input type="radio" id="male" name="gender" value="Male" /> 
+                      <input type="radio" id="male" name="gender" value="Male" />
                       <label for="male">Male</label>
-                      <input type="radio" id="female" name="gender" value="Female" /> 
+                      <input type="radio" id="female" name="gender" value="Female" />
                       <label for="female">Female</label>
                     </div>
                   </div>
@@ -331,7 +334,7 @@
                   <div class="profile-preview">
                     <img src="../image/profile2.jpg" alt="Profile Preview" class="preview-img" />
                     <div class="profile-upload-controls">
-                      <input type="file" id="profile-image-input" accept="image/*" style="display: none;" />
+                      <input type="file" id="profile-image-input" accept="image/*" style="display: none" />
                       <button type="button" class="choose-image-btn" id="choose-image-btn">Choose Image</button>
                       <p class="image-info">Max size: 2MB. Accepted formats: JPG, PNG, GIF</p>
                     </div>
