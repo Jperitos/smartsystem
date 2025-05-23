@@ -25,8 +25,7 @@ const authenticated = require("./middlewares/Authenticated");
 require('./middlewares/passport-setup');
 const userdisplay = require("./routers/userRouts");
 const { saveBinData } = require('./middlewares/dbHandler');
-const imageRouter = require('./routers/imageRouter');
-const { getUserNotifications, markNotificationAsRead, sendAssignmentNotification } = require('./middlewares/notificationService');
+const imageRouter = require('./routers/imageRouter');const esp32Router = require('./routers/esp32Router');const { getUserNotifications, markNotificationAsRead, sendAssignmentNotification } = require('./middlewares/notificationService');
 
 // Configure multer for file storage
 const storage = multer.diskStorage({
@@ -130,9 +129,15 @@ app.get("/reset_password", (req, res) => {
 app.get("/display", (req, res) => {
     res.render("display");
 });
+
+app.get("/test-display", (req, res) => {
+    res.sendFile(path.join(__dirname, 'test-display.html'));
+});
+
 app.get("/news", (req, res) => {
     res.render("news");
 });
+
 app.get("/image", (req, res) => {
     res.render("image");
 });
@@ -156,11 +161,7 @@ mongoose.connect(process.env.MONGO_URI).then(() => {
     console.log(err);
 });
 
-app.use('/api/auth', authRouter);
-app.use('/api/posts', postsRouter);
-app.use('/users', userRouters);
-app.use("/auth", authRouter);
-app.use('/api', userdisplay);
+app.use('/api/auth', authRouter);app.use('/api/posts', postsRouter);app.use('/users', userRouters);app.use("/auth", authRouter);app.use('/api', userdisplay);app.use('/api', esp32Router);
 
 // Add missing API endpoints that are causing 500 errors
 
@@ -530,15 +531,7 @@ app.get('/api/history', async (req, res) => {
   res.json(history);
 });
 
-app.get('/api/bin-data', async (req, res) => {
-  try {
-    const data = await SensoredData.find({ fillLevel: { $gte: 85 } }).sort({ timestamp: -1 }).lean();
-    res.json(data);
-  } catch (err) {
-    console.error('Error fetching bin data:', err);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
+app.get('/api/bin-data', async (req, res) => {  try {    const data = await SensoredData.find({ fillLevel: { $gte: 85 } }).sort({ timestamp: -1 }).lean();    res.json(data);  } catch (err) {    console.error('Error fetching bin data:', err);    res.status(500).json({ error: 'Internal server error' });  }});// Proxy endpoint for ESP32 real-time dataapp.get('/api/latest-data', async (req, res) => {  try {    // Use native http module to get data from ESP32 server    const http = require('http');        const options = {      hostname: 'localhost',      port: 9000,      path: '/api/latest-data',      method: 'GET',      timeout: 5000    };    const request = http.request(options, (response) => {      let data = '';            response.on('data', (chunk) => {        data += chunk;      });            response.on('end', () => {        try {          const jsonData = JSON.parse(data);          res.json(jsonData);        } catch (parseErr) {          console.error('Error parsing ESP32 response:', parseErr);          res.json({            message: "ESP32 data parsing error",            timestamp: new Date(),            bin1: { weight: 0, height: 0, average: 0 },            bin2: { weight: 0, height: 0, average: 0 },            bin3: { weight: 0, height: 0, average: 0 }          });        }      });    });    request.on('error', (err) => {      console.error('ESP32 server connection error:', err);      res.json({        message: "ESP32 server offline",        timestamp: new Date(),        bin1: { weight: 0, height: 0, average: 0 },        bin2: { weight: 0, height: 0, average: 0 },        bin3: { weight: 0, height: 0, average: 0 }      });    });    request.on('timeout', () => {      console.error('ESP32 server request timeout');      request.destroy();      res.json({        message: "ESP32 server timeout",        timestamp: new Date(),        bin1: { weight: 0, height: 0, average: 0 },        bin2: { weight: 0, height: 0, average: 0 },        bin3: { weight: 0, height: 0, average: 0 }      });    });    request.end();  } catch (err) {    console.error('Error in latest-data endpoint:', err);    res.status(500).json({      message: "Internal server error",      timestamp: new Date(),      bin1: { weight: 0, height: 0, average: 0 },      bin2: { weight: 0, height: 0, average: 0 },      bin3: { weight: 0, height: 0, average: 0 }    });  }});
 
 app.get('/api/staff', async (req, res) => {
   try {

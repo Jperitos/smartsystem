@@ -214,6 +214,30 @@
       overflow-y: auto;
     }
 
+    .connection-status {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      padding: 8px 16px;
+      border-radius: 4px;
+      color: white;
+      font-weight: bold;
+      z-index: 1000;
+    }
+
+    .connection-status.connected {
+      background-color: #28a745;
+    }
+
+    .connection-status.disconnected {
+      background-color: #dc3545;
+    }
+
+    .connection-status.connecting {
+      background-color: #ffc107;
+      color: #333;
+    }
+
     /* Responsive design */
     @media (max-width: 768px) {
       .dashboard-container {
@@ -232,6 +256,8 @@
   </style>
 </head>
 <body>
+  <!-- Connection Status Indicator -->
+  <div id="connectionStatus" class="connection-status connecting">Connecting...</div>
 
   <div class="dashboard-container">
     <!-- Floor Plan Panel -->
@@ -259,31 +285,32 @@
     <!-- Status Panel -->
     <div class="right-panel">
       <div class="status-header">
-        <h3>Status</h3>
+        <h3>Real-Time Status</h3>
+        <small id="lastUpdated">Last updated: Never</small>
       </div>
       <div class="bin-status-container">
         <div class="bin-status-item">
-          <span class="bin-name">SIBin1</span>
-          <span class="bin-percentage medium" id="sibin1-percentage">78%</span>
+          <span class="bin-name">Bin 1 (Biodegradable)</span>
+          <span class="bin-percentage medium" id="bin1-percentage">--%</span>
         </div>
         <div class="progress-bar-container">
-          <div class="progress-bar progress-yellow" id="sibin1-progress" style="width: 78%;"></div>
+          <div class="progress-bar progress-yellow" id="bin1-progress" style="width: 0%;"></div>
         </div>
 
         <div class="bin-status-item">
-          <span class="bin-name">SIBin2</span>
-          <span class="bin-percentage low" id="sibin2-percentage">32%</span>
+          <span class="bin-name">Bin 2 (Non-Biodegradable)</span>
+          <span class="bin-percentage low" id="bin2-percentage">--%</span>
         </div>
         <div class="progress-bar-container">
-          <div class="progress-bar progress-green" id="sibin2-progress" style="width: 32%;"></div>
+          <div class="progress-bar progress-green" id="bin2-progress" style="width: 0%;"></div>
         </div>
 
         <div class="bin-status-item">
-          <span class="bin-name">SIBin3</span>
-          <span class="bin-percentage high" id="sibin3-percentage">100%</span>
+          <span class="bin-name">Bin 3 (Food Waste)</span>
+          <span class="bin-percentage high" id="bin3-percentage">--%</span>
         </div>
         <div class="progress-bar-container">
-          <div class="progress-bar progress-red" id="sibin3-progress" style="width: 100%;"></div>
+          <div class="progress-bar progress-red" id="bin3-progress" style="width: 0%;"></div>
         </div>
       </div>
     </div>
@@ -312,167 +339,11 @@
     </tbody>
   </table>
 
+  <!-- Load Socket.IO for real-time notifications -->
   <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
-
-  <script>
-    // Floor selection functionality
-    const floorSelect = document.getElementById('floorSelect');
-    const floorImage = document.getElementById('floorImage');
-    const floorTitle = document.getElementById('floorTitle');
-
-    floorSelect.addEventListener('change', function () {
-      const selectedFloor = this.value;
-      // Properly encode the URL to handle spaces in filename
-      floorImage.src = `/image/Floor%20Plan%20${selectedFloor}.png`;
-      floorTitle.textContent = `Floor ${selectedFloor}`;
-      
-      // Reset image display in case it was hidden due to error
-      floorImage.style.display = 'block';
-      floorImage.nextElementSibling.style.display = 'none';
-      
-      // Update bin names based on floor
-      updateBinNames(selectedFloor);
-    });
-
-    function updateBinNames(floor) {
-      const binNames = document.querySelectorAll('.bin-name');
-      binNames.forEach((binName, index) => {
-        const binNumber = index + 1;
-        binName.textContent = `S${floor}Bin${binNumber}`;
-      });
-    }
-
-    function updateBinStatus(binId, percentage) {
-      const percentageElement = document.getElementById(`${binId}-percentage`);
-      const progressElement = document.getElementById(`${binId}-progress`);
-      
-      if (percentageElement && progressElement) {
-        percentageElement.textContent = `${percentage}%`;
-        progressElement.style.width = `${percentage}%`;
-        
-        // Update color classes based on percentage
-        percentageElement.className = 'bin-percentage';
-        progressElement.className = 'progress-bar';
-        
-        if (percentage < 50) {
-          percentageElement.classList.add('low');
-          progressElement.classList.add('progress-green');
-        } else if (percentage < 85) {
-          percentageElement.classList.add('medium');
-          progressElement.classList.add('progress-yellow');
-        } else {
-          percentageElement.classList.add('high');
-          progressElement.classList.add('progress-red');
-        }
-      }
-    }
-
-    async function fetchBinData() {
-      try {
-        const response = await fetch('/api/bin-data');
-        const data = await response.json();
-
-        const tbody = document.querySelector('#binTable tbody');
-        tbody.innerHTML = ''; // Clear existing rows
-
-        data.forEach(item => {
-          const row = document.createElement('tr');
-
-          row.innerHTML = `
-            <td>${item.data_id}</td>
-            <td>${new Date(item.timestamp).toLocaleString()}</td>
-            <td>${item.height ?? ''}</td>
-            <td>${item.weight ?? ''}</td>
-            <td>${item.type}</td>
-            <td>${item.fillLevel.toFixed(1)}</td>
-            <td>${item.fullbin_time ? new Date(item.fullbin_time).toLocaleString() : ''}</td>
-          `;
-
-          tbody.appendChild(row);
-        });
-
-        // Update bin status based on latest data
-        if (data.length > 0) {
-          // Example: Update status based on first few entries
-          // You may want to modify this logic based on your actual data structure
-          const latestData = data.slice(0, 3);
-          latestData.forEach((item, index) => {
-            const binId = `sibin${index + 1}`;
-            updateBinStatus(binId, Math.round(item.fillLevel));
-          });
-        }
-
-      } catch (err) {
-        console.error('Error fetching bin data:', err);
-      }
-    }
-
-    // Fetch data on page load and every 30 seconds
-    fetchBinData();
-    setInterval(fetchBinData, 30000);
-
-    // Notifications logic
-    const notifContainer = document.getElementById('notifications-list');
-
-    async function fetchNotifications() {
-      try {
-        const res = await fetch('/api/notifications');
-        if (!res.ok) throw new Error('Failed to fetch notifications');
-        const notifications = await res.json();
-
-        if (notifications.length === 0) {
-          notifContainer.innerHTML = '<p>No notifications</p>';
-          return;
-        }
-
-        notifContainer.innerHTML = notifications.map(notif => `
-          <div class="notification">
-            <strong>${notif.notif_type}</strong><br>
-            <small>${new Date(notif.created_at).toLocaleString()}</small>
-            <p>${notif.message}</p>
-            <small><em>Bin: ${notif.bin_id?.bin_code || 'Unknown'}</em></small>
-          </div>
-        `).join('');
-      } catch (error) {
-        notifContainer.innerHTML = `<p style="color:red;">Failed to load notifications</p>`;
-        console.error('Error fetching notifications:', error);
-      }
-    }
-
-    // Initial load
-    fetchNotifications();
-
-    // Socket.io connection and realtime updates
-    const socket = io();
-
-    socket.on('connect', () => {
-      console.log('Connected to notification server');
-    });
-
-    socket.on('pushNotification', (data) => {
-      console.log('Notification received:', data);
-
-      const notifElement = document.createElement('div');
-      notifElement.classList.add('notification');
-      notifElement.innerHTML = `
-        <strong>${data.notif_type || 'Notification'}</strong><br>
-        <small>${new Date(data.created_at || Date.now()).toLocaleString()}</small>
-        <p>${data.message}</p>
-        <small><em>Bin: ${data.bin_code || 'Unknown'}</em></small>
-      `;
-
-      notifContainer.prepend(notifElement);
-    });
-
-    socket.on('disconnect', () => {
-      console.log('Disconnected from notification server');
-    });
-
-    // Test if image loads correctly on page load
-    window.addEventListener('load', function() {
-      console.log('Page loaded, testing image path:', floorImage.src);
-    });
-  </script>
+  
+  <!-- Load our dedicated dashboard script -->
+  <script src="/js/display-dashboard.js"></script>
 
 </body>
 </html>

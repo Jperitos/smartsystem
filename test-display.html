@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ESP32 Dashboard Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f5f5f5;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .status {
+      display: inline-block;
+      padding: 8px 16px;
+      border-radius: 5px;
+      color: white;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .status.connected { background-color: #28a745; }
+    .status.disconnected { background-color: #dc3545; }
+    .status.connecting { background-color: #ffc107; color: #333; }
+    .bin-card {
+      background: #f8f9fa;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 10px 0;
+    }
+    .bin-header {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .bin-data {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .data-item {
+      text-align: center;
+      padding: 10px;
+      background: white;
+      border-radius: 5px;
+    }
+    .data-value {
+      font-size: 24px;
+      font-weight: bold;
+      color: #007bff;
+    }
+    .data-label {
+      font-size: 12px;
+      color: #666;
+      text-transform: uppercase;
+    }
+    .progress-bar {
+      width: 100%;
+      height: 20px;
+      background: #e9ecef;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #28a745 0%, #ffc107 50%, #dc3545 100%);
+      transition: width 0.3s ease;
+    }
+    .logs {
+      background: #000;
+      color: #00ff00;
+      padding: 15px;
+      border-radius: 5px;
+      font-family: monospace;
+      font-size: 12px;
+      height: 200px;
+      overflow-y: auto;
+      margin-top: 20px;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🗑️ ESP32 Bin Monitor Dashboard Test</h1>
+    
+    <div id="status" class="status connecting">Connecting...</div>
+    
+    <div style="margin-bottom: 20px;">
+      <button onclick="fetchData()">🔄 Refresh Data</button>
+      <button onclick="clearLogs()">🧹 Clear Logs</button>
+      <button onclick="testEndpoints()">🧪 Test Endpoints</button>
+    </div>
+    
+    <div id="lastUpdate">Last update: Never</div>
+    
+    <div class="bin-card">
+      <div class="bin-header">🌱 Bin 1 (Biodegradable)</div>
+      <div class="bin-data">
+        <div class="data-item">
+          <div class="data-value" id="bin1-weight">--</div>
+          <div class="data-label">Weight (kg)</div>
+        </div>
+        <div class="data-item">
+          <div class="data-value" id="bin1-height">--</div>
+          <div class="data-label">Height (cm)</div>
+        </div>
+        <div class="data-item">
+          <div class="data-value" id="bin1-average">--</div>
+          <div class="data-label">Fill Level (%)</div>
+        </div>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="bin1-progress" style="width: 0%"></div>
+      </div>
+    </div>
+    
+    <div class="bin-card">
+      <div class="bin-header">♻️ Bin 2 (Non-Biodegradable)</div>
+      <div class="bin-data">
+        <div class="data-item">
+          <div class="data-value" id="bin2-weight">--</div>
+          <div class="data-label">Weight (kg)</div>
+        </div>
+        <div class="data-item">
+          <div class="data-value" id="bin2-height">--</div>
+          <div class="data-label">Height (cm)</div>
+        </div>
+        <div class="data-item">
+          <div class="data-value" id="bin2-average">--</div>
+          <div class="data-label">Fill Level (%)</div>
+        </div>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="bin2-progress" style="width: 0%"></div>
+      </div>
+    </div>
+    
+    <div class="bin-card">
+      <div class="bin-header">🍎 Bin 3 (Food Waste)</div>
+      <div class="bin-data">
+        <div class="data-item">
+          <div class="data-value" id="bin3-weight">--</div>
+          <div class="data-label">Weight (kg)</div>
+        </div>
+        <div class="data-item">
+          <div class="data-value" id="bin3-height">--</div>
+          <div class="data-label">Height (cm)</div>
+        </div>
+        <div class="data-item">
+          <div class="data-value" id="bin3-average">--</div>
+          <div class="data-label">Fill Level (%)</div>
+        </div>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="bin3-progress" style="width: 0%"></div>
+      </div>
+    </div>
+    
+    <div class="logs" id="logs">
+      [SYSTEM] Dashboard test initialized...<br>
+    </div>
+  </div>
+
+  <script>
+    let updateInterval;
+    let connectionStatus = document.getElementById('status');
+    let logs = document.getElementById('logs');
+    
+    function log(message) {
+      const timestamp = new Date().toLocaleTimeString();
+      logs.innerHTML += `[${timestamp}] ${message}<br>`;
+      logs.scrollTop = logs.scrollHeight;
+      console.log(message);
+    }
+    
+    function updateStatus(status, message) {
+      connectionStatus.className = `status ${status}`;
+      connectionStatus.textContent = message;
+      log(`STATUS: ${status.toUpperCase()} - ${message}`);
+    }
+    
+    function updateBinData(binId, data) {
+      if (!data) return;
+      
+      const weight = document.getElementById(`${binId}-weight`);
+      const height = document.getElementById(`${binId}-height`);
+      const average = document.getElementById(`${binId}-average`);
+      const progress = document.getElementById(`${binId}-progress`);
+      
+      if (weight) weight.textContent = data.weight?.toFixed(1) || '--';
+      if (height) height.textContent = data.height || '--';
+      if (average) average.textContent = Math.round(data.average) + '%' || '--';
+      if (progress) progress.style.width = Math.round(data.average) + '%';
+      
+      log(`BIN UPDATE: ${binId.toUpperCase()} -> Weight: ${data.weight}kg, Height: ${data.height}cm, Fill: ${data.average}%`);
+    }
+    
+    async function fetchData() {
+      try {
+        updateStatus('connecting', 'Fetching data...');
+        
+        // Test both endpoints
+        log('FETCH: Testing proxy endpoint /api/latest-data');
+        const response = await fetch('/api/latest-data', {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          cache: 'no-cache'
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        log(`DATA RECEIVED: ${JSON.stringify(data, null, 2)}`);
+        
+        if (data.message && data.message.includes('offline')) {
+          updateStatus('disconnected', data.message);
+          return;
+        }
+        
+        updateStatus('connected', 'ESP32 Connected');
+        
+        // Update bin displays
+        if (data.bin1) updateBinData('bin1', data.bin1);
+        if (data.bin2) updateBinData('bin2', data.bin2);
+        if (data.bin3) updateBinData('bin3', data.bin3);
+        
+        document.getElementById('lastUpdate').textContent = `Last update: ${new Date().toLocaleTimeString()}`;
+        
+      } catch (error) {
+        log(`ERROR: ${error.message}`);
+        updateStatus('disconnected', 'Connection failed');
+      }
+    }
+    
+    async function testEndpoints() {
+      log('TESTING: All endpoints...');
+      
+      // Test ESP32 direct
+      try {
+        const esp32Response = await fetch('http://localhost:9000/api/latest-data');
+        const esp32Data = await esp32Response.json();
+        log(`ESP32 DIRECT: ${JSON.stringify(esp32Data, null, 2)}`);
+      } catch (err) {
+        log(`ESP32 DIRECT ERROR: ${err.message}`);
+      }
+      
+      // Test proxy
+      try {
+        const proxyResponse = await fetch('/api/latest-data');
+        const proxyData = await proxyResponse.json();
+        log(`PROXY: ${JSON.stringify(proxyData, null, 2)}`);
+      } catch (err) {
+        log(`PROXY ERROR: ${err.message}`);
+      }
+    }
+    
+    function clearLogs() {
+      logs.innerHTML = '[SYSTEM] Logs cleared...<br>';
+    }
+    
+    function startAutoUpdate() {
+      log('AUTO-UPDATE: Starting every 3 seconds...');
+      updateInterval = setInterval(fetchData, 3000);
+    }
+    
+    function stopAutoUpdate() {
+      if (updateInterval) {
+        clearInterval(updateInterval);
+        log('AUTO-UPDATE: Stopped');
+      }
+    }
+    
+    // Initialize
+    window.addEventListener('load', () => {
+      log('INIT: Page loaded, starting dashboard...');
+      fetchData();
+      startAutoUpdate();
+    });
+    
+    // Handle page visibility changes
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        stopAutoUpdate();
+      } else {
+        log('VISIBILITY: Page visible, resuming updates...');
+        startAutoUpdate();
+        fetchData();
+      }
+    });
+  </script>
+</body>
+</html> 

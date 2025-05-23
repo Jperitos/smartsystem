@@ -46,50 +46,26 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
   
-  // Add back bin details click handlers as a backup
-  document.querySelectorAll('.bin-info-card').forEach(card => {
-    card.addEventListener('click', function() {
-      const binId = this.id; // e.g., S1Bin1
-      const binDetails = this.querySelector('.bin-details');
-      
-      // Get bin level from span elements
-      const binAvgSpan = this.querySelector('[id$="-avg"]');
-      const binLevel = binAvgSpan ? binAvgSpan.textContent.trim() : '-';
-      
-      // Get floor from data attribute
-      const binFloor = binDetails.dataset.floor || '1';
-
-      // Show modal
-      const modal = document.getElementById('binModal');
-      if (!modal) return;
-      
-      // Reset position to fixed to ensure proper centering
-      modal.style.position = 'fixed';
-      modal.style.display = 'flex';
-      modal.dataset.currentBinId = binId;
-
-      // Update modal contents
-      document.getElementById('modal-title').textContent = `Details for ${binId}`;
-      document.getElementById('binLevelSpan').textContent = binLevel;
-      document.getElementById('floorSpan').textContent = `Floor ${binFloor}`;
-      
-      // Reset message field
-      const messageField = document.getElementById('message');
-      if (messageField) messageField.value = '';
-    });
-  });
+    // Note: Bin card click handlers are handled by addtask.js to avoid conflicts
 });
 
 // Close modal on "X"
-document.querySelector('.close')?.addEventListener('click', () => {
-  const modal = document.getElementById('binModal');
-  if (modal) modal.style.display = 'none';
+document.addEventListener('DOMContentLoaded', function() {
+  const closeBtn = document.querySelector('#binModal .close');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      console.log('Closing modal via close button');
+      const modal = document.getElementById('binModal');
+      if (modal) modal.style.display = 'none';
+    });
+  }
 });
 
 // Close modal if clicked outside content
 window.addEventListener('click', function (e) {
   const modal = document.getElementById('binModal');
   if (e.target === modal) {
+    console.log('Closing modal via outside click');
     modal.style.display = 'none';
   }
-});
+}); 

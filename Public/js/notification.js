@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchNotifications();
   });
 
-  // Save assignment button event listener
-  document.getElementById('saveAssignmentBtn')?.addEventListener('click', saveAssignment);
+  // Save assignment button event listener (handled by addtask.js)
+  // Note: The saveAssignment function is handled by addtask.js to avoid conflicts
 });
 
 // Fetch notifications
@@ -71,60 +71,5 @@ async function markAllNotificationsRead() {
     if (!res.ok) throw new Error('Failed to mark notifications as read');
   } catch (err) {
     console.error('Mark read error:', err);
-  }
-}
-
-// Save assignment and notify janitor
-async function saveAssignment() {
-  const staffId = document.getElementById('staffSelect')?.value;
-  const message = document.getElementById('message')?.value;
-  const binLevel = document.getElementById('binLevelSpan')?.textContent;
-  const floor = document.getElementById('floorSpan')?.textContent;
-
-  if (!staffId || !message || !binLevel || !floor) {
-    alert('Please fill all assignment fields.');
-    return;
-  }
-
-  try {
-    const assignment = {
-      staffId,
-      message,
-      binLevel,
-      floor,
-      startTime: new Date().toISOString()
-    };
-
-    const assignRes = await fetch('/api/assignments', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(assignment)
-    });
-
-    if (!assignRes.ok) throw new Error('Failed to save assignment');
-
-    // Send notification
-    const notifRes = await fetch('/api/notifications', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        receiverId: staffId,
-        sender: 'headstaff',
-        avatar: '/image/profile.jpg',
-        message: `You have been assigned a task on Floor ${floor} for Bin Level ${binLevel}.`
-      })
-    });
-
-    if (!notifRes.ok) throw new Error('Failed to send notification');
-
-    // Show success
-    const successMsg = document.getElementById('success-message');
-    successMsg.style.display = 'block';
-    setTimeout(() => {
-      successMsg.style.display = 'none';
-    }, 3000);
-  } catch (err) {
-    console.error('Assignment save error:', err);
-    alert('Failed to save assignment.');
   }
 }

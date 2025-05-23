@@ -88,7 +88,10 @@ async function saveAssignment() {
     const floorRaw = floorSpan.textContent.replace('Floor ', '');
     console.log('Floor raw:', floorRaw);
     
-    const binLevel = isNaN(Number(binLevelRaw)) ? null : Number(binLevelRaw);
+    // Parse bin level - remove % sign if present
+    let binLevel = binLevelRaw.replace('%', '').trim();
+    binLevel = isNaN(Number(binLevel)) || binLevel === '-' ? null : Number(binLevel);
+    
     const floor = isNaN(Number(floorRaw)) ? null : Number(floorRaw);
     console.log('Parsed bin level:', binLevel);
     console.log('Parsed floor:', floor);
@@ -113,7 +116,7 @@ async function saveAssignment() {
       u_id: staffId,
       bin_level: binLevel,
       floor: floor,
-      assigned_task: taskMessage,
+      assigned_task: taskMessage || 'Empty and clean the bin',
       date: now.toISOString().slice(0, 10),
       time: now.toTimeString().split(' ')[0],
       status: 'assigned'
@@ -137,12 +140,46 @@ async function saveAssignment() {
 
     console.log('Assignment saved successfully');
     
+    // Send notification to the assigned staff
+    try {
+      const staffSelect = document.getElementById('staffSelect');
+      const staffName = staffSelect.options[staffSelect.selectedIndex].text;
+      
+      const notificationPayload = {
+        u_id: staffId, // Staff ID to receive notification
+        title: `New Assignment: ${binId}`,
+        message: `You have been assigned to ${binId} on Floor ${floor}. Bin Level: ${binLevel !== null ? binLevel + '%' : 'N/A'}. Task: ${taskMessage || 'Empty and clean the bin'}`,
+        type: 'assignment',
+        read: false,
+        date: new Date().toISOString().slice(0, 10),
+        time: new Date().toTimeString().split(' ')[0]
+      };
+      
+      console.log('Sending notification:', notificationPayload);
+      
+      const notificationRes = await fetch('/api/notifications', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(notificationPayload)
+      });
+      
+      if (notificationRes.ok) {
+        console.log('Notification sent successfully to staff:', staffName);
+      } else {
+        console.warn('Failed to send notification, but assignment was saved');
+      }
+    } catch (notificationError) {
+      console.error('Notification error:', notificationError);
+      // Don't fail the whole process if notification fails
+    }
+    
     // Show success message inside the modal
     const successMsg = document.getElementById('success-message');
     if (successMsg) {
       // Update the success message to include bin level info from assignment
       const binLevelText = binLevel !== null ? `${binLevel}%` : 'N/A';
-      successMsg.innerHTML = `Assignment saved successfully!<br><small>Notification sent to staff about ${binId} on Floor ${floor}<br>Bin Level: ${binLevelText}</small>`;
+      const taskText = taskMessage || 'Empty and clean the bin';
+      successMsg.innerHTML = `Assignment saved successfully!<br><small>Notification sent to staff about ${binId} on Floor ${floor}<br>Bin Level: ${binLevelText}<br>Task: ${taskText}</small>`;
       successMsg.style.display = 'block';
       
       // Close modal and reset form after a short delay
@@ -150,11 +187,12 @@ async function saveAssignment() {
         modal.style.display = 'none';
         if (messageEl) messageEl.value = '';
         if (successMsg) successMsg.style.display = 'none'; // Hide message for next time
-      }, 2000); // Increased to 2 seconds to show notification message
+      }, 3000); // Show success message for 3 seconds
     } else {
       // Fallback if success message element not found
       const binLevelText = binLevel !== null ? `${binLevel}%` : 'N/A';
-      alert(`Assignment saved successfully and notification sent to staff!\n\nBin: ${binId}\nFloor: ${floor}\nBin Level: ${binLevelText}\nTask: ${taskMessage || 'Empty and clean the bin'}`);
+      const taskText = taskMessage || 'Empty and clean the bin';
+      alert(`Assignment saved successfully and notification sent to staff!\n\nBin: ${binId}\nFloor: ${floor}\nBin Level: ${binLevelText}\nTask: ${taskText}`);
       modal.style.display = 'none';
       if (messageEl) messageEl.value = '';
     }
@@ -336,6 +374,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const successMsg = document.getElementById('success-message');
         if (successMsg) {
           successMsg.style.display = 'none';
+        }
+        
+        // Ensure textarea is enabled and focusable
+        const messageTextarea = document.getElementById('message');
+        if (messageTextarea) {
+          messageTextarea.disabled = false;
+          messageTextarea.readOnly = false;
+          messageTextarea.value = ''; // Clear any existing content
+          messageTextarea.style.backgroundColor = '';
+          messageTextarea.style.cursor = 'text';
+          messageTextarea.style.opacity = '1';
+          messageTextarea.removeAttribute('disabled');
+          console.log('Textarea enabled for input');
+          
+          // Focus the textarea after a brief delay to ensure it's ready
+          setTimeout(() => {
+            messageTextarea.focus();
+          }, 100);
         }
 
         // Ensure Save Assignment button has its event listener
