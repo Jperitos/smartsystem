@@ -228,29 +228,29 @@ body {
   cursor: pointer;
 }
 
-    .status-done{
+.status-done{
     border: none;
     background-color: #f4f4f4;
     color:  #15421C;
     font-weight: 500;
     padding: 10px 20px;
-    }
+}
     
-    .request h4 {
+.request h4 {
         font-size: 12px;
         font-weight: 100;
         color: rgb(179, 13, 13);
         margin-top: -5px; 
-    }
+}
     
-    .table2 {
-        width: 95%;
+.table2 {
+      width: 95%;
         border-collapse: collapse; 
         border: none; 
         font-size: 12px;
         position: relative;
     
-    }   
+}   
   .task-text {
   word-wrap: break-word;
   word-break: break-word;
@@ -473,6 +473,7 @@ body {
     .staff-table {
         width: 100%;
         margin-top: 20px;
+        margin-left: -18px;
         border-collapse: collapse;
     }
     
@@ -1342,10 +1343,11 @@ body {
     }
 
     .filter{
+        position: absolute;
         display: flex;
         align-items: center;
         cursor: pointer;
-        margin-right: 50px;
+        right: 32px;
         margin-top: 5px;
     }
     .filter:hover{
@@ -1830,3 +1832,19 @@ textarea#notes {
   .staff-table tbody td:nth-child(5) {
     text-align: left;
   }
+
+.acitivty-update-btn {
+  padding: 8px 12px;
+  background-color: #3A7D44;
+  color: white;
+  border: none;
+  border: solid;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.activty-update-btn
+.staff-table td, .staff-table th {
+  text-align: center;
+  vertical-align: middle;
+}
