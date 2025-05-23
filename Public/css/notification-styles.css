@@ -1,0 +1,338 @@
+/* Notification System Styles */
+.notification {
+  display: flex;
+  align-items: flex-start;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.2s ease;
+  position: relative;
+}
+
+.notification:hover {
+  background-color: #f8f9fa;
+}
+
+.notification.unread {
+  background-color: #f0f8ff;
+  border-left: 4px solid #4CAF50;
+}
+
+.notification img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 12px;
+  object-fit: cover;
+}
+
+.notification .message {
+  flex: 1;
+  min-width: 0;
+}
+
+.notification .message strong {
+  display: block;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.notification .notification-text {
+  color: #666;
+  font-size: 14px;
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+
+.notification .time {
+  color: #999;
+  font-size: 12px;
+}
+
+.notification .meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: 8px;
+}
+
+.notification .meta p {
+  color: #999;
+  font-size: 12px;
+  margin: 0 0 4px 0;
+  white-space: nowrap;
+}
+
+.notification .dot {
+  width: 8px;
+  height: 8px;
+  background-color: #4CAF50;
+  border-radius: 50%;
+  display: block;
+}
+
+/* Notification Actions */
+.notification-actions {
+  margin-top: 8px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.mark-done-btn {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2);
+  white-space: nowrap;
+}
+
+.mark-done-btn:hover {
+  background: linear-gradient(135deg, #45a049 0%, #3d8b40 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+}
+
+.mark-done-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2);
+}
+
+.mark-done-btn:disabled {
+  background: #cccccc;
+  color: #666;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.mark-done-btn.completed {
+  background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+  pointer-events: none;
+}
+
+.mark-done-btn i {
+  font-size: 14px;
+}
+
+/* Spinning loader icon */
+.bx-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Toast notifications */
+.toast-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  padding: 12px 20px;
+  border-radius: 4px;
+  color: white;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  max-width: 350px;
+  word-wrap: break-word;
+}
+
+.toast-success {
+  background: #4CAF50;
+}
+
+.toast-error {
+  background: #f44336;
+}
+
+.toast-info {
+  background: #2196F3;
+}
+
+/* Empty states */
+.no-notifications,
+.error-message {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+}
+
+.error-message {
+  color: #d32f2f;
+}
+
+/* Notification badge/counter */
+.notification-badge,
+.unread-count {
+  background: #ff4444;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 10px;
+  margin-left: 5px;
+  min-width: 16px;
+  text-align: center;
+  display: inline-block;
+}
+
+/* Assignment notification specific styling */
+.notification[data-type="assignment"] {
+  border-left-color: #FF9800;
+}
+
+.notification[data-type="assignment"] .notification-text {
+  background: #fff3e0;
+  padding: 8px;
+  border-radius: 4px;
+  border-left: 3px solid #FF9800;
+  margin: 6px 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .notification {
+    flex-wrap: wrap;
+    padding: 10px;
+  }
+  
+  .notification img {
+    width: 35px;
+    height: 35px;
+    margin-right: 10px;
+  }
+  
+  .notification .message {
+    min-width: calc(100% - 45px);
+  }
+  
+  .notification .meta {
+    margin-left: 0;
+    margin-top: 8px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .notification-actions {
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  .mark-done-btn {
+    flex: 1;
+    justify-content: center;
+    min-width: 120px;
+  }
+  
+  .toast-notification {
+    right: 10px;
+    left: 10px;
+    max-width: none;
+  }
+}
+
+/* Notification header styling */
+.notifications .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  border-bottom: 2px solid #eee;
+  background: #f8f9fa;
+}
+
+.notifications .header .mark-read {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.notifications .header .mark-read:hover {
+  background: #5a6268;
+}
+
+.notifications .header .tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.notifications .header .tab {
+  background: transparent;
+  border: 1px solid #dee2e6;
+  color: #6c757d;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.notifications .header .tab.active,
+.notifications .header .tab:hover {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+/* Loading states */
+.notifications-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  color: #666;
+}
+
+.notifications-loading::after {
+  content: "";
+  width: 20px;
+  height: 20px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #4CAF50;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-left: 10px;
+}
+
+/* Focus states for accessibility */
+.mark-done-btn:focus,
+.notifications .header .mark-read:focus,
+.notifications .header .tab:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .notification.unread {
+    border-left-width: 6px;
+  }
+  
+  .mark-done-btn {
+    border: 2px solid #2e7d32;
+  }
+  
+  .notification-badge {
+    border: 2px solid white;
+  }
+} 

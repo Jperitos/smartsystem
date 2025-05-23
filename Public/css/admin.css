@@ -1041,9 +1041,7 @@ input, select {
         background-color: green;
     }
     
-    .progress-red {
-        background-color: red;
-    }
+        .progress-red {        background-color: red;    }    .progress-gray {        background-color: #6c757d;    }
     
     .progress.yellow {
         color: #ffa500;
@@ -1055,10 +1053,7 @@ input, select {
         font-weight: bold;
     }
     
-    .progress.red {
-        color: red;
-        font-weight: bold;
-    }
+        .progress.red {        color: red;        font-weight: bold;    }    .progress.gray {        color: #6c757d;        font-weight: bold;    }    .last-update {        font-size: 11px;        color: #666;        margin-top: 5px;        display: block;    }
 .button-notif{
     align-items: center;
     display: flex;

@@ -1,3 +1,4 @@
+// Make function globally accessible for refresh after assignment save
 async function loadActivityLogs(filterDate = null) {
   try {
     console.log('Fetching activity logs...');
@@ -68,7 +69,7 @@ async function loadActivityLogs(filterDate = null) {
       tr.appendChild(tdId);
 
       const tdBin = document.createElement('td');
-      tdBin.textContent = log.bin_id?.bin_code || `Bin ${log.bin_id?._id?.slice(-3) || 'N/A'}`;
+      tdBin.textContent = log.bin_id?.bin_code || log.bin_id || 'N/A';
       tr.appendChild(tdBin);
 
       const tdFloor = document.createElement('td');
@@ -88,15 +89,7 @@ async function loadActivityLogs(filterDate = null) {
       tdTime.textContent = formatTime(log.start_time || log.time);
       tr.appendChild(tdTime);
 
-      const tdStatus = document.createElement('td');
-      const statusText = capitalize(log.status);
-      tdStatus.textContent = statusText;
-
-      if ((log.status || '').toLowerCase() === 'assigned') {
-        tdStatus.style.color = '#3A7D44';
-      }
-
-      tr.appendChild(tdStatus);
+            const tdStatus = document.createElement('td');      const statusText = capitalize(log.status);      tdStatus.textContent = statusText;      // Style status based on type      const status = (log.status || '').toLowerCase();      if (status === 'assigned') {        tdStatus.style.color = '#3A7D44';        tdStatus.style.fontWeight = '600';      } else if (status === 'done' || status === 'completed') {        tdStatus.style.color = '#2196F3';        tdStatus.style.fontWeight = '600';      } else if (status === 'inprogress' || status === 'in-progress') {        tdStatus.style.color = '#FF9800';        tdStatus.style.fontWeight = '600';      } else {        tdStatus.style.color = '#666';      }      tr.appendChild(tdStatus);
 
       table.appendChild(tr);
     });
@@ -110,6 +103,9 @@ async function loadActivityLogs(filterDate = null) {
     }
   }
 }
+
+// Make the function globally accessible
+window.loadActivityLogs = loadActivityLogs;
 
 document.addEventListener('DOMContentLoaded', () => {
   loadActivityLogs(); // Initial load

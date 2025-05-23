@@ -138,7 +138,11 @@ async function saveAssignment() {
       throw new Error('Failed to save assignment: ' + res.status);
     }
 
-    console.log('Assignment saved successfully');
+    const savedResponse = await res.json();
+    console.log('Assignment saved successfully:', savedResponse);
+    
+    // Get the saved assignment ID from the response
+    const assignmentId = savedResponse._id || savedResponse.id;
     
     // Send notification to the assigned staff
     try {
@@ -150,6 +154,7 @@ async function saveAssignment() {
         title: `New Assignment: ${binId}`,
         message: `You have been assigned to ${binId} on Floor ${floor}. Bin Level: ${binLevel !== null ? binLevel + '%' : 'N/A'}. Task: ${taskMessage || 'Empty and clean the bin'}`,
         type: 'assignment',
+        assignment_id: assignmentId, // Add assignment ID for tracking
         read: false,
         date: new Date().toISOString().slice(0, 10),
         time: new Date().toTimeString().split(' ')[0]
@@ -197,10 +202,18 @@ async function saveAssignment() {
       if (messageEl) messageEl.value = '';
     }
     
-    // Refresh the activity logs table with new data if function exists
-    if (typeof window.refreshActivityLogs === 'function') {
-      window.refreshActivityLogs();
-    }
+    // Refresh the activity logs table with new data (with delay to ensure DB is updated)
+    setTimeout(() => {
+      if (typeof loadActivityLogs === 'function') {
+        console.log('Refreshing activity logs after assignment save');
+        loadActivityLogs();
+      } else if (typeof window.loadActivityLogs === 'function') {
+        console.log('Refreshing activity logs using window.loadActivityLogs');
+        window.loadActivityLogs();
+      } else {
+        console.log('Activity logs refresh function not found');
+      }
+    }, 500); // 500ms delay to ensure database is updated
     
   } catch (error) {
     console.error('Error in saveAssignment function:', error);
@@ -440,4 +453,4 @@ function updateClock() {
     
     clockElement.textContent = `${formattedHours}:${formattedMinutes}:${formattedSeconds} ${ampm}`;
   }
-}
+} 

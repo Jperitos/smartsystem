@@ -1,441 +1,371 @@
-// Task Assignment Notifications System
-console.log('Notifications system loaded');
+// Notification system for staff dashboard
+let currentUserId = null;
 
-/**
- * Main Notifications Manager Class
- */
-class NotificationManager {
-  constructor() {
-    this.currentUserId = null;
-    this.notifications = [];
-    this.unreadCount = 0;
-    this.refreshInterval = null;
-    this.init();
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('Notifications system loaded');
+  
+  // Get current user ID from session or global variable
+  getCurrentUserId();
+  
+  // Load notifications when the page loads
+  loadNotifications();
+  
+  // Set up auto-refresh every 30 seconds
+  setInterval(loadNotifications, 30000);
+  
+  // Set up mark all as read button
+  const markAllReadBtn = document.querySelector('.mark-read');
+  if (markAllReadBtn) {
+    markAllReadBtn.addEventListener('click', markAllNotificationsAsRead);
   }
+});
 
-  /**
-   * Initialize the notification system
-   */
-  async init() {
-    console.log('Initializing notification system...');
-    
-    // Get current user ID
-    await this.getCurrentUser();
-    
-    // Load notifications
-    if (this.currentUserId) {
-      await this.loadNotifications();
-      this.setupEventListeners();
-      this.startAutoRefresh();
-    }
-  }
-
-  /**
-   * Get current authenticated user
-   */
-  async getCurrentUser() {
-    try {
-      const response = await fetch('/users/me', {
-        credentials: 'include',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-      });
-      
-      if (response.ok) {
-        const user = await response.json();
-        this.currentUserId = user._id;
-        console.log('Current user ID:', this.currentUserId);
-        return user;
-      } else {
-        console.warn('Could not get authenticated user');
-        return null;
-      }
-    } catch (error) {
-      console.error('Error getting current user:', error);
-      return null;
-    }
-  }
-
-  /**
-   * Load notifications from server
-   */
-  async loadNotifications() {
-    try {
-      console.log('Loading notifications for user:', this.currentUserId);
-      
-      const response = await fetch(`/api/notifications?user_id=${this.currentUserId}`, {
-        credentials: 'include',
-        headers: {
-          'Accept': 'application/json'
-        }
-      });
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      this.notifications = await response.json();
-      console.log(`Loaded ${this.notifications.length} notifications`);
-      
-      // Update unread count
-      this.unreadCount = this.notifications.filter(n => n.status === 'sent').length;
-      
-      // Update UI
-      this.updateNotificationUI();
-      this.updateUnreadBadge();
-      
-    } catch (error) {
-      console.error('Error loading notifications:', error);
-      this.showErrorMessage('Failed to load notifications');
-    }
-  }
-
-  /**
-   * Update the notifications UI
-   */
-  updateNotificationUI() {
-    const notificationsContainer = document.querySelector('#notifications .notifications');
-    
-    if (!notificationsContainer) {
-      console.warn('Notifications container not found');
+// Get current user ID (you may need to adjust this based on your session management)
+async function getCurrentUserId() {
+  try {
+    // Try to get from global variable first
+    if (typeof window.currentUserId !== 'undefined') {
+      currentUserId = window.currentUserId;
       return;
     }
     
-    // Clear existing notifications
-    notificationsContainer.innerHTML = '';
-    
-    if (this.notifications.length === 0) {
-      notificationsContainer.innerHTML = `
-        <div class="notification no-notifications">
-          <div class="message" style="text-align: center; color: #666; padding: 20px;">
-            <i class="bx bx-bell" style="font-size: 48px; color: #ddd; display: block; margin-bottom: 10px;"></i>
-            No notifications yet
-          </div>
-        </div>
-      `;
-      return;
-    }
-    
-    // Create notification elements
-    this.notifications.forEach(notification => {
-      const notificationElement = this.createNotificationElement(notification);
-      notificationsContainer.appendChild(notificationElement);
-    });
-  }
-
-  /**
-   * Create a notification element
-   */
-  createNotificationElement(notification) {
-    const div = document.createElement('div');
-    div.className = `notification ${notification.status === 'sent' ? 'unread' : ''}`;
-    div.setAttribute('data-notification-id', notification._id);
-    
-    // Parse notification message for better display
-    const isTaskAssignment = notification.notif_type === 'Task Assignment';
-    const createdTime = new Date(notification.created_at);
-    const timeAgo = this.getTimeAgo(createdTime);
-    
-    let displayContent;
-    if (isTaskAssignment) {
-      displayContent = this.parseTaskAssignmentMessage(notification.message);
+    // If not available, try to get from profile endpoint
+    const response = await fetch('/api/user-profile');
+    if (response.ok) {
+      const userData = await response.json();
+      currentUserId = userData._id;
+      window.currentUserId = currentUserId;
     } else {
-      displayContent = {
-        title: notification.notif_type || 'Notification',
-        content: notification.message,
-        binCode: notification.bin_id?.bin_code || 'N/A'
-      };
+      console.warn('Could not get current user ID');
     }
-    
-    div.innerHTML = `
-      <img src="/image/task-icon.png" alt="Task" onerror="this.src='/image/profile2.jpg'" />
-      <div class="message">
-        <strong>${displayContent.title}</strong>
-        <div class="notification-content">${displayContent.content}</div>
-        <div class="time">${createdTime.toLocaleString()}</div>
-      </div>
-      <div class="meta">
-        <p>${timeAgo}</p>
-        ${notification.status === 'sent' ? '<span class="dot"></span>' : ''}
-      </div>
-      <div class="notification-actions" style="margin-left: auto;">
-        ${notification.status === 'sent' ? 
-          `<button class="mark-read-btn" onclick="notificationManager.markAsRead('${notification._id}')" style="background: #4CAF50; color: white; border: none; padding: 5px 10px; border-radius: 3px; font-size: 12px; cursor: pointer;">Mark Read</button>` 
-          : ''
-        }
-      </div>
-    `;
-    
-    // Add click handler to mark as read when clicked
-    if (notification.status === 'sent') {
-      div.addEventListener('click', (e) => {
-        if (!e.target.classList.contains('mark-read-btn')) {
-          this.markAsRead(notification._id);
-        }
-      });
-    }
-    
-    return div;
-  }
-
-  /**
-   * Parse task assignment message for better display
-   */
-  parseTaskAssignmentMessage(message) {
-    const lines = message.split('\n').filter(line => line.trim());
-    
-    // Extract key information
-    let binCode = 'N/A';
-    let floor = 'N/A';
-    let task = 'Clean bin';
-    let binLevel = 'Not specified';
-    
-    for (const line of lines) {
-      if (line.includes('Bin Code:')) {
-        binCode = line.split('Bin Code:')[1]?.trim() || 'N/A';
-      }
-      if (line.includes('Bin Location:')) {
-        floor = line.split('Bin Location:')[1]?.trim() || 'N/A';
-      }
-      if (line.includes('Task:')) {
-        task = line.split('Task:')[1]?.trim() || 'Clean bin';
-      }
-      if (line.includes('Bin Level at Assignment:')) {
-        binLevel = line.split('Bin Level at Assignment:')[1]?.trim() || 'Not specified';
-      }
-    }
-    
-    return {
-      title: `🗑️ New Task: ${binCode}`,
-      content: `
-        <div style="margin-top: 8px;">
-          <div><strong>Location:</strong> ${floor}</div>
-          <div><strong>Task:</strong> ${task}</div>
-          <div><strong>Bin Level:</strong> ${binLevel}</div>
-        </div>
-      `
-    };
-  }
-
-  /**
-   * Mark notification as read
-   */
-  async markAsRead(notificationId) {
-    try {
-      console.log('Marking notification as read:', notificationId);
-      
-      const response = await fetch(`/api/notifications/${notificationId}/read`, {
-        method: 'PUT',
-        credentials: 'include',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-      });
-      
-      if (!response.ok) {
-        throw new Error('Failed to mark notification as read');
-      }
-      
-      // Update local state
-      const notification = this.notifications.find(n => n._id === notificationId);
-      if (notification) {
-        notification.status = 'read';
-        this.unreadCount = Math.max(0, this.unreadCount - 1);
-        this.updateNotificationUI();
-        this.updateUnreadBadge();
-      }
-      
-    } catch (error) {
-      console.error('Error marking notification as read:', error);
-    }
-  }
-
-  /**
-   * Mark all notifications as read
-   */
-  async markAllAsRead() {
-    try {
-      console.log('Marking all notifications as read for user:', this.currentUserId);
-      
-      const response = await fetch('/api/notifications/mark-all-read', {
-        method: 'PUT',
-        credentials: 'include',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ user_id: this.currentUserId })
-      });
-      
-      if (!response.ok) {
-        throw new Error('Failed to mark all notifications as read');
-      }
-      
-      // Update local state
-      this.notifications.forEach(n => n.status = 'read');
-      this.unreadCount = 0;
-      this.updateNotificationUI();
-      this.updateUnreadBadge();
-      
-      this.showSuccessMessage('All notifications marked as read');
-      
-    } catch (error) {
-      console.error('Error marking all notifications as read:', error);
-      this.showErrorMessage('Failed to mark all notifications as read');
-    }
-  }
-
-  /**
-   * Update unread badge/counter
-   */
-  updateUnreadBadge() {
-    // Update notification tab indicator
-    const notificationTab = document.querySelector('[data-tab="notifications"]');
-    if (notificationTab) {
-      const existingBadge = notificationTab.querySelector('.unread-badge');
-      if (existingBadge) {
-        existingBadge.remove();
-      }
-      
-      if (this.unreadCount > 0) {
-        const badge = document.createElement('span');
-        badge.className = 'unread-badge';
-        badge.textContent = this.unreadCount;
-        badge.style.cssText = `
-          background: #ff4444;
-          color: white;
-          border-radius: 50%;
-          padding: 2px 6px;
-          font-size: 10px;
-          margin-left: 5px;
-          min-width: 16px;
-          text-align: center;
-        `;
-        notificationTab.appendChild(badge);
-      }
-    }
-    
-    console.log(`Unread notifications: ${this.unreadCount}`);
-  }
-
-  /**
-   * Setup event listeners
-   */
-  setupEventListeners() {
-    // Mark all as read button
-    const markAllReadBtn = document.querySelector('.mark-read');
-    if (markAllReadBtn) {
-      markAllReadBtn.addEventListener('click', () => this.markAllAsRead());
-    }
-    
-    // Refresh button if exists
-    const refreshBtn = document.querySelector('.refresh-notifications');
-    if (refreshBtn) {
-      refreshBtn.addEventListener('click', () => this.loadNotifications());
-    }
-  }
-
-  /**
-   * Start auto-refresh for notifications
-   */
-  startAutoRefresh() {
-    // Refresh every 30 seconds
-    this.refreshInterval = setInterval(() => {
-      this.loadNotifications();
-    }, 30000);
-    
-    console.log('Auto-refresh started for notifications');
-  }
-
-  /**
-   * Stop auto-refresh
-   */
-  stopAutoRefresh() {
-    if (this.refreshInterval) {
-      clearInterval(this.refreshInterval);
-      this.refreshInterval = null;
-      console.log('Auto-refresh stopped for notifications');
-    }
-  }
-
-  /**
-   * Get time ago string
-   */
-  getTimeAgo(date) {
-    const now = new Date();
-    const diff = now - date;
-    const minutes = Math.floor(diff / 60000);
-    const hours = Math.floor(diff / 3600000);
-    const days = Math.floor(diff / 86400000);
-    
-    if (minutes < 1) return 'Just now';
-    if (minutes < 60) return `${minutes}m ago`;
-    if (hours < 24) return `${hours}h ago`;
-    return `${days}d ago`;
-  }
-
-  /**
-   * Show success message
-   */
-  showSuccessMessage(message) {
-    console.log('✅ Success:', message);
-    // You can replace this with a better notification system
-    this.showToast(message, 'success');
-  }
-
-  /**
-   * Show error message
-   */
-  showErrorMessage(message) {
-    console.error('❌ Error:', message);
-    // You can replace this with a better notification system
-    this.showToast(message, 'error');
-  }
-
-  /**
-   * Simple toast notification
-   */
-  showToast(message, type = 'info') {
-    const toast = document.createElement('div');
-    toast.style.cssText = `
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: ${type === 'success' ? '#4CAF50' : type === 'error' ? '#f44336' : '#2196F3'};
-      color: white;
-      padding: 12px 20px;
-      border-radius: 5px;
-      z-index: 10000;
-      font-size: 14px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    `;
-    toast.textContent = message;
-    
-    document.body.appendChild(toast);
-    
-    setTimeout(() => {
-      toast.remove();
-    }, 3000);
+  } catch (error) {
+    console.error('Error getting current user ID:', error);
   }
 }
 
-// Initialize notification manager when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-  console.log('Initializing notification system...');
-  window.notificationManager = new NotificationManager();
-});
-
-// Auto-refresh when tab becomes visible
-document.addEventListener('visibilitychange', function() {
-  if (!document.hidden && window.notificationManager) {
-    window.notificationManager.loadNotifications();
+// Load notifications from database
+async function loadNotifications() {
+  try {
+    if (!currentUserId) {
+      await getCurrentUserId();
+    }
+    
+    if (!currentUserId) {
+      console.warn('No user ID available for loading notifications');
+      return;
+    }
+    
+    console.log('Loading notifications for user:', currentUserId);
+    
+    const response = await fetch(`/api/notifications?user_id=${currentUserId}`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch notifications: ${response.status}`);
+    }
+    
+    const notifications = await response.json();
+    console.log('Loaded notifications:', notifications);
+    
+    displayNotifications(notifications);
+    updateNotificationBadge(notifications);
+    
+  } catch (error) {
+    console.error('Error loading notifications:', error);
+    displayErrorMessage();
   }
-});
+}
 
-// Export for module use
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = NotificationManager;
-} 
+// Display notifications in the UI
+function displayNotifications(notifications) {
+  const notificationsContainer = document.querySelector('.notifications');
+  if (!notificationsContainer) {
+    console.warn('Notifications container not found');
+    return;
+  }
+  
+  // Clear existing notifications
+  notificationsContainer.innerHTML = '';
+  
+  if (!notifications || notifications.length === 0) {
+    notificationsContainer.innerHTML = `
+      <div class="no-notifications">
+        <p style="text-align: center; color: #666; padding: 20px;">No notifications found</p>
+      </div>
+    `;
+    return;
+  }
+  
+  // Group notifications by type for better organization
+  const assignmentNotifications = notifications.filter(n => n.type === 'assignment');
+  const otherNotifications = notifications.filter(n => n.type !== 'assignment');
+  
+  // Display assignment notifications first (these are the important ones)
+  assignmentNotifications.forEach(notification => {
+    const notificationElement = createNotificationElement(notification, true);
+    notificationsContainer.appendChild(notificationElement);
+  });
+  
+  // Display other notifications
+  otherNotifications.forEach(notification => {
+    const notificationElement = createNotificationElement(notification, false);
+    notificationsContainer.appendChild(notificationElement);
+  });
+}
+
+// Create individual notification element
+function createNotificationElement(notification, isAssignment = false) {
+  const notificationDiv = document.createElement('div');
+  notificationDiv.className = `notification ${notification.read ? '' : 'unread'}`;
+  notificationDiv.dataset.notificationId = notification._id;
+  
+  // Format the time
+  const timeAgo = getTimeAgo(notification.created_at || notification.date);
+  const formattedTime = formatNotificationTime(notification.time);
+  
+  // Create avatar (use default for now)
+  const avatar = '/image/profile2.jpg';
+  
+  // Create the notification content
+  let notificationContent = `
+    <img src="${avatar}" alt="Avatar" />
+    <div class="message">
+      <strong>${notification.title || 'System Notification'}</strong>
+      <div class="notification-text">${notification.message}</div>
+      <div class="time">${formattedTime}</div>
+    </div>
+    <div class="meta">
+      <p>${timeAgo}</p>
+      ${!notification.read ? '<span class="dot"></span>' : ''}
+    </div>
+  `;
+  
+  // Add action buttons for assignment notifications
+  if (isAssignment && notification.assignment_id) {
+    notificationContent += `
+      <div class="notification-actions">
+        <button class="mark-done-btn" onclick="markAssignmentAsDone('${notification.assignment_id}', '${notification._id}')">
+          <i class="bx bx-check"></i> Mark as Done
+        </button>
+      </div>
+    `;
+  }
+  
+  notificationDiv.innerHTML = notificationContent;
+  
+  // Add click event to mark as read
+  notificationDiv.addEventListener('click', function() {
+    if (!notification.read) {
+      markNotificationAsRead(notification._id);
+    }
+  });
+  
+  return notificationDiv;
+}
+
+// Mark individual notification as read
+async function markNotificationAsRead(notificationId) {
+  try {
+    const response = await fetch(`/api/notifications/${notificationId}/read`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    
+    if (response.ok) {
+      // Update UI
+      const notificationElement = document.querySelector(`[data-notification-id="${notificationId}"]`);
+      if (notificationElement) {
+        notificationElement.classList.remove('unread');
+        const dot = notificationElement.querySelector('.dot');
+        if (dot) dot.remove();
+      }
+    }
+  } catch (error) {
+    console.error('Error marking notification as read:', error);
+  }
+}
+
+// Mark all notifications as read
+async function markAllNotificationsAsRead() {
+  try {
+    if (!currentUserId) {
+      await getCurrentUserId();
+    }
+    
+    const response = await fetch('/api/notifications/mark-all-read', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ user_id: currentUserId })
+    });
+    
+    if (response.ok) {
+      // Reload notifications to update UI
+      loadNotifications();
+      console.log('All notifications marked as read');
+    }
+  } catch (error) {
+    console.error('Error marking all notifications as read:', error);
+  }
+}
+
+// Mark assignment as done - this is the key function
+async function markAssignmentAsDone(assignmentId, notificationId) {
+  try {
+    console.log('Marking assignment as done:', assignmentId);
+    
+    // Show loading state
+    const button = event.target.closest('.mark-done-btn');
+    if (button) {
+      button.disabled = true;
+      button.innerHTML = '<i class="bx bx-loader-alt bx-spin"></i> Updating...';
+    }
+    
+    // Update the activity log status to "done"
+    const response = await fetch(`/api/activity-logs/${assignmentId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        status: 'done',
+        end_time: new Date().toTimeString().split(' ')[0],
+        completion_date: new Date().toISOString().split('T')[0]
+      })
+    });
+    
+    if (response.ok) {
+      const result = await response.json();
+      console.log('Assignment marked as done successfully:', result);
+      
+      // Mark the notification as read
+      await markNotificationAsRead(notificationId);
+      
+      // Show success message
+      showNotificationMessage('Assignment completed successfully!', 'success');
+      
+      // Update button to show completion
+      if (button) {
+        button.innerHTML = '<i class="bx bx-check"></i> Completed';
+        button.classList.add('completed');
+        button.disabled = true;
+      }
+      
+      // Refresh notifications after a short delay
+      setTimeout(() => {
+        loadNotifications();
+        
+        // Also refresh the Collection Activity Log if the function exists
+        if (typeof window.loadActivityLogs === 'function') {
+          console.log('Refreshing Collection Activity Log after assignment completion');
+          window.loadActivityLogs();
+        }
+      }, 1000);
+      
+    } else {
+      throw new Error(`Failed to update assignment: ${response.status}`);
+    }
+    
+  } catch (error) {
+    console.error('Error marking assignment as done:', error);
+    showNotificationMessage('Failed to mark assignment as done. Please try again.', 'error');
+    
+    // Reset button state
+    if (button) {
+      button.disabled = false;
+      button.innerHTML = '<i class="bx bx-check"></i> Mark as Done';
+    }
+  }
+}
+
+// Update notification badge (if you have one)
+function updateNotificationBadge(notifications) {
+  const unreadCount = notifications.filter(n => !n.read).length;
+  
+  // Update any notification badges in the UI
+  const badges = document.querySelectorAll('.notification-badge, .unread-count');
+  badges.forEach(badge => {
+    if (unreadCount > 0) {
+      badge.textContent = unreadCount;
+      badge.style.display = 'block';
+    } else {
+      badge.style.display = 'none';
+    }
+  });
+}
+
+// Utility functions
+function getTimeAgo(dateString) {
+  const now = new Date();
+  const date = new Date(dateString);
+  const diffMs = now - date;
+  const diffMins = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMs / 3600000);
+  const diffDays = Math.floor(diffMs / 86400000);
+  
+  if (diffMins < 1) return 'Just now';
+  if (diffMins < 60) return `${diffMins} min${diffMins > 1 ? 's' : ''} ago`;
+  if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+  if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+  return date.toLocaleDateString();
+}
+
+function formatNotificationTime(timeString) {
+  if (!timeString) return 'N/A';
+  
+  try {
+    const [hours, minutes] = timeString.split(':');
+    const h = parseInt(hours, 10);
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    const hour12 = ((h + 11) % 12) + 1;
+    return `${hour12}:${minutes} ${ampm}`;
+  } catch (error) {
+    return timeString;
+  }
+}
+
+function displayErrorMessage() {
+  const notificationsContainer = document.querySelector('.notifications');
+  if (notificationsContainer) {
+    notificationsContainer.innerHTML = `
+      <div class="error-message">
+        <p style="text-align: center; color: #d32f2f; padding: 20px;">
+          Failed to load notifications. Please refresh the page.
+        </p>
+      </div>
+    `;
+  }
+}
+
+function showNotificationMessage(message, type = 'info') {
+  // Create a temporary toast notification
+  const toast = document.createElement('div');
+  toast.className = `toast-notification toast-${type}`;
+  toast.textContent = message;
+  toast.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: ${type === 'success' ? '#4caf50' : type === 'error' ? '#f44336' : '#2196f3'};
+    color: white;
+    padding: 12px 20px;
+    border-radius: 4px;
+    z-index: 10000;
+    font-size: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  `;
+  
+  document.body.appendChild(toast);
+  
+  // Remove after 3 seconds
+  setTimeout(() => {
+    if (toast.parentNode) {
+      toast.parentNode.removeChild(toast);
+    }
+  }, 3000);
+}
+
+// Make functions globally accessible
+window.markAssignmentAsDone = markAssignmentAsDone;
+window.loadNotifications = loadNotifications; 
