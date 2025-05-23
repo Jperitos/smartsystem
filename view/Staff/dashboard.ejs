@@ -231,6 +231,13 @@
           </li>
 
           <li>
+            <a href="#" class="menu-item" data-target="activity-logs">
+              <i class="bx bx-history"></i>
+              <span>Activity Logs</span>
+            </a>
+          </li>
+
+          <li>
             <a href="#" class="menu-item" data-target="history">
               <img src="/image/trash-alt.png" alt="History Icon" width="20" height="20" />
               <span>Bins</span>
@@ -399,6 +406,40 @@
               </div>
             </a>
           </div>
+        </div>
+      </div>
+
+      <!-- Activity Logs -->
+      <div id="activity-logs" class="content-panel">
+        <h3>Activity Log</h3>
+
+        <div class="search-container">
+          <div class="filter">
+            <input type="date" id="activityDateFilter" class="date-filter" />
+            <button class="refresh-btn" id="refreshActivityLogs" style="margin-left: 10px;">
+              <i class="bx bx-refresh"></i> Refresh
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <table class="staff-table">
+            <thead>
+              <tr>
+                <th>Bins</th>
+                <th>Floor</th>
+                <th>Staff</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="activityTableBody">
+              <tr>
+                <td colspan="6" style="text-align: center; padding: 20px; color: #666;">Loading activity logs...</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
@@ -676,6 +717,36 @@
         </div>
       </div>
 
+<<<<<<< HEAD
+      <!-- Collection / Activity Logs -->
+      <div id="staffs" class="content-panel">
+        <h3>Collection Activity Log</h3>
+
+        <div class="search-container">
+          <div class="filter">
+            <input type="date" id="activityDateFilter" class="date-filter" />
+            <button class="refresh-btn" id="refreshActivityLogs" style="margin-left: 10px;">
+              <i class="bx bx-refresh"></i> Refresh
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <table class="staff-table">
+            <thead>
+              <tr>
+                <th>Bins</th>
+                <th>Floor</th>
+                <th>Staff</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="activityTableBody">
+              <tr>
+                <td colspan="6" style="text-align: center; padding: 20px; color: #666;">Loading activity logs...</td>
+=======
       <!-- Staffs -->
       <div id="staffs" class="content-panel">
         <div class="head-staff">
@@ -710,6 +781,7 @@
                 <td>2025-07-03 08:00 AM</td>
                 <td>2025-07-03 10:00 AM</td>
                 <td class="status-pending">Pending</td>
+>>>>>>> 5a1589acebf178e4c8cc3c70b05c14148e195731
               </tr>
             </tbody>
           </table>

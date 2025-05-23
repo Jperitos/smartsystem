@@ -31,6 +31,13 @@
           </li>
 
           <li>
+            <a href="#" class="menu-item" data-target="activity-logs">
+              <i class="bx bx-history"></i>
+              <span>Activity Logs</span>
+            </a>
+          </li>
+
+          <li>
             <a href="#" class="menu-item" data-target="staffs">
               <img src="/image/repeat-alt.png" alt="Pending Icon" width="20" height="20" />
               <span>Collection</span>
@@ -188,38 +195,68 @@
         </div>
       </div>
 
-      <!-- Staffs -->
-      <div id="staffs" class="content-panel">
-        <div class="head-staff">
-          <h3>My Collection Tasks</h3>
-          <div class="right-head">
-            <div class="search-bin-staff">
-              <input type="text" id="binSearch" placeholder="Search" class="search-bar2" />
-            </div>
-            <div class="filter">
-              <p id="sortBtn">Sort By</p>
-              <i class="bx bx-sort-a-z"></i>
-            </div>
-            <button class="refresh-btn"><i class="bx bx-refresh"></i> Refresh</button>
+      <!-- Activity Logs -->
+      <div id="activity-logs" class="content-panel">
+        <h3>Activity Log</h3>
+
+        <div class="search-container">
+          <div class="filter">
+            <input type="date" id="activityDateFilter" class="date-filter" />
+            <button class="refresh-btn" id="refreshActivityLogs" style="margin-left: 10px;">
+              <i class="bx bx-refresh"></i> Refresh
+            </button>
           </div>
         </div>
+
         <div>
-          <table class="table2">
+          <table class="staff-table">
             <thead>
               <tr>
-                <th>Collection ID</th>
-                <th>Bin</th>
+                <th>Bins</th>
                 <th>Floor</th>
-                <th>Task</th>
-                <th>Start</th>
-                <th>End</th>
+                <th>Staff</th>
+                <th>Date</th>
+                <th>Time</th>
                 <th>Status</th>
-                <th>Action</th>
               </tr>
             </thead>
             <tbody id="activityTableBody">
               <tr>
-                <td colspan="8" class="loading-indicator">Loading your tasks...</td>
+                <td colspan="6" style="text-align: center; padding: 20px; color: #666;">Loading activity logs...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Collection / Activity Logs -->
+      <div id="staffs" class="content-panel">
+        <h3>Collection Activity Log</h3>
+
+        <div class="search-container">
+          <div class="filter">
+            <input type="date" id="activityDateFilter" class="date-filter" />
+            <button class="refresh-btn" id="refreshActivityLogs" style="margin-left: 10px;">
+              <i class="bx bx-refresh"></i> Refresh
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <table class="staff-table">
+            <thead>
+              <tr>
+                <th>Bins</th>
+                <th>Floor</th>
+                <th>Staff</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="activityTableBody">
+              <tr>
+                <td colspan="6" style="text-align: center; padding: 20px; color: #666;">Loading activity logs...</td>
               </tr>
             </tbody>
           </table>

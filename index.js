@@ -169,11 +169,37 @@ server.listen(process.env.PORT || 8000, () => {
 
 app.get('/api/activity-logs', async (req, res) => {
   try {
+    console.log('Fetching all activity logs...');
+    
+    // Fetch activity logs with populated user and bin data, sorted by date (newest first)
     const logs = await ActivityLog.find()
-      .populate('u_id', 'name')
-      .populate('bin_id', 'bin_code location');
-    res.json(logs);
+      .populate('u_id', 'name email u_role')
+      .populate('bin_id', 'bin_code location type status')
+      .sort({ date: -1, time: -1 }) // Sort by date and time (newest first)
+      .lean(); // Use lean() for better performance
+    
+    console.log(`Found ${logs.length} activity logs`);
+    
+    // Enhance the logs with additional formatting if needed
+    const enhancedLogs = logs.map(log => ({
+      ...log,
+      // Ensure date is in proper format
+      date: log.date ? new Date(log.date) : null,
+      // Ensure time is in proper format
+      time: log.time || null,
+      // Add user info fallbacks
+      user_name: log.u_id?.name || 'Unknown User',
+      user_email: log.u_id?.email || '',
+      user_role: log.u_id?.u_role || '',
+      // Add bin info fallbacks
+      bin_code: log.bin_id?.bin_code || `Bin-${log.bin_id?._id?.toString().slice(-6) || 'Unknown'}`,
+      bin_location: log.bin_id?.location || 'Unknown Location',
+      bin_type: log.bin_id?.type || 'Unknown Type'
+    }));
+    
+    res.json(enhancedLogs);
   } catch (err) {
+    console.error('Error fetching activity logs:', err);
     res.status(500).json({ error: err.message });
   }
 });
@@ -265,10 +291,30 @@ app.use('/api/images', imageRouter);
 // GET History Logs
 app.get('/api/history-logs', async (req, res) => {
   try {
+    console.log('Fetching all history logs...');
+    
+    // Fetch history logs with populated user data, sorted by date (newest first)
     const logs = await HistoryLog.find()
-      .populate('user_id', 'name');
-    res.json(logs);
+      .populate('user_id', 'name email u_role')
+      .sort({ date: -1 }) // Sort by date (newest first)
+      .lean(); // Use lean() for better performance
+    
+    console.log(`Found ${logs.length} history logs`);
+    
+    // Enhance the logs with additional formatting if needed
+    const enhancedLogs = logs.map(log => ({
+      ...log,
+      // Ensure date is in proper format
+      date: log.date ? new Date(log.date) : null,
+      // Add user info fallbacks
+      user_name: log.user_name || log.user_id?.name || 'Unknown User',
+      user_email: log.user_id?.email || '',
+      user_role: log.user_status || log.user_id?.u_role || 'Unknown Role'
+    }));
+    
+    res.json(enhancedLogs);
   } catch (err) {
+    console.error('Error fetching history logs:', err);
     res.status(500).json({ error: err.message });
   }
 });
@@ -440,6 +486,98 @@ app.post('/api/update-profile', upload.single('profile_image'), async (req, res)
   } catch (error) {
     console.error('Error updating profile:', error);
     res.status(500).json({ message: 'Failed to update profile', error: error.message });
+  }
+});
+
+// Test endpoint to create sample activity logs for demonstration
+app.post('/api/activity-logs/sample', async (req, res) => {
+  try {
+    console.log('Creating sample activity logs...');
+    
+    // Find a sample user and bin (or create them if they don't exist)
+    let sampleUser = await User.findOne({ u_role: 'janitor' });
+    if (!sampleUser) {
+      sampleUser = new User({
+        name: 'Sample Janitor',
+        email: 'janitor@test.com',
+        password: 'password123',
+        u_role: 'janitor',
+        status: 'active',
+        verified: true
+      });
+      await sampleUser.save();
+    }
+    
+    let sampleBin = await Bin.findOne();
+    if (!sampleBin) {
+      sampleBin = new Bin({
+        bin_code: 'BIN001',
+        type: 'biodegradable',
+        location: 'Floor 1',
+        bin_level: 75,
+        capacity: 100,
+        status: 'active'
+      });
+      await sampleBin.save();
+    }
+    
+    // Create some sample activity logs
+    const sampleLogs = [
+      {
+        u_id: sampleUser._id,
+        bin_id: sampleBin._id,
+        bin_level: 85,
+        floor: 1,
+        assigned_task: 'Empty biodegradable bin',
+        date: new Date(),
+        time: '08:30',
+        status: 'completed'
+      },
+      {
+        u_id: sampleUser._id,
+        bin_id: sampleBin._id,
+        bin_level: 65,
+        floor: 1,
+        assigned_task: 'Regular maintenance check',
+        date: new Date(Date.now() - 24 * 60 * 60 * 1000), // Yesterday
+        time: '14:15',
+        status: 'assigned'
+      },
+      {
+        u_id: sampleUser._id,
+        bin_id: sampleBin._id,
+        bin_level: 90,
+        floor: 1,
+        assigned_task: 'Emergency bin collection',
+        date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 days ago
+        time: '10:45',
+        status: 'in-progress'
+      }
+    ];
+    
+    // Save the sample logs
+    const savedLogs = await ActivityLog.insertMany(sampleLogs);
+    
+    console.log(`Created ${savedLogs.length} sample activity logs`);
+    res.json({ 
+      message: `Successfully created ${savedLogs.length} sample activity logs`,
+      logs: savedLogs 
+    });
+    
+  } catch (error) {
+    console.error('Error creating sample activity logs:', error);
+    res.status(500).json({ error: 'Failed to create sample data', details: error.message });
+  }
+});
+
+// Test endpoint to get activity logs count
+app.get('/api/activity-logs/count', async (req, res) => {
+  try {
+    const count = await ActivityLog.countDocuments();
+    res.json({ total_logs: count });
+  } catch (err) {
+    console.error('Error counting activity logs:', err);
+    res.status(500).json({ error: err.message });
   }
 });
 
