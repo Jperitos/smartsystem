@@ -2,7 +2,8 @@
 function safeGetElement(id) {
   const el = document.getElementById(id);
   if (!el) {
-    console.warn(`Element with id "${id}" not found.`);
+    // Don't warn about missing elements since we're using static data now
+    return null;
   }
   return el;
 }
@@ -15,6 +16,10 @@ function safeAddEventListener(id, event, handler) {
   }
 }
 
+// DISABLED: Dynamic sensor data functions
+// We now use static bin level data from database for notifications
+
+/*
 // Converts cm distance to fill percentage (11cm = 100%, 35cm = 0%)
 function getHeightPercentage(distance) {
   const minDistance = 11;
@@ -23,34 +28,6 @@ function getHeightPercentage(distance) {
   if (distance <= minDistance) return 100;
   if (distance >= maxDistance) return 0;
   return Math.round(((maxDistance - distance) / (maxDistance - minDistance)) * 100);
-}
-
-function updateBinDataRobust(data) {
-  if (!data) {
-    console.warn("No bin data available to update.");
-    return;
-  }
-  const bins = ['bin1', 'bin2', 'bin3'];
-  bins.forEach((bin) => {
-    const weightEl = safeGetElement(`s1${bin}-weight`) || safeGetElement(`${bin}-weight`);
-    const heightEl = safeGetElement(`s1${bin}-height`) || safeGetElement(`${bin}-height`);
-    const avgEl = safeGetElement(`s1${bin}-avg`) || safeGetElement(`${bin}-avg`);
-
-    if (weightEl && typeof data[bin]?.weight === 'number') {
-      weightEl.textContent = data[bin].weight.toFixed(2);
-    }
-
-    if (heightEl && typeof data[bin]?.height === 'number') {
-      const cm = data[bin].height.toFixed(0);
-      const percent = getHeightPercentage(data[bin].height);
-      // Show both cm and percentage in height span
-      heightEl.textContent = `${cm} cm (${percent})`;
-    }
-
-    if (avgEl && typeof data[bin]?.avg === 'number') {
-      avgEl.textContent = data[bin].avg.toFixed(2);
-    }
-  });
 }
 
 // Converts weight in kg to percentage of max weight
@@ -89,11 +66,14 @@ function updateBinDataRobust(data) {
     }
   });
 }
-
+*/
 
 // Wait until DOM is fully loaded before running scripts that query DOM
 document.addEventListener('DOMContentLoaded', () => {
-  // Example usage: periodically fetch data and update safely
+  console.log('BinUpdate: Using static bin level data from database for notifications');
+  
+  // DISABLED: Dynamic sensor data fetching since we use static data now
+  /*
   async function fetchAndUpdate() {
     try {
       const response = await fetch('http://localhost:9000/api/latest-data');
@@ -114,6 +94,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Run immediately and then every 3 seconds
   fetchAndUpdate();
   setInterval(fetchAndUpdate, 3000);
+  */
+
+  // Focus on notification functionality instead
+  console.log('Static bin level system active - notifications will use database data');
 
   // Example of safe event listener add for logout button
   safeAddEventListener('logoutBtn', 'click', (e) => {

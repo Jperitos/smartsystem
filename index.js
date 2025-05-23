@@ -26,6 +26,7 @@ require('./middlewares/passport-setup');
 const userdisplay = require("./routers/userRouts");
 const { saveBinData } = require('./middlewares/dbHandler');
 const imageRouter = require('./routers/imageRouter');
+const { getUserNotifications, markNotificationAsRead, sendAssignmentNotification } = require('./middlewares/notificationService');
 
 // Configure multer for file storage
 const storage = multer.diskStorage({
@@ -58,7 +59,7 @@ const upload = multer({
   storage: storage,
   limits: {
     fileSize: 2 * 1024 * 1024 // 2MB max file size
-  },
+  }, 
   fileFilter: fileFilter
 });
 
@@ -160,6 +161,141 @@ app.use('/users', userRouters);
 app.use("/auth", authRouter);
 app.use('/api', userdisplay);
 
+// Add missing API endpoints that are causing 500 errors
+
+// API endpoint for getting all users (for allStaff.js)
+app.get('/api/users', async (req, res) => {
+  try {
+    const users = await User.find().lean().exec();
+    const userIds = users.map(u => u._id);
+    const userInfos = await UserInfo.find({ user: { $in: userIds } }).lean().exec();
+
+    const userInfoMap = {};
+    userInfos.forEach(info => {
+      userInfoMap[info.user.toString()] = info;
+    });
+
+    const usersWithInfo = users.map(user => ({
+      ...user,
+      info: userInfoMap[user._id.toString()] || null
+    }));
+
+    res.json(usersWithInfo);
+  } catch (err) {
+    console.error('Error fetching users:', err);
+    res.status(500).json({ error: 'Server error fetching users' });
+  }
+});
+
+// API endpoint for floor images
+app.get('/api/images/floors', async (req, res) => {
+  try {
+    // For now, return static floor data
+    const floors = [
+      { _id: '1', floorName: 'Floor 1', imagePath: '/image/Floor Plan 1.png' },
+      { _id: '2', floorName: 'Floor 2', imagePath: '/image/Floor Plan 2.png' },
+      { _id: '3', floorName: 'Floor 3', imagePath: '/image/Floor Plan 3.png' },
+      { _id: '4', floorName: 'Floor 4', imagePath: '/image/Floor Plan 4.png' },
+      { _id: '5', floorName: 'Floor 5', imagePath: '/image/Floor Plan 5.png' },
+      { _id: '6', floorName: 'Floor 6', imagePath: '/image/Floor Plan 6.png' }
+    ];
+    res.json(floors);
+  } catch (err) {
+    console.error('Error fetching floor images:', err);
+    res.status(500).json({ error: 'Server error fetching floor images' });
+  }
+});
+
+// Fallback endpoint for current user (for testing notifications without authentication)
+app.get('/api/current-user', async (req, res) => {
+  try {
+    // For testing purposes, return a sample janitor user
+    // In production, this should use proper authentication
+    const sampleUser = await User.findOne({ u_role: 'janitor' }).lean();
+    
+    if (!sampleUser) {
+      // Create a sample user if none exists
+      const newUser = new User({
+        name: 'Test Janitor',
+        email: 'janitor@test.com',
+        u_role: 'janitor',
+        status: 'active',
+        verified: true
+      });
+      const savedUser = await newUser.save();
+      return res.json(savedUser);
+    }
+    
+    res.json(sampleUser);
+  } catch (err) {
+    console.error('Error getting current user:', err);
+    res.status(500).json({ error: 'Server error getting current user' });
+  }
+});
+
+// Test endpoint to create sample assignment notification
+app.post('/api/test-assignment-notification', async (req, res) => {
+  try {
+    console.log('Creating test assignment notification...');
+    
+    // Get or create a test janitor user
+    let testUser = await User.findOne({ u_role: 'janitor' });
+    if (!testUser) {
+      testUser = new User({
+        name: 'Test Janitor',
+        email: 'janitor@test.com',
+        u_role: 'janitor',
+        status: 'active',
+        verified: true
+      });
+      await testUser.save();
+    }
+    
+    // Create test assignment with static bin level
+    const testBinLevel = Math.floor(Math.random() * 50) + 50; // Random level between 50-100%
+    const binCodes = ['S1Bin1', 'S1Bin2', 'S1Bin3'];
+    const randomBin = binCodes[Math.floor(Math.random() * binCodes.length)];
+    const floor = 1;
+    
+    // Create activity log
+    const newActivityLog = new ActivityLog({
+      bin_id: null, // We'll use bin code instead
+      u_id: testUser._id,
+      bin_level: testBinLevel,
+      floor: floor,
+      assigned_task: 'Test assignment - Empty and clean the bin',
+      date: new Date(),
+      time: new Date().toTimeString().split(' ')[0],
+      status: 'assigned'
+    });
+    
+    await newActivityLog.save();
+    
+    // Send notification with static bin level
+    await sendAssignmentNotification(
+      testUser._id, 
+      randomBin, 
+      'Test assignment - Empty and clean the bin', 
+      floor, 
+      testBinLevel
+    );
+    
+    res.json({ 
+      success: true, 
+      message: 'Test assignment notification created',
+      data: {
+        assignedTo: testUser.name,
+        binCode: randomBin,
+        floor: floor,
+        binLevel: `${testBinLevel}%`,
+        task: 'Test assignment - Empty and clean the bin'
+      }
+    });
+  } catch (error) {
+    console.error('Error creating test assignment notification:', error);
+    res.status(500).json({ error: 'Failed to create test notification', details: error.message });
+  }
+});
 
 server.listen(process.env.PORT || 8000, () => {
   console.log("Server running at http://localhost:8000");
@@ -274,6 +410,16 @@ app.post('/api/activity-logs', async (req, res) => {
     } catch (binErr) {
       console.warn('Could not update bin data:', binErr);
       // Continue even if bin update fails
+    }
+    
+    // Automatically create notification for the assigned staff member
+    try {
+      console.log('Creating notification for activity log...');
+      await sendAssignmentNotification(processedUId, processedBinId, assigned_task, floor || 1, bin_level);
+      console.log('Notification created successfully');
+    } catch (notifErr) {
+      console.warn('Failed to create notification:', notifErr);
+      // Don't fail the activity log creation if notification fails
     }
     
     res.status(201).json(savedLog);
@@ -578,6 +724,88 @@ app.get('/api/activity-logs/count', async (req, res) => {
   } catch (err) {
     console.error('Error counting activity logs:', err);
     res.status(500).json({ error: err.message });
+  }
+});
+
+// Notification API endpoints
+app.get('/api/notifications', async (req, res) => {
+  try {
+    const { user_id } = req.query;
+    
+    let notifications;
+    if (user_id) {
+      // Get notifications for specific user
+      notifications = await getUserNotifications(user_id);
+    } else {
+      // Get all notifications (for admin view)
+      const { Notification } = require('./models/userModel');
+      notifications = await Notification.find()
+        .populate('user_id', 'name email u_role')
+        .populate('bin_id', 'bin_code location type')
+        .sort({ created_at: -1 })
+        .lean();
+    }
+    
+    res.json(notifications);
+  } catch (error) {
+    console.error('Error fetching notifications:', error);
+    res.status(500).json({ error: 'Failed to fetch notifications', details: error.message });
+  }
+});
+
+// Mark notification as read
+app.put('/api/notifications/:id/read', async (req, res) => {
+  try {
+    await markNotificationAsRead(req.params.id);
+    res.json({ message: 'Notification marked as read' });
+  } catch (error) {
+    console.error('Error marking notification as read:', error);
+    res.status(500).json({ error: 'Failed to mark notification as read', details: error.message });
+  }
+});
+
+// Mark all notifications as read for a user
+app.put('/api/notifications/mark-all-read', async (req, res) => {
+  try {
+    const { user_id } = req.body;
+    
+    if (!user_id) {
+      return res.status(400).json({ error: 'user_id is required' });
+    }
+    
+    const { Notification } = require('./models/userModel');
+    await Notification.updateMany(
+      { user_id: user_id, status: 'sent' },
+      { status: 'read' }
+    );
+    
+    res.json({ message: 'All notifications marked as read' });
+  } catch (error) {
+    console.error('Error marking all notifications as read:', error);
+    res.status(500).json({ error: 'Failed to mark all notifications as read', details: error.message });
+  }
+});
+
+// Send assignment notification to staff
+app.post('/api/send-assignment-notification', async (req, res) => {
+  try {
+    const { staffId, binId, assignedTask, floor } = req.body;
+    
+    if (!staffId || !binId || !floor) {
+      return res.status(400).json({ error: 'staffId, binId, and floor are required' });
+    }
+    
+    console.log('Sending assignment notification:', req.body);
+    
+    const notification = await sendAssignmentNotification(staffId, binId, assignedTask, floor);
+    
+    res.status(201).json({ 
+      message: 'Assignment notification sent successfully',
+      notification: notification
+    });
+  } catch (error) {
+    console.error('Error sending assignment notification:', error);
+    res.status(500).json({ error: 'Failed to send assignment notification', details: error.message });
   }
 });
 
