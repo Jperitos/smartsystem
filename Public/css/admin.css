@@ -175,12 +175,17 @@ main {
 }
 
 .filter {
-    padding: 8px 12px;
-    border: 1px solid #ccc;
+    padding: 6px 10px;
     border-radius: 5px;
     font-size: 14px;
+    position: absolute;
+    border-radius: 25px;
+    right: 25px;
 }
 
+.filter input{
+     border-radius: 10px;
+}
 .filter-btn {
     background: none;
     border: none;
