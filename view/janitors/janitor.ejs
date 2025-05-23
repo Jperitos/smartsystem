@@ -31,13 +31,6 @@
           </li>
 
           <li>
-            <a href="#" class="menu-item" data-target="activity-logs">
-              <i class="bx bx-history"></i>
-              <span>Activity Logs</span>
-            </a>
-          </li>
-
-          <li>
             <a href="#" class="menu-item" data-target="staffs">
               <img src="/image/repeat-alt.png" alt="Pending Icon" width="20" height="20" />
               <span>Collection</span>
@@ -195,7 +188,7 @@
         </div>
       </div>
 
-      <!-- Activity Logs -->
+      <!-- Activity Logs
       <div id="activity-logs" class="content-panel">
         <h3>Activity Log</h3>
 
@@ -227,7 +220,7 @@
             </tbody>
           </table>
         </div>
-      </div>
+      </div> -->
 
       <!-- Collection / Activity Logs -->
       <div id="staffs" class="content-panel">
@@ -250,8 +243,10 @@
                 <th>Floor</th>
                 <th>Staff</th>
                 <th>Date</th>
-                <th>Time</th>
+                <th>Start Time</th>
+                <th>End Time</th>
                 <th>Status</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody id="activityTableBody">
@@ -264,43 +259,28 @@
       </div>
 
       <!-- Update Task Modal -->
-      <div id="updateModal" class="modal-task">
-        <div class="modal-content">
-          <span class="close" id="closeModal">&times;</span>
-          <h2>Update Collection Status</h2>
-          <form id="updateForm">
-            <input type="hidden" id="collectionId" name="assignment_id" />
-            
-            <div class="form-group">
-              <label>Task</label>
-              <p id="taskDescription" class="task-detail"></p>
-            </div>
-            
-            <div class="form-group">
-              <label>Location</label>
-              <p id="taskLocation" class="task-detail"></p>
-            </div>
-            
-            <div class="form-group">
-              <label>Status</label>
-              <select id="statusUpdate" name="status" required>
-                <option value="assigned">Assigned</option>
-                <option value="inprogress">In Progress</option>
-                <option value="completed">Completed</option>
-              </select>
-            </div>
-            
-            <div class="form-group">
-              <label>Notes</label>
-              <textarea id="notes" name="notes" placeholder="Provide additional details about this collection..."></textarea>
-            </div>
-            
-            <div class="modal-actions">
-              <button type="submit" class="update-btn">Submit Update</button>
-            </div>
-          </form>
-        </div>
-      </div>
+      <!-- Update Task Modal -->
+<div id="updateModal" class="modal-task" style="display:none;">
+  <div class="modal-content">
+    <span class="close" id="closeModal">&times;</span>
+    <h2>Update Collection Status</h2>
+    <p><strong>Task:</strong> <span id="taskDescription"></span></p>
+    <p><strong>Location:</strong> <span id="taskLocation"></span></p>
+
+    <form id="updateTaskForm">
+      <input type="hidden" id="collectionId" name="collectionId" />
+      <label for="status">Status:</label>
+      <select id="status" name="status">
+        <option value="assigned">Assigned</option>
+        <option value="in-progress">In Progress</option>
+        <option value="completed">Completed</option>
+      </select>
+      <br /><br />
+      <button type="submit">Save</button>
+    </form>
+  </div>
+</div>
+
 
       <!-- Settings -->
       <div id="settings" class="content-panel">
