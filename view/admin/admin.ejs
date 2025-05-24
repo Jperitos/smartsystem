@@ -8,11 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <script src="/js/profileupdet.js"></script>
+        <link      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"      rel="stylesheet"    />    <style>      /* Header and controls container */      .header-controls-container {        display: flex;        align-items: center;        justify-content: space-between;        margin-bottom: 20px;        gap: 20px;      }      .header-controls-container h3 {        margin: 0;        flex-shrink: 0;      }      /* Filter controls styling */      .filter-controls {        display: flex;        gap: 8px;        align-items: center;        flex-shrink: 0;      }      .status-filter-btn, .date-filter {        padding: 6px 12px;        border: 1px solid #ddd;        background-color: #fff;        color: #666;        border-radius: 4px;        cursor: pointer;        font-size: 12px;        font-weight: 500;        transition: all 0.3s ease;        height: 32px;        min-width: 70px;        white-space: nowrap;        display: flex;        align-items: center;        justify-content: center;        box-sizing: border-box;      }      .status-filter-btn:hover {        border-color: #4caf50;        color: #4caf50;        background-color: #f8fff8;      }      .status-filter-btn.active {        background-color: #4caf50;        color: white;        border-color: #4caf50;      }      .date-filter {        min-width: 140px;        cursor: text;      }      .date-filter:focus {        border-color: #4caf50;        outline: none;        box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);      }      /* Responsive design for smaller screens */      @media (max-width: 768px) {        .header-controls-container {          flex-direction: column;          align-items: flex-start;          gap: 15px;        }        .filter-controls {          flex-wrap: wrap;          gap: 6px;          justify-content: flex-start;        }        .status-filter-btn, .date-filter {          min-width: 60px;          font-size: 11px;          padding: 4px 8px;          height: 30px;        }        .date-filter {          min-width: 120px;        }      }    </style>    <script src="/js/profileupdet.js"></script>
   </head>
   <body>
     <aside>
@@ -99,11 +95,14 @@
 
       <!-- Activity Logs -->
       <div id="history" class="content-panel">
-        <h3>Activity Log</h3>
-
-        <div class="search-container">
-          <div class="filter">
+        <div class="header-controls-container">
+          <h3>Activity Log</h3>
+          <div class="filter-controls">
             <input type="date" id="activityDateFilter" class="date-filter" />
+            <button id="showAllBtn" class="status-filter-btn active" data-status="all">All</button>
+            <button id="showCompletedBtn" class="status-filter-btn" data-status="completed">Completed</button>
+            <button id="showAssignedBtn" class="status-filter-btn" data-status="assigned">Assigned</button>
+            <button id="showInProgressBtn" class="status-filter-btn" data-status="inprogress">In Progress</button>
           </div>
         </div>
 

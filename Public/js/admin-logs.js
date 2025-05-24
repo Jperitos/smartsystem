@@ -1,5 +1,9 @@
-// Admin Activity Logs Display (All Statuses with Color Coding)
-async function loadAdminActivityLogs() {
+// Global variable to store all activity logs for filtering
+let allActivityLogs = [];
+let currentStatusFilter = 'all';
+
+// Admin Activity Logs Display with Status Filtering
+async function loadAdminActivityLogs(statusFilter = 'all') {
   try {
     console.log('Fetching activity logs for admin panel...');
     const response = await fetch('/api/activity-logs');
@@ -10,6 +14,10 @@ async function loadAdminActivityLogs() {
     
     const data = await response.json();
     console.log('Admin activity logs fetched:', data);
+    
+    // Store all logs globally for filtering
+    allActivityLogs = data;
+    currentStatusFilter = statusFilter;
     
     const table = document.querySelector('#activityTableBody');
     if (!table) {
@@ -27,108 +35,30 @@ async function loadAdminActivityLogs() {
     // Sort logs by date (newest first)
     data.sort((a, b) => new Date(b.date) - new Date(a.date));
     
-    // Show all activity logs (not filtered by status)
-    const allLogs = data;
-    
-    // Helper to format time from HH:mm string to 12-hour format
-    function formatTime(timeStr) {
-      if (!timeStr) return 'N/A';
-      if (timeStr.includes(':')) {
-        const [hours, minutes] = timeStr.split(':');
-        const hour12 = ((parseInt(hours, 10) + 11) % 12) + 1;
-        const ampm = parseInt(hours, 10) >= 12 ? 'PM' : 'AM';
-        return `${hour12}:${minutes} ${ampm}`;
-      }
-      return timeStr;
+    // Filter logs based on status
+    let filteredLogs = data;
+    if (statusFilter !== 'all') {
+      filteredLogs = data.filter(log => {
+        const status = (log.status || '').toLowerCase();
+        if (statusFilter === 'completed') {
+          return status === 'completed' || status === 'done';
+        } else if (statusFilter === 'inprogress') {
+          return status === 'inprogress' || status === 'in-progress';
+        } else {
+          return status === statusFilter;
+        }
+      });
     }
     
-    // Helper to get status color
-    function getStatusColor(status) {
-      const statusLower = (status || '').toLowerCase();
-      switch (statusLower) {
-        case 'completed':
-        case 'done':
-          return '#4caf50'; // Green
-        case 'inprogress':
-        case 'in-progress':
-          return '#2196f3'; // Blue
-        case 'assigned':
-          return '#ff9800'; // Orange
-        case 'pending':
-          return '#9c27b0'; // Purple
-        default:
-          return '#666666'; // Gray
-      }
+    if (filteredLogs.length === 0) {
+      const statusName = statusFilter === 'all' ? 'activity logs' : `${statusFilter} activity logs`;
+      table.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 20px; color: #666;">No ${statusName} found</td></tr>`;
+      return;
     }
     
-    // Helper to capitalize first letter
-    function capitalizeFirstLetter(str) {
-      if (!str) return 'Pending';
-      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-    }
+    renderActivityLogs(filteredLogs);
     
-    let binIdCounter = 1001; // Start Bin ID from 1001
-    
-    allLogs.forEach(log => {
-      const tr = document.createElement("tr");
-
-      // Column 1: Bin ID - incrementing from 1001
-      const tdBinId = document.createElement("td");
-      tdBinId.textContent = binIdCounter++;
-      tr.appendChild(tdBinId);
-
-      // Column 2: Bins (Bin Code/Name)
-      const tdBinCode = document.createElement("td");
-      tdBinCode.textContent = log.bin_id?.bin_code || `Bin ${log.bin_id?._id?.slice(-3) || 'N/A'}`;
-      tr.appendChild(tdBinCode);
-
-      // Column 3: Floor
-      const tdFloor = document.createElement("td");
-      tdFloor.textContent = log.floor ? `Floor ${log.floor}` : (log.bin_id?.location || 'N/A');
-      tr.appendChild(tdFloor);
-
-      // Column 4: Staff Name
-      const tdUserName = document.createElement("td");
-      tdUserName.textContent = log.u_id?.name || 'N/A';
-      tr.appendChild(tdUserName);
-
-      // Column 5: Date
-      const tdDate = document.createElement("td");
-      if (log.date) {
-        const date = new Date(log.date);
-        tdDate.textContent = date.toLocaleDateString('en-US', { 
-          year: 'numeric', 
-          month: '2-digit', 
-          day: '2-digit' 
-        });
-      } else {
-        tdDate.textContent = 'N/A';
-      }
-      tr.appendChild(tdDate);
-
-      // Column 6: Start Time
-      const tdStartTime = document.createElement("td");
-      tdStartTime.textContent = formatTime(log.start_time || log.time || null);
-      tr.appendChild(tdStartTime);
-
-      // Column 7: End Time
-      const tdEndTime = document.createElement("td");
-      tdEndTime.textContent = formatTime(log.end_time || null);
-      tr.appendChild(tdEndTime);
-
-      // Column 8: Status with color coding
-      const tdStatus = document.createElement("td");
-      const statusSpan = document.createElement("span");
-      statusSpan.style.color = getStatusColor(log.status);
-      statusSpan.style.fontWeight = 'bold';
-      statusSpan.textContent = capitalizeFirstLetter(log.status);
-      tdStatus.appendChild(statusSpan);
-      tr.appendChild(tdStatus);
-
-      table.appendChild(tr);
-    });
-    
-    console.log(`Loaded ${allLogs.length} activity logs for admin successfully`);
+    console.log(`Loaded ${filteredLogs.length} activity logs for admin successfully`);
     
   } catch (error) {
     console.error('Error loading admin activity logs:', error);
@@ -137,6 +67,152 @@ async function loadAdminActivityLogs() {
       table.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 20px; color: #d32f2f;">Error loading activity logs. Please try again.</td></tr>';
     }
   }
+}
+
+// Function to render activity logs in the table
+function renderActivityLogs(logs) {
+  const table = document.querySelector('#activityTableBody');
+  if (!table) return;
+  
+  table.innerHTML = '';
+  
+  // Helper to format time from HH:mm string to 12-hour format
+  function formatTime(timeStr) {
+    if (!timeStr) return 'N/A';
+    if (timeStr.includes(':')) {
+      const [hours, minutes] = timeStr.split(':');
+      const hour12 = ((parseInt(hours, 10) + 11) % 12) + 1;
+      const ampm = parseInt(hours, 10) >= 12 ? 'PM' : 'AM';
+      return `${hour12}:${minutes} ${ampm}`;
+    }
+    return timeStr;
+  }
+  
+  // Helper to get status color
+  function getStatusColor(status) {
+    const statusLower = (status || '').toLowerCase();
+    switch (statusLower) {
+      case 'completed':
+      case 'done':
+        return '#4caf50'; // Green
+      case 'inprogress':
+      case 'in-progress':
+        return '#2196f3'; // Blue
+      case 'assigned':
+        return '#ff9800'; // Orange
+      case 'pending':
+        return '#9c27b0'; // Purple
+      default:
+        return '#666666'; // Gray
+    }
+  }
+  
+  // Helper to capitalize first letter
+  function capitalizeFirstLetter(str) {
+    if (!str) return 'Pending';
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  }
+  
+  let binIdCounter = 1001; // Start Bin ID from 1001
+  
+  logs.forEach(log => {
+    const tr = document.createElement("tr");
+
+    // Column 1: Bin ID - incrementing from 1001
+    const tdBinId = document.createElement("td");
+    tdBinId.textContent = binIdCounter++;
+    tr.appendChild(tdBinId);
+
+    // Column 2: Bins (Bin Code/Name)
+    const tdBinCode = document.createElement("td");
+    tdBinCode.textContent = log.bin_id?.bin_code || `Bin ${log.bin_id?._id?.slice(-3) || 'N/A'}`;
+    tr.appendChild(tdBinCode);
+
+    // Column 3: Floor
+    const tdFloor = document.createElement("td");
+    tdFloor.textContent = log.floor ? `Floor ${log.floor}` : (log.bin_id?.location || 'N/A');
+    tr.appendChild(tdFloor);
+
+    // Column 4: Staff Name
+    const tdUserName = document.createElement("td");
+    tdUserName.textContent = log.u_id?.name || 'N/A';
+    tr.appendChild(tdUserName);
+
+    // Column 5: Date
+    const tdDate = document.createElement("td");
+    if (log.date) {
+      const date = new Date(log.date);
+      tdDate.textContent = date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: '2-digit', 
+        day: '2-digit' 
+      });
+    } else {
+      tdDate.textContent = 'N/A';
+    }
+    tr.appendChild(tdDate);
+
+    // Column 6: Start Time
+    const tdStartTime = document.createElement("td");
+    tdStartTime.textContent = formatTime(log.start_time || log.time || null);
+    tr.appendChild(tdStartTime);
+
+    // Column 7: End Time
+    const tdEndTime = document.createElement("td");
+    tdEndTime.textContent = formatTime(log.end_time || null);
+    tr.appendChild(tdEndTime);
+
+    // Column 8: Status with color coding
+    const tdStatus = document.createElement("td");
+    const statusSpan = document.createElement("span");
+    statusSpan.style.color = getStatusColor(log.status);
+    statusSpan.style.fontWeight = 'bold';
+    statusSpan.textContent = capitalizeFirstLetter(log.status);
+    tdStatus.appendChild(statusSpan);
+    tr.appendChild(tdStatus);
+
+    table.appendChild(tr);
+  });
+}
+
+// Function to filter activity logs by status without fetching new data
+function filterActivityLogsByStatus(statusFilter) {
+  currentStatusFilter = statusFilter;
+  
+  if (!allActivityLogs || allActivityLogs.length === 0) {
+    loadAdminActivityLogs(statusFilter);
+    return;
+  }
+  
+  // Filter the existing data
+  let filteredLogs = allActivityLogs;
+  if (statusFilter !== 'all') {
+    filteredLogs = allActivityLogs.filter(log => {
+      const status = (log.status || '').toLowerCase();
+      if (statusFilter === 'completed') {
+        return status === 'completed' || status === 'done';
+      } else if (statusFilter === 'inprogress') {
+        return status === 'inprogress' || status === 'in-progress';
+      } else {
+        return status === statusFilter;
+      }
+    });
+  }
+  
+  const table = document.querySelector('#activityTableBody');
+  if (!table) return;
+  
+  if (filteredLogs.length === 0) {
+    const statusName = statusFilter === 'all' ? 'activity logs' : `${statusFilter} activity logs`;
+    table.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 20px; color: #666;">No ${statusName} found</td></tr>`;
+    return;
+  }
+  
+  // Sort by date (newest first)
+  filteredLogs.sort((a, b) => new Date(b.date) - new Date(a.date));
+  
+  renderActivityLogs(filteredLogs);
+  console.log(`Filtered ${filteredLogs.length} activity logs for status: ${statusFilter}`);
 }
 
 // Admin History Logs Display
@@ -252,12 +328,27 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Load logs immediately if the tables exist
   if (document.querySelector('#activityTableBody')) {
-    loadAdminActivityLogs();
+    loadAdminActivityLogs('all');
   }
   
   if (document.querySelector('#historyTableBody')) {
     loadAdminHistoryLogs();
   }
+  
+  // Set up status filter button event listeners
+  const statusButtons = document.querySelectorAll('.status-filter-btn');
+  statusButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const status = this.getAttribute('data-status');
+      
+      // Update button active state
+      statusButtons.forEach(btn => btn.classList.remove('active'));
+      this.classList.add('active');
+      
+      // Filter the logs
+      filterActivityLogsByStatus(status);
+    });
+  });
   
   // Add event listeners for menu items to load logs when panels are activated
   document.querySelectorAll('.menu-item').forEach(item => {
@@ -269,7 +360,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Load activity logs for history panel
         if (target === 'history') {
           if (document.querySelector('#activityTableBody')) {
-            loadAdminActivityLogs();
+            loadAdminActivityLogs(currentStatusFilter);
           }
         }
         // Load history logs for activity panel
@@ -290,7 +381,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Auto-refresh activity logs for history panel
       if (panelId === 'history') {
         if (document.querySelector('#activityTableBody')) {
-          loadAdminActivityLogs();
+          loadAdminActivityLogs(currentStatusFilter);
         }
       }
       // Auto-refresh history logs for activity panel
@@ -309,7 +400,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (refreshActivityBtn) {
     refreshActivityBtn.addEventListener('click', () => {
       console.log('Manual refresh of admin activity logs triggered');
-      loadAdminActivityLogs();
+      loadAdminActivityLogs(currentStatusFilter);
     });
   }
   
