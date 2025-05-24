@@ -3,8 +3,8 @@
 #include <ArduinoJson.h>
 
 // WiFi credentials
-const char* ssid = "ZTE_2.4G_3JyGtw";
-const char* password = "4y7JrrGH";
+const char* ssid = "SCC_COMPLAB_4G";
+const char* password = "P@ss@2024";
 
 // WebSocket server info
 const char* websocket_host = "192.168.1.22"; // Your backend LAN IP
