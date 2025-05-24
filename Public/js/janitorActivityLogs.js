@@ -64,7 +64,7 @@ async function getCurrentJanitor() {
   return null;
 }
 
-// Function to load activity logs for the current janitor - ONLY THEIR ASSIGNED TASKS
+// Function to load activity logs for the current janitor - INCLUDING COMPLETED TASKS
 async function loadJanitorActivityLogs(filterDate = null) {
   try {
     console.log('Fetching janitor activity logs...');
@@ -104,7 +104,7 @@ async function loadJanitorActivityLogs(filterDate = null) {
       return;
     }
     
-    // CRITICAL: Filter ONLY for current janitor's tasks with relevant statuses
+    // CRITICAL: Filter for current janitor's tasks with relevant statuses INCLUDING completed/done
     let filteredData = data.filter(log => {
       // Check if the log is assigned to the current janitor
       const isAssignedToCurrentJanitor = (
@@ -113,14 +113,16 @@ async function loadJanitorActivityLogs(filterDate = null) {
         (typeof log.u_id === 'string' && log.u_id === currentJanitorId)
       );
       
-      // Check for relevant statuses (assigned, in-progress, pending)
+      // Check for relevant statuses (assigned, in-progress, pending, completed, done)
       const status = (log.status || '').toLowerCase();
       const isRelevantStatus = [
         'assigned', 
         'inprogress', 
         'in-progress', 
         'pending',
-        'in progress'  // Handle various status formats
+        'in progress',  // Handle various status formats
+        'completed',
+        'done'
       ].includes(status);
       
       const shouldInclude = isAssignedToCurrentJanitor && isRelevantStatus;
@@ -189,6 +191,9 @@ async function loadJanitorActivityLogs(filterDate = null) {
         case 'inprogress':
         case 'in-progress':
         case 'in progress':
+          return '#2196f3'; // Blue
+        case 'completed':
+        case 'done':
           return '#4caf50'; // Green
         default:
           return '#6c757d'; // Gray
@@ -232,9 +237,25 @@ async function loadJanitorActivityLogs(filterDate = null) {
       tdStartTime.textContent = formatTime(log.time);
       tr.appendChild(tdStartTime);
       
-      // End Time (usually empty for assigned tasks)
+      // End Time (show completion time for done tasks)
       const tdEndTime = document.createElement('td');
-      tdEndTime.textContent = log.end_time ? formatTime(log.end_time) : '-';
+      let endTimeText = '-';
+      
+      // Check multiple fields for end time
+      if (log.end_time) {
+        endTimeText = formatTime(log.end_time);
+      } else if (log.completed_at) {
+        // If we have a completion timestamp, extract the time
+        const completedDate = new Date(log.completed_at);
+        if (!isNaN(completedDate)) {
+          endTimeText = formatTime(completedDate.toTimeString().split(' ')[0].substring(0, 5));
+        }
+      } else if (log.completion_date && log.status && (log.status.toLowerCase() === 'done' || log.status.toLowerCase() === 'completed')) {
+        // For completed tasks without specific time, show "Completed"
+        endTimeText = 'Completed';
+      }
+      
+      tdEndTime.textContent = endTimeText;
       tr.appendChild(tdEndTime);
       
       // Status

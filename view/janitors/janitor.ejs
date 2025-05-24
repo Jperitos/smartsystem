@@ -13,8 +13,7 @@
       rel="stylesheet"
     />
 
-    <script src="/js/profileupdet.js" defer></script>
-  </head>
+        <script src="/js/profileupdet.js" defer></script>        <style>      /* Enhanced styling for completion date/time fields */      #completionDateTimeGroup {        background: #f8f9fa;        border: 1px solid #e0e0e0;        border-radius: 8px;        padding: 15px;        margin: 10px 0;      }            #completionDateTimeGroup label:first-child {        color: #2c3e50 !important;        font-weight: 600;        margin-bottom: 10px;        display: block;      }            #completionDateTimeGroup input[type="date"],      #completionDateTimeGroup input[type="time"] {        border: 1px solid #27ae60 !important;        border-radius: 6px;        padding: 10px;        font-size: 14px;        transition: all 0.3s ease;      }            #completionDateTimeGroup input[type="date"]:focus,      #completionDateTimeGroup input[type="time"]:focus {        border-color: #2c3e50 !important;        box-shadow: 0 0 8px rgba(39, 174, 96, 0.3);        outline: none;      }            #completionDateTimeGroup small {        background: #e8f5e8;        padding: 8px;        border-radius: 4px;        border-left: 3px solid #27ae60;      }      /* Current Date/Time Reference Display */      .current-datetime-reference {        background: linear-gradient(135deg, #27ae60, #2ecc71);        border-radius: 8px;        padding: 15px;        margin: 15px 0 20px 0;        box-shadow: 0 2px 8px rgba(39, 174, 96, 0.2);      }            .datetime-display {        display: flex;        justify-content: space-between;        align-items: center;        gap: 15px;      }            .current-info {        display: flex;        align-items: center;        gap: 8px;        color: white;        font-size: 14px;      }            .current-info i {        font-size: 18px;        opacity: 0.9;      }            .current-info span {        font-weight: 400;      }            .current-info strong {        font-weight: 600;        font-size: 15px;        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);      }                        /* Responsive adjustments */      @media (max-width: 480px) {        #completionDateTimeGroup > div > div {          flex-direction: column;        }                #completionDateTimeGroup > div > div > div {          min-width: 100% !important;          margin-bottom: 10px;        }                .datetime-display {          flex-direction: column;          text-align: center;          gap: 10px;        }                .current-info {          justify-content: center;        }      }    </style>  </head>
   <body>
     <aside>
       <div class="logo2">
@@ -138,14 +137,7 @@
       <div id="updateModal" class="modal-task">
         <div class="modal-content">
           <span class="close" id="closeModal">&times;</span>
-          <h2>Update Collection Status</h2>
-          <form id="updateForm">
-            <input type="hidden" id="collectionId" name="assignment_id" />
-
-            <div class="form-group">
-              <label>Task</label>
-              <p id="taskDescription" class="task-detail"></p>
-            </div>
+                    <h2>Update Collection Status</h2>                    <!-- Current Date & Time Reference -->          <div class="current-datetime-reference">            <div class="datetime-display">              <div class="current-info">                <i class="bx bx-time-five"></i>                <span>Current Time: <strong id="currentTimeDisplay">--:--</strong></span>              </div>              <div class="current-info">                <i class="bx bx-calendar"></i>                <span>Today: <strong id="currentDateDisplay">----/--/--</strong></span>              </div>            </div>          </div>                    <form id="updateForm">            <input type="hidden" id="collectionId" name="assignment_id" />            <div class="form-group">              <label>Task</label>              <p id="taskDescription" class="task-detail"></p>            </div>
 
             <div class="form-group">
               <label>Location</label>
@@ -161,20 +153,7 @@
               </select>
             </div>
 
-            <div class="form-group" id="endTimeGroup" style="display: none;">
-              <label>End Time</label>
-              <input type="time" id="endTime" name="end_time" placeholder="Select completion time" />
-              <small style="color: #666; font-size: 12px;">Leave empty to use current time</small>
-            </div>
-
-            <div class="form-group">
-              <label>Notes</label>
-              <textarea
-                id="notes"
-                name="notes"
-                placeholder="Provide additional details about this collection..."
-              ></textarea>
-            </div>
+                        <div class="form-group" id="completionDateTimeGroup" style="display: none;">              <label>Completion Date & Time</label>              <div style="display: flex; gap: 10px; flex-wrap: wrap;">                <div style="flex: 1; min-width: 150px;">                  <label style="font-size: 12px; color: #666; margin-bottom: 5px; display: block;">Date</label>                  <input type="date" id="completionDate" name="completion_date" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />                </div>                <div style="flex: 1; min-width: 120px;">                  <label style="font-size: 12px; color: #666; margin-bottom: 5px; display: block;">Time</label>                  <input type="time" id="completionTime" name="end_time" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />                </div>              </div>              <small style="color: #666; font-size: 12px; margin-top: 5px; display: block;">                <i class="bx bx-info-circle"></i> Automatically set to current date/time when marking as completed              </small>            </div>            <div class="form-group">              <label>Notes</label>              <textarea                id="notes"                name="notes"                placeholder="Provide additional details about this collection..."              ></textarea>            </div>
 
             <div class="modal-actions">
               <button type="submit" class="update-btn">Submit Update</button>

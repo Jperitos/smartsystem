@@ -124,37 +124,7 @@ async function loadOverviewCompletedLogs() {
   }
 }
 
-// Original function for Collection table (7 columns) - Updated to fix column count
-async function loadActivityLogs() {
-  try {
-    console.log('Fetching activity logs...');
-    const response = await fetch('/api/activity-logs');
-    
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    
-    const data = await response.json();
-    console.log('Activity logs fetched:', data);
-    
-    const table = document.querySelector('#activityTableBody');
-    if (!table) {
-      console.error('Activity logs table not found');
-      return;
-    }
-    
-    table.innerHTML = '';
-    
-    if (!data || data.length === 0) {
-      table.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px; color: #666;">No activity logs found</td></tr>';
-      return;
-    }
-    
-    // Sort logs by date (newest first)
-    data.sort((a, b) => new Date(b.date) - new Date(a.date));
-    
-    // Show all activity logs with status-based color coding
-    const filteredData = data;
+// Original function for Collection table (7 columns) - Updated to show assigned statusasync function loadActivityLogs() {  try {    console.log('Fetching activity logs...');    const response = await fetch('/api/activity-logs');        if (!response.ok) {      throw new Error(`HTTP error! status: ${response.status}`);    }        const data = await response.json();    console.log('Activity logs fetched:', data);        const table = document.querySelector('#activityTableBody');    if (!table) {      console.error('Activity logs table not found');      return;    }        table.innerHTML = '';        if (!data || data.length === 0) {      table.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px; color: #666;">No activity logs found</td></tr>';      return;    }        // Sort logs by date (newest first)    data.sort((a, b) => new Date(b.date) - new Date(a.date));        // Filter to show assignments with "assigned" status and other relevant statuses        const filteredData = data.filter(log => {      const status = (log.status || '').toLowerCase();      return ['assigned', 'pending', 'inprogress', 'in-progress'].includes(status);    });
 
     if (filteredData.length === 0) {
       table.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px; color: #666;">No activity logs found</td></tr>';

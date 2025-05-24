@@ -1144,7 +1144,7 @@ body {
       right: 15px;
       font-size: 24px;
       cursor: pointer;
-      color: #333 !important;
+      color: #ffffff !important;
     }
 
     /* Ensure all text elements within modal-task are black */
@@ -1159,7 +1159,7 @@ body {
     .modal-task span,
     .modal-task div,
     .modal-task .task-detail {
-      color: black !important;
+      color: rgb(255, 255, 255) !important;
     }
 
     .form-group1 {
